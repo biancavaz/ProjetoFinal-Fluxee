@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="login-container">
+  <!-- Lado da imagem -->
+  <div class="login-image">
+    <img src="{{ url_for('static', filename='images/fundo.png') }}" alt="Imagem ilustrativa">
+  </div>
+
+  <!-- Lado do formulário -->
+  <div class="login-form">
+    <img src="{{ url_for('static', filename='images/fluxee.png') }}" alt="Fluxee Logo" class="logo">
+
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        {{ form.nome.label(class="form-label") }}
+        {{ form.nome(class="form-control", placeholder="Digite seu nome") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.senha.label(class="form-label") }}
+        {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.confirmacao.label(class="form-label") }}
+        {{ form.confirmacao(class="form-control", placeholder="Confirme sua senha") }}
+      </div>
+
+      <div class="form-group cadastro-text">
+        <p>Já possui cadastro? <a href="{{ url_for('homepage') }}">Faça login</a></p>
+      </div>
+
+      {{ form.btnSubmit(class="btn") }}
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

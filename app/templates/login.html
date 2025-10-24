@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="login-container">
+  <!-- LADO ESQUERDO (IMAGEM ILUSTRATIVA) -->
+  <div class="login-image">
+    <img src="{{ url_for('static', filename='images/fundo.png') }}" alt="Imagem ilustrativa">
+  </div>
+
+  <!-- LADO DIREITO (FORMULÁRIO COM LOGO) -->
+  <div class="login-form">
+    <img src="{{ url_for('static', filename='images/fluxee.png') }}" alt="BiblioTech Logo" class="logo">
+
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.senha.label(class="form-label") }}
+        {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
+      </div>
+
+      <!-- Texto de cadastro dentro do formulário -->
+      <p class="cadastro-text">
+        Não tem conta? 
+        <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+      </p>
+
+      <div class="form-group">
+        {{ form.btnSubmit(class="btn") }}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
