@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block content %}
+{% from "componentes/boxs/boxLogin.html" import box %}
+{% from "componentes/botoes/botaoLogin.html" import button %}
 
+{% block content %}
 <div class="login-container">
   <!-- Lado da imagem -->
   <div class="login-image">
@@ -14,34 +16,20 @@
     <form method="POST">
       {{ form.hidden_tag() }}
 
-      <div class="form-group">
-        {{ form.nome.label(class="form-label") }}
-        {{ form.nome(class="form-control", placeholder="Digite seu nome") }}
-      </div>
+      <!-- Campos usando componente box -->
+      {{ box(form.nome, "Digite seu nome") }}
+      {{ box(form.email, "Digite seu e-mail") }}
+      {{ box(form.senha, "Digite sua senha") }}
+      {{ box(form.confirmacao, "Confirme sua senha") }}
 
-      <div class="form-group">
-        {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
-      </div>
+      <!-- Texto de cadastro -->
+      <p class="cadastro-text">
+        Já possui cadastro? <a href="{{ url_for('homepage') }}">Faça login</a>
+      </p>
 
-      <div class="form-group">
-        {{ form.senha.label(class="form-label") }}
-        {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.confirmacao.label(class="form-label") }}
-        {{ form.confirmacao(class="form-control", placeholder="Confirme sua senha") }}
-      </div>
-
-      <div class="form-group cadastro-text">
-        <p>Já possui cadastro? <a href="{{ url_for('homepage') }}">Faça login</a></p>
-      </div>
-
-      {{ form.btnSubmit(class="btn") }}
-
+      <!-- Botão usando componente -->
+      {{ button(form.btnSubmit) }}
     </form>
   </div>
 </div>
-
 {% endblock %}
