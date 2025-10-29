@@ -61,7 +61,7 @@
 
 <!-- Conteúdo principal -->
  
-  {% block content %}{% endblock %}
+{% block content %}{% endblock %}
  
 <!-- Mensagens flash -->
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -78,7 +78,7 @@
 {% endwith %}
 
 
-<style>
+<!-- <style>
   .flash-message {
     display: flex;
     justify-content: center;
@@ -129,7 +129,7 @@
       transform: translateY(20px);
     }
   }
-</style>
+</style> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url_for('static', filename='js/script_base.js') }}"></script>
