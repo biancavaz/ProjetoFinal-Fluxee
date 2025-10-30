@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="container">
+    <!-- Logo à esquerda -->
+    <a href="/" class="logo">
+      <img src="{{ url_for('static', filename='images/fluxee2.png') }}" alt="Logo Fluxeé">
+    </a>
+
+    <!-- Menu à direita -->
+    <nav class="nav">
+      <ul>
+        <li><a href="#">Estoque</a></li>
+        <li><a href="#">Movimentações</a></li>
+        <li><a href="#">Solicitações</a></li>
+        <li><a href="#">Gestão</a></li>
+        <li><a href="#">Conta</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Link para o CSS do header -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">

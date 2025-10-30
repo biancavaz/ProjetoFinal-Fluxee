@@ -1,0 +1,72 @@
+/* Header */
+.site-header {
+  background-color: #E57C3A;
+  width: 100%;               /* ocupa toda a largura da tela */
+  height: 65px; /* altura proporcional (aprox. 30,46px) */
+  max-height: 60px;          /* altura máxima */
+  color: white;
+  display: flex;
+  align-items: center;       /* centraliza o conteúdo verticalmente */
+  padding: 0 20px;           /* espaçamento horizontal */
+  box-sizing: border-box;    /* garante que o padding não aumente o tamanho */
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+.logo {
+  font-size: 1.5rem; /* tamanho do texto */
+  font-weight: bold;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li {
+  margin-left: 20px;
+}
+
+.nav a {
+  /* font-size: 1.2rem; */
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: #FFD9B3;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .site-header {
+    height: auto;            /* deixa o header crescer se necessário */
+    padding: 10px 20px;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav li {
+    margin: 10px 0 0 0;
+  }
+}
