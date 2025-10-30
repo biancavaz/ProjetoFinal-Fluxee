@@ -53,3 +53,13 @@ def sair():
     logout_user()
     flash("Logout realizado com sucesso.", "info")
     return redirect(url_for('homepage'))
+
+# -------------------------
+# HOMEPAGE (nova rota)
+# -------------------------
+@app.route('/home/')
+@login_required
+def home():
+    return render_template('home.html')
+
+    
