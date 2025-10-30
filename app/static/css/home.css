@@ -2,5 +2,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #FFF6F0;
   font-family: Arial, sans-serif; /* opcional, para uma fonte básica */
 }
