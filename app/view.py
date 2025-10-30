@@ -15,7 +15,7 @@ def homepage():
             user = form.login()
             login_user(user, remember=True)
             flash("Login realizado com sucesso!", "success")
-            return redirect(url_for('homepage'))  # redireciona para a mesma página ou outra
+            return redirect(url_for('home'))  # redireciona para a mesma página ou outra
         except Exception as e:
             flash(str(e), "danger")  # erro de login
     return render_template('login.html', form=form, show_navbar=False)
@@ -62,4 +62,3 @@ def sair():
 def home():
     return render_template('home.html')
 
-    
