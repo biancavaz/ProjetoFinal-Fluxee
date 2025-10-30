@@ -73,9 +73,8 @@
 }
 
 .login-form .cadastro-text {
-  margin: 10px 0 20px 0;
+  margin-right: -28px;
   text-align: right;
-  /* font-weight: 500; */
 }
 
 .login-form .cadastro-text a {
@@ -95,8 +94,18 @@
   box-sizing: border-box;
 }
 
-
 /* Responsividade */
+
+@media (max-width: 1400px) {
+  .login-form .form-control {
+    width: 320px; /* diminui os inputs */
+  }
+
+  .login-form .cadastro-text {
+    margin-right: 0;
+  }
+}
+
 @media (max-width: 992px) {
   .login-container {
     flex-direction: column;
@@ -117,6 +126,8 @@
     width: 100%;
     padding: 30px 20px;
   }
+
+  
 }
 
 @media (max-width: 576px) {
