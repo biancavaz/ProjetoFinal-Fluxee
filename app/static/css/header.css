@@ -7,18 +7,21 @@
   color: white;
   display: flex;
   align-items: center;       /* centraliza o conteúdo verticalmente */
-  padding: 0 20px;           /* espaçamento horizontal */
+  padding: 0 80px;           /* espaçamento horizontal */
   box-sizing: border-box;    /* garante que o padding não aumente o tamanho */
 }
+
+
+
 
 .site-header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 600px; */
   margin: 0 auto;
-  padding: 0 20px;
+  padding-right: 100px; /* mantém um pouco de espaço à direita */
 }
 
 
@@ -28,10 +31,12 @@
 }
 
 .nav ul {
+  /* font-size: 16px; */
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
+  gap: 30px;
 }
 
 .nav li {

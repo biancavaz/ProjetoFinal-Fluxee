@@ -1,7 +1,67 @@
-body {
+/* Importa a fonte Montserrat do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Montserrat', Arial, sans-serif;
   background-color: #FFF6F0;
-  font-family: Arial, sans-serif; /* opcional, para uma fonte básica */
+}
+
+/* Wrapper para os cards - controla a posição vertical */
+.cards-wrapper {
+  display: flex;
+  justify-content: center;  
+  padding-top: 380px;       
+}
+
+/* Container que organiza os cards lado a lado */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 100px;
+  flex-wrap: wrap;
+}
+
+/* Estilo dos cards */
+.card {
+  width: 230px;
+  height: 165px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card p {
+  margin: 8px 0 0 0;
+  font-size: 1.2rem;        /* tamanho da fonte */
+  color: #E57C3A !important;        /* cor do texto */
+  font-weight: 600;        /* opcional, para ficar mais destacado */
+  /* font-weight: 800; */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.card img.logo {
+  width: 50px;   /* largura do ícone */
+  height: 50px;  /* altura do ícone */
+  object-fit: contain; /* mantém a proporção da imagem */
+  margin-bottom: 15px;
 }

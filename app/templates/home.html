@@ -11,7 +11,27 @@
     {% include 'componentes/header/header.html' %}
 
     <main>
-        <p>Você está logado no sistema. 🎉</p>
+        <!-- <p>Você está logado no sistema. 🎉</p> -->
+        <div class="cards-wrapper">
+            <div class="cards-container">
+                <div class="card">
+                <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo">
+                <p>GESTÃO</p>
+                </div>
+
+                <div class="card">
+                <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo">
+                <p>MOVIMENTAÇÕES</p>
+                </div>
+
+                <div class="card">
+                <img src="{{ url_for('static', filename='images/solicitacao.png') }}" alt="Fluxee Logo" class="logo">
+                <p>SOLICITAÇÕES</p>
+                </div>
+            </div>
+        </div>
+
+
     </main>
 </body>
 </html>
