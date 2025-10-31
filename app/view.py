@@ -5,7 +5,7 @@ from app.forms import UserForm, LoginForm
 
 
 # -------------------------
-# HOME / LOGIN
+# LOGIN
 # -------------------------
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -15,9 +15,9 @@ def homepage():
             user = form.login()
             login_user(user, remember=True)
             flash("Login realizado com sucesso!", "success")
-            return redirect(url_for('home'))  # redireciona para a mesma página ou outra
+            return redirect(url_for('home'))
         except Exception as e:
-            flash(str(e), "danger")  # erro de login
+            flash(str(e), "danger")
     return render_template('login.html', form=form, show_navbar=False)
 
 
@@ -54,11 +54,38 @@ def sair():
     flash("Logout realizado com sucesso.", "info")
     return redirect(url_for('homepage'))
 
+
 # -------------------------
-# HOMEPAGE (nova rota)
+# HOMEPAGE PRINCIPAL (após login)
 # -------------------------
 @app.route('/home/')
 @login_required
 def home():
     return render_template('home.html')
 
+
+# -------------------------
+# GESTÃO
+# -------------------------
+@app.route('/gestao/')
+@login_required
+def gestao():
+    return render_template('gestao.html')
+
+
+# -------------------------
+# MOVIMENTAÇÕES
+# -------------------------
+@app.route('/movimentacoes/')
+@login_required
+def movimentacoes():
+    return render_template('movimentacoes.html')
+
+
+# -------------------------
+# SOLICITAÇÕES
+# -------------------------
+@app.route('/solicitacoes/')
+@login_required
+def solicitacoes():
+    return render_template('solicitacoes.html')

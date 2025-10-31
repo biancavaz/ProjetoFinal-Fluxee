@@ -65,3 +65,8 @@ html, body {
   object-fit: contain; /* mantém a proporção da imagem */
   margin-bottom: 15px;
 }
+
+a.card {
+    text-decoration: none; /* remove underline */
+    color: inherit; /* mantém a cor do texto */
+}

@@ -14,22 +14,24 @@
         <!-- <p>Você está logado no sistema. 🎉</p> -->
         <div class="cards-wrapper">
             <div class="cards-container">
-                <div class="card">
-                <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo">
-                <p>GESTÃO</p>
-                </div>
 
-                <div class="card">
-                <!-- <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo"> -->
-                <p>MOVIMENTAÇÕES</p>
-                </div>
+                <a href="{{ url_for('gestao') }}" class="card">
+                    <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo">
+                    <p>GESTÃO</p>
+                </a>
 
-                <div class="card">
-                <img src="{{ url_for('static', filename='images/solicitacao.png') }}" alt="Fluxee Logo" class="logo">
-                <p>SOLICITAÇÕES</p>
-                </div>
+                <a href="{{ url_for('movimentacoes') }}" class="card">
+                    <p>MOVIMENTAÇÕES</p>
+                </a>
+
+                <a href="{{ url_for('solicitacoes') }}" class="card">
+                    <img src="{{ url_for('static', filename='images/solicitacao.png') }}" alt="Fluxee Logo" class="logo">
+                    <p>SOLICITAÇÕES</p>
+                </a>
+
             </div>
         </div>
+
 
 
     </main>
