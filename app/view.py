@@ -72,6 +72,10 @@ def home():
 def gestao():
     return render_template('gestao.html')
 
+@app.route('/gestao_servico/')
+@login_required
+def gestao_servico():
+    return render_template('gestao_servico.html')
 
 # -------------------------
 # MOVIMENTAÇÕES
