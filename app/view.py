@@ -93,3 +93,8 @@ def movimentacoes():
 @login_required
 def solicitacoes():
     return render_template('solicitacoes.html')
+
+
+@app.route('/cadastrar-produto')
+def adicionar_produto():
+    return render_template('cadastrar_produto.html')
