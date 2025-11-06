@@ -1,0 +1,106 @@
+/* Importa a fonte Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+/* Container da dropdown */
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  font-family: 'Montserrat', sans-serif;
+  position: relative; /* essencial para o menu aparecer na posição certa */
+}
+
+/* Label acima da box */
+.dropdown label {
+  font-weight: 500;
+  font-size: 15px;
+  color: #000000;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Botão principal */
+.dropdown-btn {
+  width: 415px;
+  height: 47px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #333;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover */
+.dropdown-btn:hover {
+  border-color: #888;
+}
+
+/* Foco (quando aberta) */
+.dropdown-btn.open {
+  border-color: #E57C3A;
+  box-shadow: 0 0 4px rgba(229, 124, 58, 0.4);
+}
+
+/* Setinha */
+.dropdown-btn .arrow {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid #555;
+  border-bottom: 2px solid #555;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-btn.open .arrow {
+  transform: rotate(135deg);
+}
+
+/* Menu suspenso */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 415px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Quando visível */
+.dropdown-content.show {
+  display: block;
+}
+
+/* Itens */
+.dropdown-item {
+  padding: 10px 14px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover nos itens */
+.dropdown-item:hover {
+  background-color: #fff2de; 
+  color: #222;
+}
+
+/* Texto selecionado */
+.selected-text {
+  flex: 1;
+  color: #333;
+  font-size: 15px;
+}

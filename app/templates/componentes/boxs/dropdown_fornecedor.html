@@ -1,0 +1,19 @@
+<div class="dropdown">
+  <label for="{{ id }}">{{ label }}</label>
+  
+  <div class="dropdown-btn">
+    <span class="selected-text"> </span>
+    <span class="arrow"></span>
+  </div>
+  
+  <div class="dropdown-content">
+    {% for value, text in options %}
+      <div class="dropdown-item" data-value="{{ value }}">{{ text }}</div>
+    {% endfor %}
+  </div>
+  
+  <input type="hidden" name="{{ name }}" id="{{ id }}" value="">
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dropdown_fornecedor.css') }}">
+<script src="{{ url_for('static', filename='js/dropdown_fornecedor.js') }}"></script>

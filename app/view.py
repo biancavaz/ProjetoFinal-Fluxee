@@ -30,18 +30,20 @@ def cadastro():
 
     if form.validate_on_submit():
         try:
-            user = form.save()
+            user = form.save()  # já salva e adiciona ao DB
             login_user(user, remember=True)
             flash("Cadastro realizado com sucesso!", "success")
             return redirect(url_for('homepage'))
         except Exception as e:
             flash(f"Erro ao cadastrar usuário: {str(e)}", "danger")
+
     elif request.method == "POST":
         for field, errors in form.errors.items():
             for error in errors:
                 flash(f"Erro no campo '{getattr(form, field).label.text}': {error}", "danger")
 
     return render_template('cadastro.html', form=form, show_navbar=False)
+
 
 
 # -------------------------
@@ -95,6 +97,33 @@ def solicitacoes():
     return render_template('solicitacoes.html')
 
 
+# -------------------------
+# CADASTRO DE PRODUTO
+# -------------------------
 @app.route('/cadastrar-produto')
 def adicionar_produto():
-    return render_template('cadastrar_produto.html')
+    # Lista de tipos de produto (valor interno, texto que aparece para o usuário)
+    tipos_produto = [
+        ('eletronico', 'Eletrônico'),
+        ('moveis', 'Móveis'),
+        ('roupa', 'Roupa')
+    ]
+    fornecedores = [
+        ('teste', 'teste'),
+        ('teste1', 'teste1'),
+        ('teste2', 'teste2')
+    ]
+    unidades_medida = [
+        ('kg', 'Quilograma (kg)'),
+        ('g', 'Grama (g)'),
+        ('l', 'Litro (L)'),
+        ('ml', 'Mililitro (mL)'),
+        ('un', 'Unidade (un)')
+    ]
+    
+    return render_template(
+        'cadastrar_produto.html',
+        tipos_produto=tipos_produto,
+        fornecedores=fornecedores,
+        unidades_medida=unidades_medida
+    )    

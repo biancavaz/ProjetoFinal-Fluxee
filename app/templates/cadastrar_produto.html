@@ -9,7 +9,38 @@
 
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
+
+    {% include 'componentes/boxs/box_nome.html' %}
+
     
+    <!-- {% set label = 'Tipo de Produto' %}
+    {% set name = 'tipo' %}
+    {% set id = 'tipo' %}
+    {% set options = tipos_produto %}
+    {% include 'componentes/boxs/dropdown_tipo.html' %} -->
+
+    <!-- {% set label = 'Fornecedor' %}
+    {% set name = 'tipo' %}
+    {% set id = 'tipo' %}
+    {% set options = fornecedores %}
+    {% include 'componentes/boxs/dropdown_fornecedor.html' %} -->
+
+    {% include 'componentes/boxs/box_quantidade.html' %}
+
+    {% include 'componentes/boxs/box_data_entrada.html' %}
+
+    {% set label = 'Unid. Medida' %}
+    {% set name = 'tipo' %}
+    {% set id = 'tipo' %}
+    {% set options = unidades_medida %}
+
+    {% include 'componentes/boxs/box_unidade_medida.html' %}
+
+
+
+
+
+
 
 </body>
 </html>
