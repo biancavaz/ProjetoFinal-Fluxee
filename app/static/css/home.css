@@ -70,3 +70,165 @@ a.card {
     text-decoration: none; /* remove underline */
     color: inherit; /* mantém a cor do texto */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Container geral da seção do produto ===== */
+.container-produto {
+    position: relative;
+    width: 100%;
+    max-width: 1800px; /* largura máxima da box */
+    height: auto;
+    margin: 40px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ===== Box branca de fundo ===== */
+.box-branca {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 778px;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+/* ===== Conteúdo sobre a box ===== */
+.conteudo-sobre-box {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap; /* permite quebrar linha em telas pequenas */
+    gap: 40px;
+    padding: 40px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+/* ===== Campo de imagem (lado esquerdo) ===== */
+.campo-imagem {
+    flex: 0 0 322px;
+    /* text-align: center; */
+}
+
+.campo-imagem label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Caixa de pré-visualização */
+.image-preview {
+    width: 342px;
+    height: 380px;
+    border: 1px solid #ccc;
+    /* border-radius: 8px; */
+    margin-bottom: 10px;
+    background-color: #F8F8F8;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.image-preview span {
+    color: #aaa;
+}
+
+/* Input file escondido */
+.campo-imagem input[type="file"] {
+    display: none;
+}
+
+/* Texto clicável "Adicionar imagem" */
+.adicionar-imagem-texto {
+    color: #5CACC4;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 5px;
+    display: inline-block;
+    text-align: left;
+}
+
+/* ===== Campos da direita ===== */
+.campos-direita {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 250px;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+
+/* Telas médias (tablets) */
+@media (max-width: 1200px) {
+    .conteudo-sobre-box {
+        gap: 30px;
+        padding: 30px;
+    }
+
+    .campo-imagem {
+        flex: 0 0 250px;
+    }
+}
+
+/* Telas pequenas (celulares e tablets verticais) */
+@media (max-width: 768px) {
+    .container-produto {
+        padding: 10px;
+    }
+
+    .conteudo-sobre-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .campo-imagem {
+        flex: 0 0 auto;
+        width: 80%;
+    }
+
+    .campos-direita {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .box-branca {
+        min-height: 900px; /* aumenta altura para caber conteúdo empilhado */
+    }
+}
+
+/* Telas muito pequenas (smartphones estreitos) */
+@media (max-width: 480px) {
+    .conteudo-sobre-box {
+        padding: 20px 10px;
+        gap: 20px;
+    }
+
+    .box-branca {
+        border-radius: 0;
+    }
+}

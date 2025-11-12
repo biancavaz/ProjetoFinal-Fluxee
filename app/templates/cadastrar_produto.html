@@ -10,37 +10,49 @@
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
 
-    {% include 'componentes/boxs/box_nome.html' %}
+ <div class="container-produto">
+    <div class="box-branca"></div>
 
-    
-    <!-- {% set label = 'Tipo de Produto' %}
-    {% set name = 'tipo' %}
-    {% set id = 'tipo' %}
-    {% set options = tipos_produto %}
-    {% include 'componentes/boxs/dropdown_tipo.html' %} -->
+    <div class="conteudo-sobre-box">
+        <!-- Campo de imagem com pré-visualização -->
+        <div class="campo-imagem">
+            <div class="image-preview" id="imagePreview">
+                <span>Preview</span>
+            </div>
+            <input type="file" id="imagem" name="imagem" accept="image/*" style="display:none;">
+            <div class="adicionar-imagem-texto" id="adicionarImagem">Adicionar imagem</div>
+        </div>
 
-    <!-- {% set label = 'Fornecedor' %}
-    {% set name = 'tipo' %}
-    {% set id = 'tipo' %}
-    {% set options = fornecedores %}
-    {% include 'componentes/boxs/dropdown_fornecedor.html' %} -->
+        <!-- Campos (componentes) -->
+        <div class="campos-direita">
+            {% include 'componentes/boxs/box_nome.html' %}
 
-    {% include 'componentes/boxs/box_quantidade.html' %}
+            {% set label = 'Tipo de Produto' %}
+            {% set name = 'tipo' %}
+            {% set id = 'tipo' %}
+            {% set options = tipos_produto %}
+            {% include 'componentes/boxs/dropdown_tipo.html' %}
 
-    {% include 'componentes/boxs/box_data_entrada.html' %}
+            {% set label = 'Fornecedor' %}
+            {% set name = 'fornecedor' %}
+            {% set id = 'fornecedor' %}
+            {% set options = fornecedores %}
+            {% include 'componentes/boxs/dropdown_fornecedor.html' %}
 
-    {% set label = 'Unid. Medida' %}
-    {% set name = 'tipo' %}
-    {% set id = 'tipo' %}
-    {% set options = unidades_medida %}
+            {% include 'componentes/boxs/box_quantidade.html' %}
+            {% include 'componentes/boxs/box_data_entrada.html' %}
 
-    {% include 'componentes/boxs/box_unidade_medida.html' %}
+            {% set label = 'Unid. Medida' %}
+            {% set name = 'unidade_medida' %}
+            {% set id = 'unidade_medida' %}
+            {% set options = unidades_medida %}
+            {% include 'componentes/boxs/box_unidade_medida.html' %}
 
+        </div>
+    </div>
+</div>
 
-
-
-
-
+<script src="{{ url_for('static', filename='js/cadastrar_produto.js') }}"></script>
 
 </body>
 </html>
