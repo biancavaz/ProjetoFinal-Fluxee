@@ -1,40 +1,37 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const dropdowns = document.querySelectorAll(".dropdown");
+  const dropdowns = document.querySelectorAll(".dropdownUnidadeMedida");
 
   dropdowns.forEach(dropdown => {
-    const btn = dropdown.querySelector(".dropdown-btn");
-    const content = dropdown.querySelector(".dropdown-content");
-    const items = dropdown.querySelectorAll(".dropdown-item");
+    const btn = dropdown.querySelector(".dropdownUnidadeMedida-btn");
+    const content = dropdown.querySelector(".dropdownUnidadeMedida-content");
+    const items = dropdown.querySelectorAll(".dropdownUnidadeMedida-item");
     const selectedText = dropdown.querySelector(".selected-text");
     const hiddenInput = dropdown.querySelector("input[type='hidden']");
 
+    // Abrir / fechar dropdown
     btn.addEventListener("click", function(e) {
       e.stopPropagation();
 
       // Fecha todas as outras dropdowns
       dropdowns.forEach(d => {
         if (d !== dropdown) {
-          d.querySelector(".dropdown-content").classList.remove("show");
-          d.querySelector(".dropdown-btn").classList.remove("open");
+          d.querySelector(".dropdownUnidadeMedida-content").classList.remove("show");
+          d.querySelector(".dropdownUnidadeMedida-btn").classList.remove("open");
         }
       });
 
-      // Alterna a própria dropdown
+      // Alterna esta dropdown
       btn.classList.toggle("open");
-      // Mostra conteúdo **quando a dropdown estiver aberta**
-      if (btn.classList.contains("open")) {
-        content.classList.add("show");
-      } else {
-        content.classList.remove("show");
-      }
+      content.classList.toggle("show");
     });
 
-    // Seleção de item
+    // Seleção de itens
     items.forEach(item => {
       item.addEventListener("click", function(e) {
         e.stopPropagation();
+
         selectedText.textContent = this.textContent;
-        if (hiddenInput) hiddenInput.value = this.dataset.value;
+        hiddenInput.value = this.dataset.value;
 
         content.classList.remove("show");
         btn.classList.remove("open");
@@ -42,13 +39,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Clique fora fecha todas dropdowns
-  document.addEventListener("click", function() {
-    dropdowns.forEach(dropdown => {
-      const content = dropdown.querySelector(".dropdown-content");
-      const btn = dropdown.querySelector(".dropdown-btn");
-      content.classList.remove("show");
-      btn.classList.remove("open");
-    });
+  // Fecha tudo ao clicar fora
+  document.addEventListener("click", function(e) {
+    if (!e.target.closest(".dropdownUnidadeMedida")) {
+      dropdowns.forEach(dropdown => {
+        dropdown.querySelector(".dropdownUnidadeMedida-content").classList.remove("show");
+        dropdown.querySelector(".dropdownUnidadeMedida-btn").classList.remove("open");
+      });
+    }
   });
 });
