@@ -11,20 +11,22 @@
     {% include 'componentes/header/header.html' %}
 
  <div class="container-produto">
-    <div class="box-branca"></div>
+    <div class="box-branca">
 
-    <div class="conteudo-sobre-box">
-        <!-- Campo de imagem com pré-visualização -->
-        <div class="campo-imagem">
-            <div class="image-preview" id="imagePreview">
-                <span>Preview</span>
-            </div>
-            <input type="file" id="imagem" name="imagem" accept="image/*" style="display:none;">
+        <h2 class="titulo-box">Cadastro de Produto</h2>
+
+        <div class="conteudo-sobre-box">
+
+            <div class="campo-imagem">
+                <div class="image-preview" id="imagePreview">
+                    <span>Preview</span>
+                </div>
+                <input type="file" id="imagem" name="imagem" accept="image/*" style="display:none;">
             <div class="adicionar-imagem-texto" id="adicionarImagem">Adicionar imagem</div>
         </div>
 
-        <!-- Campos (componentes) -->
         <div class="campos-direita">
+
             {% include 'componentes/boxs/box_nome.html' %}
 
             {% set label = 'Tipo de Produto' %}
@@ -47,8 +49,6 @@
             {% set id = 'unidade_medida' %}
             {% set options = unidades_medida %}
             {% include 'componentes/boxs/box_unidade_medida.html' %}
-
-        <!-- dropdown só mostra quando n tem nada em baixo, arrumar -->
 
         </div>
     </div>
