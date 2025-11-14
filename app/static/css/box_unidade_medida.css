@@ -1,26 +1,24 @@
 /* Importa a fonte Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
 
-/* Container da dropdown */
 .dropdown {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 15px;
   font-family: 'Montserrat', sans-serif;
-  position: relative; /* essencial para o menu aparecer na posição certa */
+  position: relative; /* necessário para a dropdown-content ficar na posição certa */
+  z-index: 1000; /* garante que fique acima de outros elementos */
 }
 
-/* Label acima da box */
 .dropdown label {
   font-weight: 500;
   font-size: 15px;
-  color: #000000;
+  color: #000;
   margin-bottom: 6px;
   display: block;
 }
 
-/* Botão principal */
 .dropdown-btn {
   width: 415px;
   height: 47px;
@@ -38,18 +36,15 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover */
 .dropdown-btn:hover {
   border-color: #888;
 }
 
-/* Foco (quando aberta) */
 .dropdown-btn.open {
   border-color: #E57C3A;
   box-shadow: 0 0 4px rgba(229, 124, 58, 0.4);
 }
 
-/* Setinha */
 .dropdown-btn .arrow {
   display: inline-block;
   width: 8px;
@@ -64,27 +59,25 @@
   transform: rotate(135deg);
 }
 
-/* Menu suspenso */
+/* Ajuste importante para a dropdown ficar sempre acima */
 .dropdown-content {
   display: none;
-  position: absolute;
-  top: 100%;
-  width: 415px;
-  background: white;
+  position: absolute; /* mantém sobre outros elementos */
+  top: 100%;          /* logo abaixo do botão */
+  left: 0;
+  width: 100%;
+  background: #fff;
   border: 1px solid #ccc;
   border-radius: 10px;
-  margin-top: 4px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  overflow: visible;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1001; /* acima do botão e de outros conteúdos */
 }
 
-/* Quando visível */
 .dropdown-content.show {
   display: block;
 }
 
-/* Itens */
 .dropdown-item {
   padding: 10px 14px;
   font-size: 15px;
@@ -92,13 +85,11 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Hover nos itens */
 .dropdown-item:hover {
-  background-color: #fff2de; 
+  background-color: #fff2de;
   color: #222;
 }
 
-/* Texto selecionado */
 .selected-text {
   flex: 1;
   color: #333;

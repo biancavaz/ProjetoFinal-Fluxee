@@ -107,6 +107,7 @@ a.card {
     border: 1px solid #dcdcdc;
     border-radius: 8px;
     z-index: 1;
+    padding: 31px 20px 20px 47px;
 }
 
 /* ===== Conteúdo sobre a box ===== */
@@ -177,6 +178,11 @@ a.card {
     flex-direction: column;
     gap: 15px;
     min-width: 250px;
+}
+
+
+.titulo-box{
+    font-size: 20px;
 }
 
 /* ======== RESPONSIVIDADE ======== */
