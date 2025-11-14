@@ -1,14 +1,14 @@
-<div class="dropdown">
+<div class="dropdownTipo">
   <label for="{{ id or 'tipo' }}">{{ label or 'Tipo de Produto' }}</label>
 
-  <div class="dropdown-btn" onclick="toggleDropdown(this)">
+  <div class="dropdownTipo-btn" onclick="toggleDropdown(this)">
     <span class="selected-text">Selecione...</span>
     <span class="arrow"></span>
   </div>
 
-  <div class="dropdown-content">
+  <div class="dropdownTipo-content">
     {% for value, text in options %}
-      <div class="dropdown-item" data-value="{{ value }}">{{ text }}</div>
+      <div class="dropdownTipo-item" data-value="{{ value }}">{{ text }}</div>
     {% endfor %}
   </div>
 

@@ -1,26 +1,14 @@
-/* Importa a fonte Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
 
 
 .dropdown {
   position: relative;
-  width: 407px;
-  font-family: 'Inter', sans-serif;
-  /* ver isso */
+  width: 375px;
 }
 
-label {
-font-family: 'Montserrat', sans-serif;
-margin-left: 2px;
-  display: block;
-  margin-bottom: 6px;
-  font-size: 15px;
-  color: #000000;
-}
 
 .dropdown-btn {
   width: 100%;
-  
   height: 47px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -28,7 +16,7 @@ margin-left: 2px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 15px;
   cursor: pointer;
   position: relative;
   font-size: 15px;
@@ -38,6 +26,15 @@ margin-left: 2px;
 
 .dropdown-btn.open {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: #000000;
+  margin-bottom: 6px; /* espaço entre o label e o input */
+  display: block;
 }
 
 .dropdown-btn .arrow {
@@ -57,7 +54,6 @@ margin-left: 2px;
 .dropdown-content {
   display: none;
   position: absolute;
-  /* top: 105%; */
   left: 0;
   width: 108%;
   background: white;
