@@ -102,8 +102,8 @@ a.card {
     top: 50%;              
     left: 50%;             
     transform: translate(-50%, -50%); 
-    width: 100%;           
-    max-width: 1800px;     
+    width: 80%;           /* diminui a largura da box */
+    max-width: 1500px;     
     min-height: 778px;     
     background-color: #ffffff;
     border-radius: 8px;
@@ -112,19 +112,19 @@ a.card {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
-
 /* ===== Conteúdo sobre a box ===== */
 .conteudo-sobre-box {
+    margin-top: 53px;
     position: relative;
     z-index: 2;
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: nowrap; /* evita quebrar a linha */
     gap: 100px;
-    padding: 40px;
     align-items: flex-start;
     justify-content: flex-start;
     box-sizing: border-box;
 }
+
 
 /* ===== Campo de imagem (lado esquerdo) ===== */
 .campo-imagem {
@@ -179,10 +179,12 @@ a.card {
 
 .campo-imagem {
     flex: 0 0 322px; /* largura fixa da imagem */
+    margin-left: 60px;
 }
 
 .campos-direita {
-    flex: 1; /* ocupa o resto do espaço */
+    flex: 1; /* ocupa o restante do espaço disponível */
+    max-width: calc(100% - 322px - 100px); /* largura da imagem (322px) + gap de 100px */
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -214,7 +216,10 @@ a.card {
     margin-top: 12px;
 }
 
-
+.titulo-box{
+    font-size: 20px;
+    font-weight: 600;
+}
 
 
 
