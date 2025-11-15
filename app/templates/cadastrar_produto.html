@@ -7,7 +7,6 @@
 </head>
 <body>
 
-    <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
 
  <div class="container-produto">
@@ -25,32 +24,57 @@
             <div class="adicionar-imagem-texto" id="adicionarImagem">Adicionar imagem</div>
         </div>
 
-        <div class="campos-direita">
+<div class="campos-direita">
 
+    <!-- Linha 1: Nome | Quantidade + Unid -->
+    <div class="linha-1">
+        <div class="campo nome">
             {% include 'componentes/boxs/box_nome.html' %}
+        </div>
+        <div class="quantidade-unid">
+            <div class="campo quantidade">
+                {% include 'componentes/boxs/box_quantidade.html' %}
+            </div>
+            <div class="campo unidade-medida">
+                {% set label = 'Unid. Medida' %}
+                {% set name = 'unidade_medida' %}
+                {% set id = 'unidade_medida' %}
+                {% set options = unidades_medida %}
+                {% include 'componentes/boxs/box_unidade_medida.html' %}
+            </div>
+        </div>
+    </div>
 
+    <!-- Linha 2: Tipo + Fornecedor -->
+    <div class="linha-2">
+        <div class="campo tipo-produto">
             {% set label = 'Tipo de Produto' %}
             {% set name = 'tipo' %}
             {% set id = 'tipo' %}
             {% set options = tipos_produto %}
             {% include 'componentes/boxs/dropdown_tipo.html' %}
-
+        </div>
+        <div class="campo fornecedor">
             {% set label = 'Fornecedor' %}
             {% set name = 'fornecedor' %}
             {% set id = 'fornecedor' %}
             {% set options = fornecedores %}
             {% include 'componentes/boxs/dropdown_fornecedor.html' %}
-
-            {% include 'componentes/boxs/box_quantidade.html' %}
-            {% include 'componentes/boxs/box_data_entrada.html' %}
-
-            {% set label = 'Unid. Medida' %}
-            {% set name = 'unidade_medida' %}
-            {% set id = 'unidade_medida' %}
-            {% set options = unidades_medida %}
-            {% include 'componentes/boxs/box_unidade_medida.html' %}
-
         </div>
+    </div>
+
+    <!-- Linha 3: Data de Entrada -->
+    <div class="linha-3">
+        <div class="campo data-entrada">
+            {% include 'componentes/boxs/box_data_entrada.html' %}
+            
+            <!-- {% include 'componentes/boxs/box_data_entrada.html' %} -->
+        </div>
+    </div>
+
+</div>
+
+
     </div>
 </div>
 

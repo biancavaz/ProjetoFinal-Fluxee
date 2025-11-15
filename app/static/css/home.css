@@ -89,7 +89,7 @@ a.card {
 .container-produto {
     position: relative;
     width: 100%;
-    max-width: 1800px; /* largura máxima da box */
+    max-width: 1800px; 
     height: auto;
     margin: 40px auto;
     padding: 20px;
@@ -98,25 +98,28 @@ a.card {
 
 /* ===== Box branca de fundo ===== */
 .box-branca {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 778px;
+    position: fixed;       
+    top: 50%;              
+    left: 50%;             
+    transform: translate(-50%, -50%); 
+    width: 100%;           
+    max-width: 1800px;     
+    min-height: 778px;     
     background-color: #ffffff;
-    border: 1px solid #dcdcdc;
     border-radius: 8px;
     z-index: 1;
     padding: 31px 20px 20px 47px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 }
+
 
 /* ===== Conteúdo sobre a box ===== */
 .conteudo-sobre-box {
     position: relative;
     z-index: 2;
     display: flex;
-    flex-wrap: wrap; /* permite quebrar linha em telas pequenas */
-    gap: 40px;
+    flex-wrap: wrap; 
+    gap: 100px;
     padding: 40px;
     align-items: flex-start;
     justify-content: flex-start;
@@ -126,7 +129,6 @@ a.card {
 /* ===== Campo de imagem (lado esquerdo) ===== */
 .campo-imagem {
     flex: 0 0 322px;
-    /* text-align: center; */
 }
 
 .campo-imagem label {
@@ -139,8 +141,7 @@ a.card {
 .image-preview {
     width: 342px;
     height: 380px;
-    border: 1px solid #ccc;
-    /* border-radius: 8px; */
+    /* border: 1px solid #ccc; */
     margin-bottom: 10px;
     background-color: #F8F8F8;
     background-size: cover;
@@ -171,19 +172,52 @@ a.card {
     text-align: left;
 }
 
-/* ===== Campos da direita ===== */
+
+
+
+
+
+.campo-imagem {
+    flex: 0 0 322px; /* largura fixa da imagem */
+}
+
 .campos-direita {
-    flex: 1;
+    flex: 1; /* ocupa o resto do espaço */
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    min-width: 250px;
+    gap: 25px;
+}
+
+/* Primeira linha: Nome + Quantidade + Unidade de Medida */
+.linha-1 {
+    display: flex;
+    gap: 45px;
+    flex-wrap: nowrap; /* não deixa quebrar para a linha de baixo */
+}
+
+/* Agrupar quantidade + unidade de medida */
+.quantidade-unid {
+    display: flex;
+    gap: 50px;
+}
+
+/* Segunda linha: Tipo + Fornecedor */
+.linha-2 {
+    display: flex;
+    gap: 78px;
+}
+
+/* Terceira linha: Data de entrada ocupa toda a largura */
+.linha-3 {
+    display: flex;
+    width: 100%;
+    margin-top: 12px;
 }
 
 
-.titulo-box{
-    font-size: 20px;
-}
+
+
+
 
 /* ======== RESPONSIVIDADE ======== */
 
