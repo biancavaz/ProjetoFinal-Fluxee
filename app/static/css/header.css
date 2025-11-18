@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
 /* ================= Header ================= */
 .site-header {
+ 
   background-color: #E57C3A;
   width: 100%;
   height: 65px;
@@ -31,6 +34,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  font-family: 'Montserrat', sans-serif; 
   gap: 20px; /* espaço entre itens do menu */
 }
 
@@ -44,6 +48,7 @@
   align-items: center;
   text-decoration: none;
   color: white;
+  font-family: 'Montserrat', sans-serif; 
   padding: 8px 12px; /* deixa o menu mais compacto */
   transition: color 0.3s ease;
 }
@@ -80,11 +85,11 @@
 .nav li.dropdown_gestao .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%; /* logo abaixo do botão */
+  top: 45px; /* logo abaixo do botão */
   left: 0;
   background-color: #E57C3A;
   border-radius: 4px;
-  min-width: 140px; /* largura do dropdown */
+  min-width: 100px; /* largura do dropdown */
   z-index: 1000;
   box-shadow: none;
   padding: 0;
@@ -99,16 +104,11 @@
 }
 
 .nav li.dropdown_gestao .dropdown-content li a:hover {
-  background-color: #FFD9B3;
-  color: #E57C3A;
+  background-color: #ec9259;
+  /* color: #E57C3A; */
 }
 
-/* Mostrar dropdown ao passar o mouse (desktop) */
-@media (min-width: 769px) {
-  .nav li.dropdown_gestao:hover .dropdown-content {
-    display: block;
-  }
-}
+
 
 /* ================= Responsivo ================= */
 @media (max-width: 768px) {
