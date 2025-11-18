@@ -173,3 +173,13 @@ def adicionar_produto():
         fornecedores=fornecedores_dropdown,
         unidades_medida=unidades_medida_dropdown
     )
+
+
+
+# -------------------------
+# GESTÃO - USUÁRIOS
+# -------------------------
+@app.route('/usuarios/')
+@login_required
+def usuarios():
+    return render_template('usuarios.html')
