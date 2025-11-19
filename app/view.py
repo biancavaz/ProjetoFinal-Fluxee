@@ -177,9 +177,27 @@ def adicionar_produto():
 
 
 # -------------------------
+# CADASTRO DE SERVIÇO
+# -------------------------
+@app.route('/cadastrar-servico', methods=['GET', 'POST'])
+def adicionar_servico():
+   return render_template('cadastrar_servico.html')
+
+
+
+# -------------------------
 # GESTÃO - USUÁRIOS
 # -------------------------
 @app.route('/usuarios/')
 @login_required
 def usuarios():
     return render_template('usuarios.html')
+
+
+# -------------------------
+# CADASTRO DE SERVIÇO
+# -------------------------
+@app.route('/cadastrar-usuarios', methods=['GET', 'POST'])
+def adicionar_usuarios():
+   return render_template('cadastrar_usuarios.html')
+
