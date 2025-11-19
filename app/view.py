@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from app import app, db
 from app.forms import UserForm, LoginForm
-from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida
+from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User
 from werkzeug.utils import secure_filename
 
 # Configurar pasta de upload
@@ -197,7 +197,60 @@ def usuarios():
 # -------------------------
 # CADASTRO DE SERVIÇO
 # -------------------------
+
 @app.route('/cadastrar-usuarios', methods=['GET', 'POST'])
-def adicionar_usuarios():
-   return render_template('cadastrar_usuarios.html')
+def adicionar_usuario():
+    
+    generos = ["Masculino", "Feminino", "Outro", "Prefiro não informar"]
+    tipos_usuario = ["Administrador", "Almoxarife", "Professor/Representante de sala", "terceiro"]
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data_nascimento_str = request.form.get('data_nascimento')
+        genero = request.form.get('genero')
+        email = request.form.get('email')
+        cpf = request.form.get('cpf')
+        telefone = request.form.get('telefone')
+        tipo_usuario = request.form.get('tipo_usuario')
+
+        # Converter data
+        try:
+            data_nascimento = datetime.strptime(data_nascimento_str, '%Y-%m-%d').date()
+        except:
+            data_nascimento = None
+
+        # Verifica se enviou arquivo
+        imagem_file = request.files.get('imagem_perfil')
+        caminho_imagem = None
+        if imagem_file and imagem_file.filename != '':
+            nome_seguro = secure_filename(imagem_file.filename)
+            caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], nome_seguro)
+            # cria pasta se não existir
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            imagem_file.save(caminho_imagem)
+
+        # Criar novo usuário
+        novo_usuario = User(
+            nome=nome,
+            data_nascimento=data_nascimento,
+            genero=genero,
+            email=email,
+            cpf=cpf,
+            telefone=telefone,
+            tipo_usuario=tipo_usuario,
+            senha="senha_temporaria",
+            imagem_perfil=caminho_imagem  # salva caminho da imagem no DB
+        )
+
+        db.session.add(novo_usuario)
+        db.session.commit()
+
+        flash("Usuário cadastrado com sucesso!", "success")
+        return redirect(url_for('adicionar_usuario'))
+
+    return render_template(
+        'cadastrar_usuarios.html',
+        generos=generos,
+        tipos_usuario=tipos_usuario
+    )
 

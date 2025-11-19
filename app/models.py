@@ -13,10 +13,17 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    sobrenome = db.Column(db.String(100), nullable=True)
+    data_nascimento = db.Column(db.Date, nullable=True)
+    genero = db.Column(db.String(20), nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    cpf = db.Column(db.String(14), unique=True, nullable=False)
+    telefone = db.Column(db.String(20), nullable=True)
+    
+    tipo_usuario = db.Column(db.String(50), nullable=False, default="usuario") 
     senha = db.Column(db.String(200), nullable=False)
-    tipo = db.Column(db.String(20), nullable=False, default='usuario')  
+    
+    imagem_perfil = db.Column(db.String(200), nullable=True) 
+    
     def __repr__(self):
         return f"<User {self.nome} ({self.tipo})>"
 
