@@ -233,6 +233,166 @@ a.card {
 }
 
 
+
+
+
+
+
+/* Container principal: box + botão lado a lado */
+.gestao-container {
+    display: flex;
+    justify-content: center;   /* centraliza horizontalmente */
+    align-items: flex-start;   /* alinha topo da box e botão */
+    gap: 20px;                 /* distância fixa entre box e botão */
+    padding: 50px 20px;
+    box-sizing: border-box;
+    flex-wrap: nowrap;          /* importante: NÃO empilha na horizontal */
+}
+
+/* Box branca responsiva */
+.gestao-box {
+    flex: 0 0 1493px;          /* largura fixa da box */
+    height: 513px;             /* altura fixa */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Botão ao lado da box */
+.gestao-botao {
+    flex: 0 0 auto;           /* mantém largura do botão */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0;            /* alinhado ao topo da box */
+}
+
+.gestao-box-title {
+    font-size: 20px;        /* tamanho da fonte */
+    font-weight: 800;       /* mais destacado */
+    /* top: 22px; */
+    margin-left: 18px;
+    margin-bottom: 20px;    /* distância do título para o conteúdo da box */
+    text-align: left;       /* alinhamento do texto */
+    color: #333;            /* cor do texto */
+    line-height: 1.2;       /* altura da linha para melhor leitura */
+}
+
+
+
+
+
+/* Título da box */
+.gestao-box-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0; /* remove margem padrão */
+    padding-bottom: 0;
+}
+
+/* Linhas dentro da box */
+.gestao-linha {
+    border-bottom: 1px solid #ccc; /* cria a linha */
+    position: relative;
+}
+
+/* Espaçamento da primeira linha em relação ao título */
+.gestao-linha:first-of-type {
+    margin-top: 81px; /* distância do título */
+}
+
+/* Espaçamento das linhas seguintes */
+.gestao-linha + .gestao-linha {
+    margin-top: 93px; /* distância entre linhas */
+}
+
+/* Informação centralizada sobre a linha */
+.linha-info {
+    position: absolute;
+    top: 50%;             /* centraliza verticalmente na linha */
+    left: 50%;            /* centraliza horizontalmente */
+    transform: translate(-50%, -50%);
+    background-color: #fff; /* opcional: para "cobrir" a linha */
+    padding: 0 10px;        /* espaçamento horizontal */
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Telas médias (laptops) */
+@media (max-width: 1600px) {
+    .gestao-container {
+        justify-content: flex-start; /* mantém alinhamento */
+    }
+
+    .gestao-box {
+        flex: 0 0 1200px;
+    }
+}
+
+/* Telas pequenas (tablets) */
+@media (max-width: 1024px) {
+    .gestao-container {
+        flex-direction: column; /* empilha box e botão */
+        align-items: center;
+    }
+
+    .gestao-box {
+        width: 100%;
+        max-width: 90%;
+        height: auto;
+    }
+
+    .gestao-botao {
+        margin-top: 20px; /* distância vertical quando empilhado */
+    }
+}
+
+/* Telas muito pequenas (celulares) */
+@media (max-width: 768px) {
+    .gestao-box {
+        width: 100%;
+        max-width: 95%;
+        height: auto;
+        padding: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ======== RESPONSIVIDADE ======== */
 
 /* Telas médias (tablets) */

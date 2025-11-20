@@ -10,18 +10,52 @@
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
     
-     <!-- Inclui o título -->
+    <!-- Inclui o título da página -->
     {% with texto="GESTÃO" %}
         {% include 'componentes/titulos/titulo.html' %}
     {% endwith %}
 
-
-    <!-- Chamando o componente do botão -->
-    {% include 'componentes/botoes/botao_gestao_add_produto.html' %}
-
-
-    <!-- Inclui o componente de botões -->
+    <!-- Botão de gestão -->
     {% include 'componentes/botoes/botaogestao.html' %}
+
+    <!-- ARRUMAR BOX BRANCA E BOTAO -->
+
+    <div class="gestao-container">
+        <!-- Box branca à esquerda -->
+        <div class="gestao-box">
+            <h2 class="gestao-box-title">Status do Estoque</h2>
+
+            <!-- FAZER A TABELA -->
+
+            <!-- Linha 1 -->
+            <div class="gestao-linha" style="margin-top: 81px;">
+                <span class="linha-info"></span>
+            </div>
+
+            <!-- Linha 2 -->
+            <div class="gestao-linha">
+                <span class="linha-info"></span>
+            </div>
+
+            <!-- Linha 3 -->
+            <div class="gestao-linha">
+                <span class="linha-info"></span>
+            </div>
+
+            <!-- Linha 4 -->
+            <div class="gestao-linha">
+                <span class="linha-info"></span>
+            </div>
+
+            <!-- Mais linhas podem ser adicionadas aqui -->
+        </div>
+
+        <!-- Botão à direita da box -->
+        <div class="gestao-botao">
+            {% include 'componentes/botoes/botao_gestao_add_produto.html' %}
+        </div>
+    </div>
+
 
 </body>
 </html>
