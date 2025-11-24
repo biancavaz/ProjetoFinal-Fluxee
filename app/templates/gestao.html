@@ -7,55 +7,69 @@
 </head>
 <body>
 
-    <!-- Inclui o header -->
+    <!-- HEADER -->
     {% include 'componentes/header/header.html' %}
-    
-    <!-- Inclui o título da página -->
+
+    <!-- TÍTULO -->
     {% with texto="GESTÃO" %}
         {% include 'componentes/titulos/titulo.html' %}
     {% endwith %}
 
-    <!-- Botão de gestão -->
+    <!-- BOTÃO DE GESTÃO -->
     {% include 'componentes/botoes/botaogestao.html' %}
 
-    <!-- ARRUMAR BOX BRANCA E BOTAO -->
-
+    <!-- CONTAINER GERAL -->
     <div class="gestao-container">
-        <!-- Box branca à esquerda -->
+
+        <!-- BOX BRANCA -->
         <div class="gestao-box">
+
             <h2 class="gestao-box-title">Status do Estoque</h2>
 
-            <!-- FAZER A TABELA -->
+            <!-- TABELA DO ESTOQUE (ainda sem dados) -->
+            <div class="gestao-tabela">
 
-            <!-- Linha 1 -->
-            <div class="gestao-linha" style="margin-top: 81px;">
-                <span class="linha-info"></span>
-            </div>
+                <!-- Cabeçalho das colunas -->
+                <div class="gestao-cabecalho">
+                    <span class="coluna-produto">PRODUTO</span>
+                    <span class="coluna-categoria">CATEGORIA</span>
+                    <span class="coluna-estoque">ESTOQUE</span>
+                    <span class="coluna-fornecedor">FORNECEDOR</span>
+                </div>
+            
+                <!-- LINHAS DINÂMICAS -->
+                {% for p in produtos %}
+                    <div class="gestao-linha linha-dinamica">
+            
+                        <span class="linha-produto">{{ p.nome }}</span>
+                        <span class="linha-categoria">{{ p.tipo.nome }}</span>
+                        <span class="linha-estoque">{{ p.quantidade }}</span>
+                        <span class="linha-fornecedor">{{ p.fornecedor.nome }}</span>
 
-            <!-- Linha 2 -->
-            <div class="gestao-linha">
-                <span class="linha-info"></span>
-            </div>
 
-            <!-- Linha 3 -->
-            <div class="gestao-linha">
-                <span class="linha-info"></span>
-            </div>
+            
+                        <!-- ÍCONES -->
+                        <span class="linha-acoes">
+                            <a href="{{ url_for('editar_produto', id=p.id) }}" class="btn-edit">
+                                <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="editar">
+                            </a>
+            
+                            <a href="{{ url_for('deletar_produto', id=p.id) }}" class="btn-delete">
+                                <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="excluir">
+                            </a>
+                        </span>
+            
+                    </div>
+                {% endfor %}
+            
+            </div>            
 
-            <!-- Linha 4 -->
-            <div class="gestao-linha">
-                <span class="linha-info"></span>
-            </div>
-
-            <!-- Mais linhas podem ser adicionadas aqui -->
-        </div>
-
-        <!-- Botão à direita da box -->
+        <!-- BOTÃO À DIREITA -->
         <div class="gestao-botao">
             {% include 'componentes/botoes/botao_gestao_add_produto.html' %}
         </div>
-    </div>
 
+    </div>
 
 </body>
 </html>

@@ -81,12 +81,30 @@ def home():
 @app.route('/gestao/')
 @login_required
 def gestao():
-    return render_template('gestao.html')
+    produtos = Produto.query.all()   # Puxa tudo do banco
+    return render_template('gestao.html', produtos=produtos)
 
 @app.route('/gestao_servico/')
 @login_required
 def gestao_servico():
     return render_template('gestao_servico.html')
+
+
+@app.route('/produto/editar/<int:id>')
+@login_required
+def editar_produto(id):
+    produto = Produto.query.get_or_404(id)
+    return render_template('editar_produto.html', produto=produto)
+
+
+@app.route('/produto/deletar/<int:id>')
+@login_required
+def deletar_produto(id):
+    produto = Produto.query.get_or_404(id)
+    db.session.delete(produto)
+    db.session.commit()
+    return redirect(url_for('gestao'))
+
 
 # -------------------------
 # MOVIMENTAÇÕES
