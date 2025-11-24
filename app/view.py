@@ -78,11 +78,26 @@ def home():
 # -------------------------
 # GESTÃO
 # -------------------------
+
+
 @app.route('/gestao/')
 @login_required
 def gestao():
-    produtos = Produto.query.all()   # Puxa tudo do banco
-    return render_template('gestao.html', produtos=produtos)
+    page = request.args.get('page', 1, type=int)
+    per_page = 15
+    produtos_pag = Produto.query.paginate(page=page, per_page=per_page)
+
+    mostrar_paginacao = produtos_pag.total >= per_page
+
+    return render_template(
+        'gestao.html',
+        produtos=produtos_pag.items,
+        pagination=produtos_pag,
+        mostrar_paginacao=mostrar_paginacao,
+        pagina_atual=page  # <--- passa a página atual
+    )
+
+
 
 @app.route('/gestao_servico/')
 @login_required

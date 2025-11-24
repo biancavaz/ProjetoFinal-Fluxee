@@ -304,12 +304,14 @@ a.card {
 
 /* Box branca */
 .gestao-box {
-    width: 1500px;
-    height: 520px;
+    width: 1850px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    padding: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 30px;
+    padding-bottom: 40px;
     box-sizing: border-box;
 }
 
@@ -321,13 +323,14 @@ a.card {
     color: #333;
 }
 
-/* Linha da tabela */
+/* Linha da tabela com espaçamento entre os dados */
 .gestao-linha {
-    width: 100%;
-    height: 1px;
-    background: #ccc;
-    margin-bottom: 90px;
-    position: relative;
+    display: flex;            /* Coloca os itens lado a lado */
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ccc;   /* substitui aquela linha cinza */
+    height: auto;             /* remove o height 1px */
+    background: transparent;  /* remove a barra cinza */
 }
 
 /* Remove margem da última */
@@ -364,10 +367,10 @@ a.card {
     font-size: 14px;
 }
 
-.coluna-produto { width: 26%; }
-.coluna-categoria { width: 23%; }
-.coluna-estoque { width: 15%; }
-.coluna-fornecedor { width: 20%; }
+.coluna-produto { width: 26%; text-align: left; }
+.coluna-categoria { width: 23%; text-align: center;}
+.coluna-estoque { width: 15%; text-align: center; }
+.coluna-fornecedor { width: 20%; text-align: center; }
 .coluna-acoes { width: 10%; text-align: right; }
 
 /* Linha dinâmica */
@@ -409,6 +412,28 @@ a.card {
     cursor: pointer;
 }
 
+.linha-produto { width: 26%; }
+.linha-categoria { width: 23%; text-align: center; }
+.linha-estoque { width: 15%; text-align: center; }
+.linha-fornecedor { width: 20%; text-align: center; }
+
+.linha-acoes {
+    width: 10%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+}
+
+.gestao-linha.linha-dinamica {
+    padding: 30px 15px;
+}
+
+
+.linha-titulos {
+    width: 100%;
+    height: 1px;        /* espessura da linha */
+    background: #ccc;   /* cor da linha */
+}
 
 
 /* Responsividade */
@@ -446,4 +471,46 @@ a.card {
     .gestao-linha {
         margin-bottom: 45px;
     }
+}
+
+
+
+/* Container da paginação */
+.paginacao {
+    margin-top: 20px;         /* espaço acima da paginação */
+    text-align: right;       /* centraliza os números */
+    font-family: Arial, sans-serif;
+}
+
+/* Links de página */
+.paginacao a {
+    display: inline-block;
+    margin: 0 5px;            /* espaço entre os números */
+    padding: 6px 12px;        /* tamanho do botão */
+    background: #eee;          /* cor de fundo */
+    color: #333;               
+    text-decoration: none;     /* remove underline */
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+/* Hover nos links */
+.paginacao a:hover {
+    background: #ccc;
+}
+
+/* Página ativa */
+.paginacao .ativo {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 6px 12px;
+    background: #E57C3A;         
+    color: #fff;               /* texto branco */
+    border-radius: 4px;
+}
+
+/* Opcional: setas “Anterior” e “Próximo” */
+.paginacao a.prev,
+.paginacao a.next {
+    font-weight: bold;
 }

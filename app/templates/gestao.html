@@ -36,32 +36,46 @@
                     <span class="coluna-estoque">ESTOQUE</span>
                     <span class="coluna-fornecedor">FORNECEDOR</span>
                 </div>
+
+                <div class="linha-titulos"></div>
+
             
-                <!-- LINHAS DINÂMICAS -->
                 {% for p in produtos %}
                     <div class="gestao-linha linha-dinamica">
-            
                         <span class="linha-produto">{{ p.nome }}</span>
                         <span class="linha-categoria">{{ p.tipo.nome }}</span>
                         <span class="linha-estoque">{{ p.quantidade }}</span>
                         <span class="linha-fornecedor">{{ p.fornecedor.nome }}</span>
-
-
-            
-                        <!-- ÍCONES -->
                         <span class="linha-acoes">
                             <a href="{{ url_for('editar_produto', id=p.id) }}" class="btn-edit">
                                 <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="editar">
                             </a>
-            
                             <a href="{{ url_for('deletar_produto', id=p.id) }}" class="btn-delete">
                                 <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="excluir">
                             </a>
                         </span>
-            
                     </div>
                 {% endfor %}
-            
+
+                {% if mostrar_paginacao %}
+                <div class="paginacao">
+                    {% if pagination.has_prev %}
+                        <a href="{{ url_for('gestao', page=pagination.prev_num) }}">&laquo; Anterior</a>
+                    {% endif %}
+
+                    {% for p in range(1, pagination.pages + 1) %}
+                        {% if p ==  pagina_atual %}
+                            <span class="ativo">{{ p }}</span>
+                        {% else %}
+                            <a href="{{ url_for('gestao', page=p) }}">{{ p }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                        <a href="{{ url_for('gestao', page=pagination.next_num) }}">Próximo &raquo;</a>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>            
 
         <!-- BOTÃO À DIREITA -->
