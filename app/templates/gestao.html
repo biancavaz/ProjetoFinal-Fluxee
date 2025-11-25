@@ -50,9 +50,13 @@
                             <a href="{{ url_for('editar_produto', id=p.id) }}" class="btn-edit">
                                 <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="editar">
                             </a>
-                            <a href="{{ url_for('deletar_produto', id=p.id) }}" class="btn-delete">
+                            <a href="javascript:void(0);" 
+                                class="btn-delete" 
+                                data-nome="{{ p.nome }}" 
+                                data-link="{{ url_for('deletar_produto', id=p.id) }}">
                                 <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="excluir">
                             </a>
+
                         </span>
                     </div>
                 {% endfor %}
@@ -82,8 +86,18 @@
         <div class="gestao-botao">
             {% include 'componentes/botoes/botao_gestao_add_produto.html' %}
         </div>
-
     </div>
+
+    <div id="modal-excluir" class="modal">
+        <div class="modal-conteudo">
+            <p id="mensagem-excluir">Tem certeza que deseja excluir este produto?</p>
+            <div class="botoes-modal">
+                <button id="btn-cancelar">Cancelar</button>
+                <button id="btn-confirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='js/box_confirmacao.js') }}"></script>
 
 </body>
 </html>
