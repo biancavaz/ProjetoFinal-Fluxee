@@ -11,7 +11,7 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     position: fixed;     
-    right: 193px;         
+    right: 150px;         
     top: 350px;           
     z-index: 1000;       
 }
@@ -28,3 +28,21 @@
     background-color: rgba(233, 129, 60, 0.226);  /* fundo um pouco mais intenso */
 
 }
+
+@media (max-width: 2100px) {
+    .botao-adicionar{
+        right: 80px; 
+    }
+}
+
+@media (max-width: 1400px) {
+    .botao-adicionar {
+        position: fixed; /* já estava fixed, mantém a posição na tela */
+        top: 320px;      /* posição fixa do topo */
+        right: 200px;    /* posição fixa da direita */
+        z-index: 2000;   /* acima da box */
+        transform: none; /* remove transform para não deslocar */
+    }
+}
+
+/* arrumar */

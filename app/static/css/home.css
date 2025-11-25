@@ -290,6 +290,7 @@ a.card {
 
 
 
+
 /* ============================
    GESTÃO – LAYOUT GERAL
    ============================ */
@@ -437,9 +438,36 @@ a.card {
 
 
 /* Responsividade */
+
+/* Telas muito largas */
+@media (max-width: 2100px) {
+    .gestao-box {
+        width: 1600px;  /* ajuste que quiser */
+    }
+}
+
+@media (max-width: 1800px) {
+    .gestao-box {
+        width: 1350px;  /* ajuste progressivo */
+    }
+}
+
+@media (max-width: 1600px) {
+    .gestao-box {
+        width: 1200px;  /* ajuste progressivo */
+    }
+}
+
+
 @media (max-width: 1450px) {
     .gestao-box {
         width: 1100px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .gestao-box {
+        margin-top: 50px;
     }
 }
 
@@ -648,3 +676,5 @@ a.card {
     font-weight: bold;
     cursor: pointer;
 }
+
+
