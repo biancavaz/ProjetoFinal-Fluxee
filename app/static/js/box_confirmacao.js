@@ -34,3 +34,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+    // Seleciona todas as imagens de produto
+    const imagens = document.querySelectorAll('.produto-img');
+    const modal = document.getElementById('imagem-modal');
+    const modalImg = document.getElementById('img-modal');
+    const caption = document.getElementById('caption');
+    const fechar = document.getElementsByClassName('fechar')[0];
+
+    imagens.forEach(img => {
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            caption.innerHTML = this.alt;
+        }
+    });
+
+    fechar.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Fecha clicando fora da imagem
+    modal.onclick = function(event) {
+        if(event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+

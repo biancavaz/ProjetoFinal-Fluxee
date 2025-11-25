@@ -174,11 +174,15 @@ def adicionar_produto():
 
         # Upload de imagem
         arquivo = request.files.get('imagem')
-        caminho_imagem = None
+        nome_arquivo = None
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'produtos')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # cria a pasta se não existir
+
         if arquivo and arquivo.filename != '':
-            filename = secure_filename(arquivo.filename)
-            caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            nome_arquivo = secure_filename(arquivo.filename)
+            caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_arquivo)
             arquivo.save(caminho_imagem)
+
 
         produto = Produto(
             nome=nome,
@@ -187,7 +191,7 @@ def adicionar_produto():
             unidade_medida_id=unidade_id if unidade_id else None,
             quantidade=quantidade,
             data_entrada=data_entrada,
-            imagem=caminho_imagem
+            imagem=nome_arquivo  # <-- salvar só o nome do arquivo
         )
 
         db.session.add(produto)
