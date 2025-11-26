@@ -6,6 +6,8 @@ from app import app, db
 from app.forms import UserForm, LoginForm
 from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash
+
 
 # Configurar pasta de upload
 UPLOAD_FOLDER = 'static/uploads/produtos'
@@ -228,7 +230,37 @@ def adicionar_servico():
 @app.route('/usuarios/')
 @login_required
 def usuarios():
-    return render_template('usuarios.html')
+    pagina_atual = request.args.get('page', 1, type=int)
+    por_pagina = 10
+    pagination = User.query.order_by(User.id).paginate(page=pagina_atual, per_page=por_pagina)
+    usuarios = pagination.items
+    mostrar_paginacao = pagination.pages > 1
+
+    return render_template(
+        'usuarios.html',
+        usuarios=usuarios,
+        pagination=pagination,
+        pagina_atual=pagina_atual,
+        mostrar_paginacao=mostrar_paginacao
+    )
+
+
+# Editar usuário
+@app.route('/usuarios/editar/<int:id>')
+@login_required
+def editar_usuario(id):
+    usuario = User.query.get_or_404(id)
+    return render_template('editar_usuario.html', usuario=usuario)
+
+
+# Deletar usuário
+@app.route('/usuarios/deletar/<int:id>')
+@login_required
+def deletar_usuario(id):
+    usuario = User.query.get_or_404(id)
+    db.session.delete(usuario)
+    db.session.commit()
+    return redirect(url_for('usuarios'))
 
 
 # -------------------------
@@ -256,17 +288,17 @@ def adicionar_usuario():
         except:
             data_nascimento = None
 
-        # Verifica se enviou arquivo
         imagem_file = request.files.get('imagem_perfil')
-        caminho_imagem = None
+        nome_imagem = None
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'usuarios')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
         if imagem_file and imagem_file.filename != '':
             nome_seguro = secure_filename(imagem_file.filename)
-            caminho_imagem = os.path.join(app.config['UPLOAD_FOLDER'], nome_seguro)
-            # cria pasta se não existir
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-            imagem_file.save(caminho_imagem)
+            caminho_completo = os.path.join(UPLOAD_FOLDER, nome_seguro)
+            imagem_file.save(caminho_completo)
+            nome_imagem = nome_seguro  # só salva o nome no banco
 
-        # Criar novo usuário
         novo_usuario = User(
             nome=nome,
             data_nascimento=data_nascimento,
@@ -275,8 +307,8 @@ def adicionar_usuario():
             cpf=cpf,
             telefone=telefone,
             tipo_usuario=tipo_usuario,
-            senha="senha_temporaria",
-            imagem_perfil=caminho_imagem  # salva caminho da imagem no DB
+            senha=generate_password_hash("senha_temporaria"),
+            imagem_perfil=nome_imagem  # agora vai funcionar no template
         )
 
         db.session.add(novo_usuario)

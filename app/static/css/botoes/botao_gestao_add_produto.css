@@ -5,7 +5,7 @@
     width: 64px;            
     height: 60px;
     border-radius: 50%;     
-    background-color: rgba(229, 124, 58, 0.2); /* E57C3A com 20% de opacidade */
+    background-color: rgba(229, 124, 58, 0.2);
     text-decoration: none;  
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -22,10 +22,10 @@
     stroke: #E57C3A;       
 }
 
-/* Hover elegante */
+
 .botao-adicionar:hover {
-    transform: scale(1.05);                       /* aumenta levemente */
-    background-color: rgba(233, 129, 60, 0.226);  /* fundo um pouco mais intenso */
+    transform: scale(1.05);                       
+    background-color: rgba(233, 129, 60, 0.226);  
 
 }
 
@@ -37,11 +37,11 @@
 
 @media (max-width: 1400px) {
     .botao-adicionar {
-        position: fixed; /* já estava fixed, mantém a posição na tela */
-        top: 320px;      /* posição fixa do topo */
-        right: 200px;    /* posição fixa da direita */
-        z-index: 2000;   /* acima da box */
-        transform: none; /* remove transform para não deslocar */
+        position: fixed; 
+        top: 320px;     
+        right: 200px;    
+        z-index: 2000;   
+        transform: none; 
     }
 }
 
