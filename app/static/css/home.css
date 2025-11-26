@@ -383,11 +383,6 @@ a.card {
     position: relative;
 }
 
-.item-produto { width: 26%; }
-.item-categoria { width: 23%; }
-.item-estoque { width: 15%; }
-.item-fornecedor { width: 20%; }
-
 .item-acoes {
     width: 10%;
     display: flex;
@@ -419,10 +414,12 @@ a.card {
 .linha-fornecedor { width: 20%; text-align: center; }
 
 .linha-acoes {
-    width: 10%;
+    width: 15%;
+    text-align: right;
     display: flex;
-    justify-content: flex-end;
-    gap: 30px;
+    justify-content: flex-end; /* mantém os botões à direita */
+    align-items: center;
+    gap: 25px; /* espaçamento entre os botões */
 }
 
 .gestao-linha.linha-dinamica {
