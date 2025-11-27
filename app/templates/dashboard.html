@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<style>
+    body {
+      font-family: sans-serif;
+      background-color: #fdf1e8;
+      padding: 20px;
+    }
+    h2 {
+      color: #f76c4f;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .cards {
+      display: flex;
+      width: 100%;
+      gap: 35px;
+      margin-bottom: 40px;
+    flex-wrap: wrap;
+    }
+    .card {
+      background: white;
+      width: 250px;
+      height: 70px;
+      padding: 18px;
+      padding-inline: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 5px;
+    }
+    .number {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .card .label {
+        font-size: 14px;
+      color: #888;
+    }
+    .chart-container {
+      width: 400px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;        
+      gap: 20px;
+
+    }
+    .chart-card{
+        margin-block: 20px;
+      width: 250px;
+        height: fit-content;
+              background: white;
+        padding: 30px;
+        display: flex;
+        border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+    
+    <!-- Inclui o header -->
+    {% include 'componentes/header/header.html' %}
+{% with texto="DASHBOARD" %}
+        {% include 'componentes/titulos/titulo.html' %}
+    {% endwith %}
+    <div style="display: flex; gap: 20px; margin: 20px; margin-inline: 5vw;">
+        <div style="width: 70vw; display: flex; flex-direction: column;">
+        <div class="cards">
+            <div class="card">
+                <div class="label">Total de serviços</div>
+                <div class="number" id="servico"></div>
+                
+            </div>
+            <div class="card">
+                <div class="label">Total de Produtos</div>
+                <div class="number" id="produto"></div>
+                
+            </div>
+            <div class="card">
+                <div class="label">Solicitações</div>
+                <div class="number" id="solicitacao"></div>
+                
+            </div>
+            <div class="card">
+                <div class="label">Total de Fornecedores</div>
+                <div class="number" id="fornecedor"></div>
+                
+            </div>
+            <div class="card">
+                <div class="label">Quantidade de usuários</div>
+                <div class="number" id="user"></div>
+            </div>
+            </div>
+            <div style="width: 100%; height: 150px; background-color: black;">
+
+            </div>
+</div>
+
+            <div style="position: relative; width: 20vw; display: flex; gap: 20px; flex-direction: column;">
+                <div style="position: absolute; top: -120px;">
+                <div class="chart-card">
+                    <div class="chart-container">
+                        <div class="number">Categoria serviços</div>
+                        <canvas id="serviceChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                <div class="chart-container">
+
+                    <div class="number" style="font-weight:bold; margin-bottom:20px;">Produtos por tipo</div>
+                    <canvas id="tipoChart"></canvas>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    
+        
+    // Set values
+    const tots_ = {
+        servico: {{ tots.servico | tojson }},
+        fornecedor: {{ tots.fornecedor | tojson }},
+        user: {{ tots.user | tojson }},
+        produto: {{ tots.produto | tojson }},
+        solicitacao: {{ tots.solicitacao | tojson }}
+    };
+
+    document.getElementById('servico').innerText = tots_.servico;
+    document.getElementById('produto').innerText = tots_.produto;
+    document.getElementById('solicitacao').innerText = tots_.solicitacao;
+    document.getElementById('fornecedor').innerText = tots_.fornecedor;
+    document.getElementById('user').innerText = tots_.user;
+
+    // Chart.js
+    const ctx = document.getElementById('serviceChart').getContext('2d');
+    const serviceChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+        labels: ['servico', 'produto', 'solicitacao', 'fornecedor', "user"],
+        datasets: [{
+            data: [tots_.servico, tots_.produto, tots_.solicitacao, tots_.fornecedor, tots_.user],
+            backgroundColor: ['#FF4C4C', '#FFD93D', '#4CB3FF', '#6AD28D'],
+            borderWidth: 0
+        }]
+        },
+        options: {
+            
+                cutout: '84%',
+                plugins: {
+                    legend: {
+                    position: 'bottom'
+                    }
+                }
+        }
+    });
+
+    const tipo_counts_ = {{ tipo_counts | tojson }};
+    console.log(tipo_counts_)
+    const labels = tipo_counts_.map(item => item.tipo);
+    const data = tipo_counts_.map(item => item.count);
+    const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#6AD28D', '#FFA500'];
+    const ctx2 = document.getElementById('tipoChart').getContext('2d');
+    const tipoChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColors.slice(0, labels.length),
+                borderWidth: 0
+            }]
+        },
+        options: {
+            cutout: '84%',
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    </script>
+</body>
+</html>

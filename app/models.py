@@ -16,7 +16,8 @@ class User(db.Model, UserMixin):
     data_nascimento = db.Column(db.Date, nullable=True)
     genero = db.Column(db.String(20), nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    cpf = db.Column(db.String(14), unique=True, nullable=False)
+    # cpf = db.Column(db.String(14), unique=True, nullable=False)
+    cpf = db.Column(db.String(14), unique=True)
     telefone = db.Column(db.String(20), nullable=True)
     
     tipo_usuario = db.Column(db.String(50), nullable=False, default="usuario") 
@@ -25,7 +26,7 @@ class User(db.Model, UserMixin):
     imagem_perfil = db.Column(db.String(200), nullable=True) 
     
     def __repr__(self):
-        return f"<User {self.nome} ({self.tipo})>"
+        return f"<User {self.nome} ({self.tipo_usuario})>"
 
 
 

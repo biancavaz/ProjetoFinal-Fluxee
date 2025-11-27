@@ -42,7 +42,7 @@ class UserForm(FlaskForm):
             nome=self.nome.data,
             email=self.email.data,
             senha=senha_hash,
-            tipo='usuario'  # ou 'aluno', já que todos os cadastrados pelo site são assim
+            tipo_usuario='usuario'  # ou 'aluno', já que todos os cadastrados pelo site são assim
         )
         db.session.add(user)
         db.session.commit()

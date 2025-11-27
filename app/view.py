@@ -138,8 +138,28 @@ def movimentacoes():
 @app.route('/solicitacoes/')
 @login_required
 def solicitacoes():
+
     return render_template('solicitacoes.html')
 
+from sqlalchemy import func
+@app.route('/dashboard/')
+@login_required
+def dashboard():
+    result = db.session.query(
+        TipoProduto.nome,             # Pega o nome da categoria
+        func.count(Produto.id)
+    ).join(Produto.tipo).group_by(TipoProduto.nome).all()
+
+    # Converte para lista de dicionários
+    tipo_counts = [{"tipo": tipo, "count": count} for tipo, count in result]
+
+    tot_produto = len(Produto.query.all())
+    tot_fornecedor = len(Fornecedor.query.all())
+    tot_user = len(User.query.all())
+    tot_servico = 0
+    tot_solicitacao = 0
+
+    return render_template('dashboard.html', tipo_counts=tipo_counts, tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao})
 
 # -------------------------
 # CADASTRO DE PRODUTO
