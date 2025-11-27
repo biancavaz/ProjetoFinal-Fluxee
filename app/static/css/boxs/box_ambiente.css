@@ -1,0 +1,33 @@
+.input-ambiente {
+  width: 393px;               /* mesma largura do input-cpf */
+  height: 27px;               /* mesma altura */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-ambiente:focus {
+  border-color: #E57C3A;
+  box-shadow: 0 0 4px rgba(229, 124, 58, 0.4);
+}
+
+/* Agrupa o label e o input */
+.form-group-ambiente {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.form-group-ambiente label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: #000000;
+  margin-bottom: 6px;
+  display: block;
+}

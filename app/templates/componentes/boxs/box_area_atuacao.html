@@ -1,0 +1,15 @@
+<div class="form-group">
+  <label for="{{ id or 'area_atuacao' }}">Área de Atuação</label>
+  <input 
+    type="text" 
+    id="{{ id or 'area_atuacao' }}" 
+    name="{{ name or 'area_atuacao' }}" 
+    placeholder="{{ placeholder or 'Digite a área de atuação' }}" 
+    value="{{ value or '' }}" 
+    required
+    class="input-area-atuacao"
+  >
+</div>
+
+<!-- colocar exemplo ali no placeholder -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boxs/box_area_atuacao.css') }}">
