@@ -2,13 +2,104 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Cadastro de Serviço</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
 
-    <!-- Inclui o header -->
+    <!-- TERMINARRRRRRR tem vários -->
+
+    {% include 'componentes/alertas/alerta_sucesso.html' %}
     {% include 'componentes/header/header.html' %}
-    
+    {% include 'componentes/titulos/seta_voltar_servicos.html' %}
+
+    <div class="container-produto">
+        <div class="box-branca">
+
+            <h2 class="titulo-box">Cadastro de Serviço</h2>
+
+            <form action="{{ url_for('adicionar_servico') }}" method="POST" enctype="multipart/form-data">
+
+                <div class="conteudo-sobre-box">
+
+                    <div class="campos-direita">
+
+                        <!-- Linha 1: Nome e Categoria -->
+                        <div class="linha-1">
+                            <div class="campo nome-servico">
+                                {% set label = 'Nome do Serviço' %}
+                                {% set name = 'nome' %}
+                                {% set id = 'nome' %}
+                                {% include 'componentes/boxs/box_nome.html' %}
+                            </div>
+
+                            <div class="campo categoria-servico">
+                                {% set label = 'Categoria' %}
+                                {% set name = 'categoria' %}
+                                {% set id = 'categoria' %}
+                                {% set options = [('transporte','Transporte'),('limpeza','Limpeza'),('seguranca','Segurança')] %}
+                                {% include 'componentes/boxs/dropdown_categoria.html' %}
+                            </div>
+                        </div>
+
+                        <!-- Linha 2: Descrição -->
+                        <div class="linha-2">
+                            <div class="campo descricao-servico">
+                                {% set label = 'Descrição' %}
+                                {% set name = 'descricao' %}
+                                {% set id = 'descricao' %}
+                                {% include 'componentes/boxs/box_descricao.html' %}
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos por categoria (inicialmente ocultos) -->
+
+                        <!-- Transporte -->
+                        <div class="linha-transporte campos-especificos" style="display:none;">
+                            {% include 'componentes/boxs/box_qt_passageiros.html' %}
+                            {% include 'componentes/boxs/dropdown_tipo_veiculo.html' %}
+                            {% include 'componentes/boxs/box_qt_onibus.html' %}
+                            {% include 'componentes/boxs/box_preco_diaria.html' %}
+                            {% include 'componentes/boxs/box_data_saida.html' %}
+                            {% include 'componentes/boxs/box_data_retorno.html' %}
+                            {% include 'componentes/boxs/box_horario_saida.html' %}
+                            {% include 'componentes/boxs/box_horario_chegada.html' %}
+                        </div>
+
+                        <!-- Limpeza -->
+                        <div class="linha-limpeza campos-especificos" style="display:none;">
+                            {% include 'componentes/boxs/limpeza/box_tempo.html' %}
+                            {% include 'componentes/boxs/limpeza/box_ambiente.html' %}
+                            {% include 'componentes/boxs/limpeza/box_frequencia.html' %}
+                            {% include 'componentes/boxs/limpeza/box_periodo.html' %}
+                        </div>
+
+                        <!-- Segurança -->
+                        <div class="linha-seguranca campos-especificos" style="display:none;">
+                            {% include 'componentes/boxs/seguranca/box_data_inicio.html' %}
+                            {% include 'componentes/boxs/seguranca/box_area_atuacao.html' %}
+                            {% include 'componentes/boxs/seguranca/box_turno.html' %}
+                            {% include 'componentes/boxs/seguranca/box_frequencia.html' %}
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="linha-botao">
+                            {% set texto = "Voltar" %}
+                            {% set url_destino = "/gestao_servico" %}
+                            {% include 'componentes/botoes/botao_voltar.html' %}
+
+                            {% set texto = "Salvar" %}
+                            {% include 'componentes/botoes/botao_cadastrar_servicos.html' %}
+                        </div>
+
+                    </div> <!-- fecha campos-direita -->
+
+                </div> <!-- fecha conteudo-sobre-box -->
+
+            </form>
+
+        </div> <!-- fecha box-branca -->
+    </div> <!-- fecha container-produto -->
+
 </body>
 </html>
