@@ -7,8 +7,6 @@
 </head>
 <body>
 
-    <!-- TERMINARRRRRRR tem vários -->
-
     {% include 'componentes/alertas/alerta_sucesso.html' %}
     {% include 'componentes/header/header.html' %}
     {% include 'componentes/titulos/seta_voltar_servicos.html' %}
@@ -42,20 +40,10 @@
                             </div>
                         </div>
 
-                        <!-- Campos específicos por categoria (inicialmente ocultos) -->
+                        <!-- Campos específicos por categoria -->
 
-                        <!-- Transporte -->
-                        <div class="linha-transporte campos-especificos" style="display:none;">
-
-                            <!-- PRIMEIRA LINHA: Nome, Categoria, Qtde Passageiros -->
-                            <div class="linha t-linha-1">
-
-                                <div class="campo qt-passageiros">
-                                    {% include 'componentes/boxs/box_qt_passageiros.html' %}
-                                </div>
-                            </div>
-
-                            <!-- SEGUNDA LINHA: Tipo Veículo, Qtde Ônibus, Preço Diária, Data Saída -->
+                        <!-- Transporte (3 campos) -->
+                        <div id="campos-transporte-pequeno" class="linha-transporte campos-especificos">
                             <div class="linha t-linha-2">
                                 <div class="campo tipo-veiculo">
                                     {% set label = 'Tipo de Veículo' %}
@@ -71,74 +59,8 @@
                                 <div class="campo preco-diaria">
                                     {% include 'componentes/boxs/box_preco_diaria.html' %}
                                 </div>
-
-                                <div class="campo data-saida">
-                                    {% include 'componentes/boxs/box_data_saida.html' %}
-                                </div>
-                            </div>
-
-                            <!-- TERCEIRA LINHA: Data Retorno, Horário Saída e Horário Chegada -->
-                            <div class="linha t-linha-3">
-                                <div class="campo data-retorno">
-                                    {% include 'componentes/boxs/box_data_retorno.html' %}
-                                </div>
-
-                                <div class="campo horario-saida">
-                                    {% include 'componentes/boxs/box_horario_saida.html' %}
-                                </div>
-
-                                <div class="campo horario-chegada">
-                                    {% include 'componentes/boxs/box_horario_chegada.html' %}
-                                </div>
                             </div>
                         </div>
-
-                         <!-- Limpeza -->
-                        <div class="linha-limpeza campos-especificos" style="display:none;">
-                            <div class="campo tempo-limpeza">
-                                {% set label = 'Tempo' %}
-                                {% set name = 'tempo' %}
-                                {% set id = 'tempo' %}
-                                {% set options = [('30min','30 minutos'), ('1h','1 hora'), ('2h','2 horas'), ('personalizado','Personalizado')] %}
-                                {% include 'componentes/boxs/dropdown_tempo.html' %}
-                            </div>
-                            {% include 'componentes/boxs/box_ambiente.html' %}
-                            <div class="campo frequencia-limpeza">
-                                {% set label = 'Frequência' %}
-                                {% set name = 'frequencia_limpeza' %}
-                                {% set id = 'frequencia_limpeza' %}
-                                {% set options = [('diaria','Diária'),('semanal','Semanal'),('quinzenal','Quinzenal'),('mensal','Mensal')] %}
-                                {% include 'componentes/boxs/dropdown_frequencia.html' %}
-                            </div>
-                            <div class="campo periodo-limpeza">
-                                {% set label = 'Período' %}
-                                {% set name = 'periodo' %}
-                                {% set id = 'periodo' %}
-                                {% set options = [('manha','Manhã'),('tarde','Tarde'),('noite','Noite')] %}
-                                {% include 'componentes/boxs/dropdown_periodo.html' %}
-                            </div>
-                        </div>
-
-                        <!-- Segurança -->
-                        <div class="linha-seguranca campos-especificos" style="display:none;">
-                            {% include 'componentes/boxs/box_data_inicio.html' %}
-                            {% include 'componentes/boxs/box_area_atuacao.html' %}
-                            <div class="campo turno-seguranca">
-                                {% set label = 'Turno' %}
-                                {% set name = 'turno' %}
-                                {% set id = 'turno' %}
-                                {% set options = [('manha','Manhã'),('tarde','Tarde'),('noite','Noite'),('madrugada','Madrugada')] %}
-                                {% include 'componentes/boxs/dropdown_turno.html' %}
-                            </div>
-                            <div class="campo frequencia-seguranca">
-                                {% set label = 'Frequência' %}
-                                {% set name = 'frequencia_seguranca' %}
-                                {% set id = 'frequencia_seguranca' %}
-                                {% set options = [('diaria','Diária'),('turnos','Por Turnos'),('escala','Escala Personalizada')] %}
-                                {% include 'componentes/boxs/dropdown_frequencia.html' %}
-                            </div>
-                        </div>
-
 
                         <!-- Linha 2: Descrição -->
                         <div class="linha-2">

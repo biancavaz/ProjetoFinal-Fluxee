@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectedText = dropdownBtn.querySelector(".selected-text");
     const hiddenInput = dropdownCategoria.querySelector("input[type='hidden']");
 
-    // Seleciona os campos específicos
-    const linhaTransporte = document.querySelector(".linha-transporte");
-    const linhaLimpeza = document.querySelector(".linha-limpeza");
-    const linhaSeguranca = document.querySelector(".linha-seguranca");
+    const camposTransporte = document.getElementById("campos-transporte-pequeno");
+
+    // Inicialmente esconde os campos
+    camposTransporte.style.display = "none";
 
     // Abre/fecha dropdown
     dropdownBtn.addEventListener("click", function(e) {
@@ -21,18 +21,16 @@ document.addEventListener("DOMContentLoaded", function() {
         item.addEventListener("click", function() {
             const value = this.dataset.value;
             selectedText.textContent = this.textContent;
-            hiddenInput.value = value; // atualiza input hidden
+            hiddenInput.value = value;
             dropdownContent.style.display = "none";
 
-            // Esconde todos os campos
-            linhaTransporte.style.display = "none";
-            linhaLimpeza.style.display = "none";
-            linhaSeguranca.style.display = "none";
+            // Esconde todos os campos específicos
+            camposTransporte.style.display = "none";
 
-            // Mostra a linha correta
-            if(value === "transporte") linhaTransporte.style.display = "flex";
-            if(value === "limpeza") linhaLimpeza.style.display = "flex";
-            if(value === "seguranca") linhaSeguranca.style.display = "flex";
+            // Mostra Transporte se selecionado
+            if(value === "transporte") {
+                camposTransporte.style.display = "flex";
+            }
         });
     });
 

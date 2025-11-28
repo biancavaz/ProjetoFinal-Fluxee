@@ -103,8 +103,10 @@ class Disciplina(db.Model):
     def __repr__(self):
         return f'<Disciplina {self.nome}>'
 
+
+
 # -----------------------------
-# 🟧 Modelo base (apenas dados gerais)
+# 🟧 Modelo base (dados gerais)
 # -----------------------------
 class Service(db.Model):
     __tablename__ = 'services'
@@ -114,17 +116,14 @@ class Service(db.Model):
     categoria = db.Column(db.String(30), nullable=False)  # transporte / limpeza / seguranca
     descricao = db.Column(db.Text, nullable=True)
 
-    # Relações 1-1 com os modelos específicos
+    # Relação 1-1 com transporte
     transporte = db.relationship("ServiceTransporte", backref="service", uselist=False)
-    limpeza = db.relationship("ServiceLimpeza", backref="service", uselist=False)
-    seguranca = db.relationship("ServiceSeguranca", backref="service", uselist=False)
 
     def __repr__(self):
         return f"<Service {self.nome}>"
 
-
 # -----------------------------
-# 🚚 Serviço de Transporte (dados específicos)
+# 🚚 Serviço de Transporte (apenas os campos usados)
 # -----------------------------
 class ServiceTransporte(db.Model):
     __tablename__ = 'service_transporte'
@@ -132,51 +131,15 @@ class ServiceTransporte(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'))
 
-    # CAMPOS ESPECÍFICOS DO TRANSPORTE
-    tipo_veiculo = db.Column(db.String(60))           
-    capacidade = db.Column(db.Integer)                 
-    quantidade_passageiros = db.Column(db.Integer)     
-    quantidade_onibus = db.Column(db.Integer)          
-    preco_diaria = db.Column(db.Float)                 
-    data_saida = db.Column(db.Date)                    
-    data_retorno = db.Column(db.Date)                  
-    horario_saida = db.Column(db.Time)                 
-    horario_chegada = db.Column(db.Time)      
+    # CAMPOS ESPECÍFICOS DO TRANSPORTE (somente os que vamos usar)
+    tipo_veiculo = db.Column(db.String(60), nullable=True)
+    quantidade_passageiros = db.Column(db.Integer, nullable=True)
+    preco_diaria = db.Column(db.Float, nullable=True)
 
 
 # -----------------------------
-# 🧼 Serviço de Limpeza (dados específicos)
-# -----------------------------         
-class ServiceLimpeza(db.Model):
-    __tablename__ = 'service_limpeza'
-
-    id = db.Column(db.Integer, primary_key=True)
-    service_id = db.Column(db.Integer, db.ForeignKey('services.id'))
-
-    # CAMPOS ESPECÍFICOS DA LIMPEZA
-    tempo = db.Column(db.String(50))             # Ex: 2h, 1h30
-    ambiente = db.Column(db.String(100))         # Local / área a ser limpa
-    frequencia = db.Column(db.String(50))        # diária, semanal, mensal…
-    periodo = db.Column(db.String(50))           # manhã, tarde, noite ou integral
-
-
-
+# 🚗 Tipos de Veículo
 # -----------------------------
-# 🛡 Serviço de Segurança (dados específicos)
-# -----------------------------
-class ServiceSeguranca(db.Model):
-    __tablename__ = 'service_seguranca'
-
-    id = db.Column(db.Integer, primary_key=True)
-    service_id = db.Column(db.Integer, db.ForeignKey('services.id'))
-
-    # CAMPOS ESPECÍFICOS DA SEGURANÇA
-    data_inicio = db.Column(db.Date)             # Data de início do serviço
-    area_atuacao = db.Column(db.String(100))     # Área ou local de atuação
-    turno = db.Column(db.String(50))             # Manhã, tarde, noite ou integral
-    frequencia = db.Column(db.String(50)) 
-
-
 class TipoVeiculo(db.Model):
     __tablename__ = "tipo_veiculo"
 
