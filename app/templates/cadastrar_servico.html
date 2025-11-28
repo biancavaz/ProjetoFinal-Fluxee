@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Serviço</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_servicos.css') }}">
 </head>
 <body>
 
@@ -42,6 +42,104 @@
                             </div>
                         </div>
 
+    <!-- Campos específicos por categoria (inicialmente ocultos) -->
+
+                        <!-- Transporte -->
+                        <div class="linha-transporte campos-especificos" style="display:none;">
+
+                            <!-- PRIMEIRA LINHA: Nome, Categoria, Qtde Passageiros -->
+                            <div class="linha t-linha-1">
+
+                                <div class="campo qt-passageiros">
+                                    {% include 'componentes/boxs/box_qt_passageiros.html' %}
+                                </div>
+                            </div>
+
+                            <!-- SEGUNDA LINHA: Tipo Veículo, Qtde Ônibus, Preço Diária, Data Saída -->
+                            <div class="linha t-linha-2">
+                                <div class="campo tipo-veiculo">
+                                    {% set label = 'Tipo de Veículo' %}
+                                    {% set name = 'tipo_veiculo' %}
+                                    {% set id = 'tipo_veiculo' %}
+                                    {% set options = [('carro','Carro'),('van','Van'),('onibus','Ônibus'),('microonibus','Micro-ônibus')] %}
+                                    {% include 'componentes/boxs/dropdown_tipo_veiculo.html' %}
+                                </div>
+
+                                <div class="campo qt-onibus">
+                                    {% include 'componentes/boxs/box_qt_onibus.html' %}
+                                </div>
+
+                                <div class="campo preco-diaria">
+                                    {% include 'componentes/boxs/box_preco_diaria.html' %}
+                                </div>
+
+                                <div class="campo data-saida">
+                                    {% include 'componentes/boxs/box_data_saida.html' %}
+                                </div>
+                            </div>
+
+                            <!-- TERCEIRA LINHA: Data Retorno, Horário Saída e Horário Chegada -->
+                            <div class="linha t-linha-3">
+                                <div class="campo data-retorno">
+                                    {% include 'componentes/boxs/box_data_retorno.html' %}
+                                </div>
+
+                                <div class="campo horario-saida">
+                                    {% include 'componentes/boxs/box_horario_saida.html' %}
+                                </div>
+
+                                <div class="campo horario-chegada">
+                                    {% include 'componentes/boxs/box_horario_chegada.html' %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Limpeza -->
+                        <div class="linha-limpeza campos-especificos" style="display:none;">
+                            <div class="campo tempo-limpeza">
+                                {% set label = 'Tempo' %}
+                                {% set name = 'tempo' %}
+                                {% set id = 'tempo' %}
+                                {% set options = [('30min','30 minutos'), ('1h','1 hora'), ('2h','2 horas'), ('personalizado','Personalizado')] %}
+                                {% include 'componentes/boxs/dropdown_tempo.html' %}
+                            </div>
+                            {% include 'componentes/boxs/box_ambiente.html' %}
+                            <div class="campo frequencia-limpeza">
+                                {% set label = 'Frequência' %}
+                                {% set name = 'frequencia_limpeza' %}
+                                {% set id = 'frequencia_limpeza' %}
+                                {% set options = [('diaria','Diária'),('semanal','Semanal'),('quinzenal','Quinzenal'),('mensal','Mensal')] %}
+                                {% include 'componentes/boxs/dropdown_frequencia.html' %}
+                            </div>
+                            <div class="campo periodo-limpeza">
+                                {% set label = 'Período' %}
+                                {% set name = 'periodo' %}
+                                {% set id = 'periodo' %}
+                                {% set options = [('manha','Manhã'),('tarde','Tarde'),('noite','Noite')] %}
+                                {% include 'componentes/boxs/dropdown_periodo.html' %}
+                            </div>
+                        </div>
+
+                        <!-- Segurança -->
+                        <div class="linha-seguranca campos-especificos" style="display:none;">
+                            {% include 'componentes/boxs/box_data_inicio.html' %}
+                            {% include 'componentes/boxs/box_area_atuacao.html' %}
+                            <div class="campo turno-seguranca">
+                                {% set label = 'Turno' %}
+                                {% set name = 'turno' %}
+                                {% set id = 'turno' %}
+                                {% set options = [('manha','Manhã'),('tarde','Tarde'),('noite','Noite'),('madrugada','Madrugada')] %}
+                                {% include 'componentes/boxs/dropdown_turno.html' %}
+                            </div>
+                            <div class="campo frequencia-seguranca">
+                                {% set label = 'Frequência' %}
+                                {% set name = 'frequencia_seguranca' %}
+                                {% set id = 'frequencia_seguranca' %}
+                                {% set options = [('diaria','Diária'),('turnos','Por Turnos'),('escala','Escala Personalizada')] %}
+                                {% include 'componentes/boxs/dropdown_frequencia.html' %}
+                            </div>
+                        </div>
+
                         <!-- Linha 2: Descrição -->
                         <div class="linha-2">
                             <div class="campo descricao-servico">
@@ -50,36 +148,6 @@
                                 {% set id = 'descricao' %}
                                 {% include 'componentes/boxs/box_descricao.html' %}
                             </div>
-                        </div>
-
-                        <!-- Campos específicos por categoria (inicialmente ocultos) -->
-
-                        <!-- Transporte -->
-                        <div class="linha-transporte campos-especificos" style="display:none;">
-                            {% include 'componentes/boxs/box_qt_passageiros.html' %}
-                            {% include 'componentes/boxs/dropdown_tipo_veiculo.html' %}
-                            {% include 'componentes/boxs/box_qt_onibus.html' %}
-                            {% include 'componentes/boxs/box_preco_diaria.html' %}
-                            {% include 'componentes/boxs/box_data_saida.html' %}
-                            {% include 'componentes/boxs/box_data_retorno.html' %}
-                            {% include 'componentes/boxs/box_horario_saida.html' %}
-                            {% include 'componentes/boxs/box_horario_chegada.html' %}
-                        </div>
-
-                        <!-- Limpeza -->
-                        <div class="linha-limpeza campos-especificos" style="display:none;">
-                            {% include 'componentes/boxs/limpeza/box_tempo.html' %}
-                            {% include 'componentes/boxs/limpeza/box_ambiente.html' %}
-                            {% include 'componentes/boxs/limpeza/box_frequencia.html' %}
-                            {% include 'componentes/boxs/limpeza/box_periodo.html' %}
-                        </div>
-
-                        <!-- Segurança -->
-                        <div class="linha-seguranca campos-especificos" style="display:none;">
-                            {% include 'componentes/boxs/seguranca/box_data_inicio.html' %}
-                            {% include 'componentes/boxs/seguranca/box_area_atuacao.html' %}
-                            {% include 'componentes/boxs/seguranca/box_turno.html' %}
-                            {% include 'componentes/boxs/seguranca/box_frequencia.html' %}
                         </div>
 
                         <!-- Botões -->
@@ -100,6 +168,8 @@
 
         </div> <!-- fecha box-branca -->
     </div> <!-- fecha container-produto -->
+
+<script src="{{ url_for('static', filename='js/cadastrar_servicos.js') }}"></script>
 
 </body>
 </html>
