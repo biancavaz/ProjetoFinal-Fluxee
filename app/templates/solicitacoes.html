@@ -9,6 +9,12 @@
 
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
-    
+{% with texto="SOLICITAÇÕES" %}
+        {% include 'componentes/titulos/titulo.html' %}
+    {% endwith %}
+
+    <div class="gestao-botao">
+        {% include 'componentes/botoes/botao_gestao_add_solicitacao.html' %}
+    </div>
 </body>
 </html>

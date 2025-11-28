@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from app import app, db
 from app.forms import UserForm, LoginForm
-from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User
+from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User, Solicitacao
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 
@@ -231,6 +231,62 @@ def adicionar_produto():
         tipos_produto=tipos_produto_dropdown,
         fornecedores=fornecedores_dropdown,
         unidades_medida=unidades_medida_dropdown
+    )
+
+
+
+# -------------------------
+# CADASTRO DE SOLICITACAO
+# -------------------------
+@app.route('/cadastrar-solicitacao', methods=['GET', 'POST'])
+def adicionar_solicitacao():
+    
+    if request.method == 'POST':
+        print(request.form)
+        nome = request.form.get('nome')
+        produto_id = request.form.get('produto_id')
+        quantidade = request.form.get('quantidade')
+        data_entrada_str = request.form.get('data_entrada_str')
+        quantidade = request.form.get('quantidade')
+        finalidade = request.form.get('finalidade')
+
+        # Validar quantidade
+        try:
+            quantidade = int(quantidade)
+        except (ValueError, TypeError):
+            flash("Quantidade inválida.", "danger")
+            return redirect(url_for('adicionar_produto'))
+
+        # Tratar data
+        if data_entrada_str:
+            try:
+                data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            except ValueError:
+                data_entrada = date.today()
+        else:
+            data_entrada = date.today()
+
+
+        produto = Solicitacao(
+            nome=nome,
+            produto_id=produto_id if produto_id else None,
+            data_limite=data_entrada if data_entrada else None,
+            quantidade=quantidade if quantidade else None,
+            finalidade=finalidade if finalidade else None,
+        )
+
+        db.session.add(produto)
+        db.session.commit()
+        flash("Produto cadastrado com sucesso!", "success")
+        return redirect(url_for('adicionar_solicitacao'))
+
+
+    # Converter para listas de tuplas (id, nome) para usar nos dropdowns
+    produtos = [(p.id, p.nome) for p in Produto.query.all()]
+
+    return render_template(
+        'cadastrar_solicitacao.html',
+        produtos=produtos,
     )
 
 
