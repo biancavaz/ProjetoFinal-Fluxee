@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_solicitacoes.css') }}">
 </head>
 <body>
 
@@ -30,11 +30,12 @@
                                 {% include 'componentes/boxs/box_nome_solicitacao.html' %}
                             </div>
 
-                            <div class="quantidade-unid">
-                                <div class="campo quantidade">
-                                    {% include 'componentes/boxs/box_quantidade.html' %}
-                                </div>
-
+                            <div class="campo disciplina">
+                                {% set label = 'Disciplina' %}
+                                {% set name = 'disciplina' %}
+                                {% set id = 'disciplina' %}
+                                {% set options = disciplinas %}
+                                {% include 'componentes/boxs/dropdown_disciplina.html' %}
                             </div>
                         </div>
 
@@ -47,8 +48,17 @@
                                 {% set options = produtos    %}
                                 {% include 'componentes/boxs/dropdown_tipo.html' %}
                             </div>
-                            <div class="campo data-entrada">
+
+                             
+                            <div class="campoData-entrada">
                                 {% include 'componentes/boxs/box_data_entrada.html' %}
+                            </div>
+
+                            <div class="quantidade-unid">
+                                <div class="campo quantidade">
+                                    {% include 'componentes/boxs/box_quantidade.html' %}
+                                </div>
+
                             </div>
                         </div>
 

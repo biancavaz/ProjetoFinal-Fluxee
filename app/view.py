@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from app import app, db
 from app.forms import UserForm, LoginForm
-from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSeguranca, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao
+from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSeguranca, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
@@ -245,10 +245,10 @@ def adicionar_solicitacao():
     if request.method == 'POST':
         print(request.form)
         nome = request.form.get('nome')
+        disciplina = request.form.get('disciplina')  # <-- captura o dropdown disciplina
         produto_id = request.form.get('produto_id')
         quantidade = request.form.get('quantidade')
         data_entrada_str = request.form.get('data_entrada_str')
-        quantidade = request.form.get('quantidade')
         finalidade = request.form.get('finalidade')
 
         # Validar quantidade
@@ -256,7 +256,7 @@ def adicionar_solicitacao():
             quantidade = int(quantidade)
         except (ValueError, TypeError):
             flash("Quantidade inválida.", "danger")
-            return redirect(url_for('adicionar_produto'))
+            return redirect(url_for('adicionar_solicitacao'))
 
         # Tratar data
         if data_entrada_str:
@@ -268,26 +268,29 @@ def adicionar_solicitacao():
             data_entrada = date.today()
 
 
-        produto = Solicitacao(
+        solicitacao = Solicitacao(
             nome=nome,
+            disciplina=disciplina if disciplina else None,  # <-- adiciona disciplina
             produto_id=produto_id if produto_id else None,
             data_limite=data_entrada if data_entrada else None,
             quantidade=quantidade if quantidade else None,
             finalidade=finalidade if finalidade else None,
         )
 
-        db.session.add(produto)
+        db.session.add(solicitacao)
         db.session.commit()
-        flash("Produto cadastrado com sucesso!", "success")
+        flash("Solicitação cadastrada com sucesso!", "success")
         return redirect(url_for('adicionar_solicitacao'))
 
 
     # Converter para listas de tuplas (id, nome) para usar nos dropdowns
     produtos = [(p.id, p.nome) for p in Produto.query.all()]
+    disciplinas = [(d.id, d.nome) for d in Disciplina.query.all()]  # <-- lista de disciplinas para o dropdown
 
     return render_template(
         'cadastrar_solicitacao.html',
         produtos=produtos,
+        disciplinas=disciplinas,  # <-- passa para o template
     )
 
 

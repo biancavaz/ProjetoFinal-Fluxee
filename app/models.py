@@ -81,6 +81,11 @@ class Solicitacao(db.Model):
     __tablename__ = 'solicitacao'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(200), nullable=False)
+    
+    # Chave estrangeira para disciplina
+    disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=True)
+    disciplina = db.relationship('Disciplina', backref=db.backref('solicitacoes', lazy=True))
+    
     produto_id = db.Column(db.Integer, db.ForeignKey("produto.id"))
     quantidade = db.Column(db.Integer)
     data_limite = db.Column(db.Date)
@@ -89,6 +94,14 @@ class Solicitacao(db.Model):
     def __repr__(self):
         return f'<Solicitacao {self.nome}>'
     
+
+class Disciplina(db.Model):
+    __tablename__ = 'disciplina'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(200), nullable=False, unique=True)
+
+    def __repr__(self):
+        return f'<Disciplina {self.nome}>'
 
 # -----------------------------
 # 🟧 Modelo base (apenas dados gerais)
