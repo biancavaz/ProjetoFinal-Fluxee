@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import TipoProduto, Fornecedor, UnidadeMedida
+from app.models import TipoProduto, Fornecedor, TipoVeiculo, UnidadeMedida
 
 # Criar o contexto da aplicação
 with app.app_context():
@@ -26,6 +26,15 @@ with app.app_context():
             UnidadeMedida(nome="L"),
             UnidadeMedida(nome="ML")
         ])
+        
+    if not TipoVeiculo.query.first():
+        db.session.add_all([
+            TipoVeiculo(nome="Carro"),
+            TipoVeiculo(nome="Van"),
+            TipoVeiculo(nome="Ônibus"),
+            TipoVeiculo(nome="Micro-ônibus")
+        ])
+
 
     db.session.commit()
     print("Valores padrões inseridos com sucesso!")

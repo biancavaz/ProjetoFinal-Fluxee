@@ -162,3 +162,10 @@ class ServiceSeguranca(db.Model):
     area_atuacao = db.Column(db.String(100))     # Área ou local de atuação
     turno = db.Column(db.String(50))             # Manhã, tarde, noite ou integral
     frequencia = db.Column(db.String(50)) 
+
+
+class TipoVeiculo(db.Model):
+    __tablename__ = "tipo_veiculo"
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)

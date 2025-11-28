@@ -4,7 +4,11 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from app import app, db
 from app.forms import UserForm, LoginForm
+<<<<<<< Updated upstream
 from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User, Solicitacao
+=======
+from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSeguranca, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User
+>>>>>>> Stashed changes
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 
@@ -295,9 +299,111 @@ def adicionar_solicitacao():
 # CADASTRO DE SERVIÇO
 # -------------------------
 @app.route('/cadastrar-servico', methods=['GET', 'POST'])
-def adicionar_servico():
-   return render_template('cadastrar_servico.html')
+def cadastrar_servico():
 
+    if request.method == 'POST':
+
+        # -------------------------
+        # CAMPOS GERAIS DO SERVICE
+        # -------------------------
+        nome = request.form.get('nome')
+        categoria = request.form.get('categoria')   # transporte / limpeza / seguranca
+        descricao = request.form.get('descricao')
+
+        # Criar a entrada na tabela base
+        service = Service(
+            nome=nome,
+            categoria=categoria,
+            descricao=descricao
+        )
+        db.session.add(service)
+        db.session.flush()   # pega o ID antes do commit
+
+
+        # ===========================================
+        # 🚚 CATEGORIA: TRANSPORTE
+        # ===========================================
+        if categoria == "transporte":
+
+            transporte = ServiceTransporte(
+                service_id=service.id,
+
+                tipo_veiculo = request.form.get('tipo_veiculo'),
+                capacidade = request.form.get('capacidade') or None,
+                quantidade_passageiros = request.form.get('quantidade_passageiros') or None,
+                quantidade_onibus = request.form.get('quantidade_onibus') or None,
+                preco_diaria = request.form.get('preco_diaria') or None,
+
+                data_saida = datetime.strptime(
+                    request.form.get('data_saida'), "%Y-%m-%d"
+                ).date() if request.form.get('data_saida') else None,
+
+                data_retorno = datetime.strptime(
+                    request.form.get('data_retorno'), "%Y-%m-%d"
+                ).date() if request.form.get('data_retorno') else None,
+
+                horario_saida = datetime.strptime(
+                    request.form.get('horario_saida'), "%H:%M"
+                ).time() if request.form.get('horario_saida') else None,
+
+                horario_chegada = datetime.strptime(
+                    request.form.get('horario_chegada'), "%H:%M"
+                ).time() if request.form.get('horario_chegada') else None,
+            )
+
+            db.session.add(transporte)
+
+
+        # ===========================================
+        # 🧼 CATEGORIA: LIMPEZA
+        # ===========================================
+        elif categoria == "limpeza":
+
+            limpeza = ServiceLimpeza(
+                service_id=service.id,
+
+                tempo = request.form.get('tempo'),
+                ambiente = request.form.get('ambiente'),
+                frequencia = request.form.get('frequencia'),
+                periodo = request.form.get('periodo'),
+            )
+
+            db.session.add(limpeza)
+
+
+        # ===========================================
+        # 🛡 CATEGORIA: SEGURANÇA
+        # ===========================================
+        elif categoria == "seguranca":
+
+            seguranca = ServiceSeguranca(
+                service_id=service.id,
+
+                data_inicio = datetime.strptime(
+                    request.form.get('data_inicio'), "%Y-%m-%d"
+                ).date() if request.form.get('data_inicio') else None,
+
+                area_atuacao = request.form.get('area_atuacao'),
+                turno = request.form.get('turno'),
+                frequencia = request.form.get('frequencia'),
+            )
+
+            db.session.add(seguranca)
+
+
+        # SALVAR TUDO
+        db.session.commit()
+        flash("Serviço cadastrado com sucesso!", "success")
+        return redirect(url_for('cadastrar_servico'))
+
+
+    # GET — carregar dropdowns
+    tipos_veiculo = TipoVeiculo.query.all()
+
+    return render_template(
+        'cadastrar_servico.html',
+        tipos_veiculo=tipos_veiculo
+    )
 
 
 # -------------------------
