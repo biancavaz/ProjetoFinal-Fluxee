@@ -4,11 +4,8 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from app import app, db
 from app.forms import UserForm, LoginForm
-<<<<<<< Updated upstream
-from app.models import Fornecedor, Produto, TipoProduto, UnidadeMedida, User, Solicitacao
-=======
-from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSeguranca, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User
->>>>>>> Stashed changes
+from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSeguranca, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao
+
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 
