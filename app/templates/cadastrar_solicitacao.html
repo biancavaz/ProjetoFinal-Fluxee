@@ -88,6 +88,17 @@
 
         </div>
 
+        {% if erros %}
+            <div class="erros-form" style="color:red; margin-bottom: 20px;">
+                <ul>
+                {% for erro in erros %}
+                    <li>{{ erro }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+
     </div> <!-- fecha .container-produto -->
 
 <script src="{{ url_for('static', filename='js/cadastrar_solicitacao.js') }}"></script>

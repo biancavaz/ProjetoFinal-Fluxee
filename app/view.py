@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from email.utils import parsedate
 import os
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
@@ -8,6 +9,7 @@ from app.models import Fornecedor, Produto, Service, ServiceLimpeza, ServiceSegu
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
+from sqlalchemy import func
 
 
 # Configurar pasta de upload
@@ -142,7 +144,7 @@ def solicitacoes():
 
     return render_template('solicitacoes.html')
 
-from sqlalchemy import func
+
 @app.route('/dashboard/')
 @login_required
 def dashboard():
@@ -300,110 +302,97 @@ def adicionar_solicitacao():
 # -------------------------
 @app.route('/cadastrar-servico', methods=['GET', 'POST'])
 def cadastrar_servico():
+    tipos_veiculo = TipoVeiculo.query.all()  # para render_template em GET ou se houver erros
 
     if request.method == 'POST':
-
-        # -------------------------
-        # CAMPOS GERAIS DO SERVICE
-        # -------------------------
+        # 1️⃣ Pega os dados do formulário
         nome = request.form.get('nome')
-        categoria = request.form.get('categoria')   # transporte / limpeza / seguranca
+        categoria = request.form.get('categoria')
         descricao = request.form.get('descricao')
 
-        # Criar a entrada na tabela base
+        # 2️⃣ Validação completa
+        erros = []
+
+        # ======================
+        # Validação campos base
+        # ======================
+        if not nome:
+            erros.append("O nome do serviço é obrigatório.")
+        if not categoria:
+            erros.append("Você deve escolher uma categoria.")
+        if categoria not in ['transporte', 'limpeza', 'seguranca']:
+            erros.append("Categoria inválida.")
+        if not descricao:
+            erros.append("A descrição é obrigatória.")
+
+        # Campos específicos...
+        if categoria == 'transporte':
+            if not request.form.get('tipo_veiculo'):
+                erros.append("O tipo de veículo é obrigatório.")
+            if not request.form.get('capacidade'):
+                erros.append("A capacidade do veículo é obrigatória.")
+            if not request.form.get('quantidade_passageiros'):
+                erros.append("A quantidade de passageiros é obrigatória.")
+            if not request.form.get('quantidade_onibus'):
+                erros.append("A quantidade de ônibus é obrigatória.")
+            if not request.form.get('preco_diaria'):
+                erros.append("O preço da diária é obrigatório.")
+            if not request.form.get('data_saida'):
+                erros.append("A data de saída é obrigatória.")
+            if not request.form.get('data_retorno'):
+                erros.append("A data de retorno é obrigatória.")
+            if not request.form.get('horario_saida'):
+                erros.append("O horário de saída é obrigatório.")
+            if not request.form.get('horario_chegada'):
+                erros.append("O horário de chegada é obrigatório.")
+
+        elif categoria == 'limpeza':
+            if not request.form.get('tempo'):
+                erros.append("O tempo de limpeza é obrigatório.")
+            if not request.form.get('ambiente'):
+                erros.append("O ambiente é obrigatório.")
+            if not request.form.get('frequencia_limpeza'):
+                erros.append("A frequência é obrigatória.")
+            if not request.form.get('periodo'):
+                erros.append("O período é obrigatório.")
+
+        elif categoria == 'seguranca':
+            if not request.form.get('data_inicio'):
+                erros.append("A data de início é obrigatória.")
+            if not request.form.get('area_atuacao'):
+                erros.append("A área de atuação é obrigatória.")
+            if not request.form.get('turno'):
+                erros.append("O turno é obrigatório.")
+            if not request.form.get('frequencia_seguranca'):
+                erros.append("A frequência é obrigatória.")
+
+        # 3️⃣ Se houver erros, retorna o template
+        if erros:
+            return render_template(
+                'cadastrar_servico.html',
+                erros=erros,
+                form=request.form,
+                tipos_veiculo=tipos_veiculo
+            )
+
+        # 4️⃣ Se não houver erros, cria o Service e a categoria
         service = Service(
             nome=nome,
             categoria=categoria,
             descricao=descricao
         )
         db.session.add(service)
-        db.session.flush()   # pega o ID antes do commit
+        db.session.flush()  # pega o ID antes do commit
 
+        # Criar registro da categoria (transporte, limpeza ou segurança)...
+        # <Seu código de criação de categoria aqui>
 
-        # ===========================================
-        # 🚚 CATEGORIA: TRANSPORTE
-        # ===========================================
-        if categoria == "transporte":
-
-            transporte = ServiceTransporte(
-                service_id=service.id,
-
-                tipo_veiculo = request.form.get('tipo_veiculo'),
-                capacidade = request.form.get('capacidade') or None,
-                quantidade_passageiros = request.form.get('quantidade_passageiros') or None,
-                quantidade_onibus = request.form.get('quantidade_onibus') or None,
-                preco_diaria = request.form.get('preco_diaria') or None,
-
-                data_saida = datetime.strptime(
-                    request.form.get('data_saida'), "%Y-%m-%d"
-                ).date() if request.form.get('data_saida') else None,
-
-                data_retorno = datetime.strptime(
-                    request.form.get('data_retorno'), "%Y-%m-%d"
-                ).date() if request.form.get('data_retorno') else None,
-
-                horario_saida = datetime.strptime(
-                    request.form.get('horario_saida'), "%H:%M"
-                ).time() if request.form.get('horario_saida') else None,
-
-                horario_chegada = datetime.strptime(
-                    request.form.get('horario_chegada'), "%H:%M"
-                ).time() if request.form.get('horario_chegada') else None,
-            )
-
-            db.session.add(transporte)
-
-
-        # ===========================================
-        # 🧼 CATEGORIA: LIMPEZA
-        # ===========================================
-        elif categoria == "limpeza":
-
-            limpeza = ServiceLimpeza(
-                service_id=service.id,
-
-                tempo = request.form.get('tempo'),
-                ambiente = request.form.get('ambiente'),
-                frequencia = request.form.get('frequencia'),
-                periodo = request.form.get('periodo'),
-            )
-
-            db.session.add(limpeza)
-
-
-        # ===========================================
-        # 🛡 CATEGORIA: SEGURANÇA
-        # ===========================================
-        elif categoria == "seguranca":
-
-            seguranca = ServiceSeguranca(
-                service_id=service.id,
-
-                data_inicio = datetime.strptime(
-                    request.form.get('data_inicio'), "%Y-%m-%d"
-                ).date() if request.form.get('data_inicio') else None,
-
-                area_atuacao = request.form.get('area_atuacao'),
-                turno = request.form.get('turno'),
-                frequencia = request.form.get('frequencia'),
-            )
-
-            db.session.add(seguranca)
-
-
-        # SALVAR TUDO
         db.session.commit()
         flash("Serviço cadastrado com sucesso!", "success")
         return redirect(url_for('cadastrar_servico'))
 
-
-    # GET — carregar dropdowns
-    tipos_veiculo = TipoVeiculo.query.all()
-
-    return render_template(
-        'cadastrar_servico.html',
-        tipos_veiculo=tipos_veiculo
-    )
+    # GET
+    return render_template('cadastrar_servico.html', tipos_veiculo=tipos_veiculo)
 
 
 # -------------------------
