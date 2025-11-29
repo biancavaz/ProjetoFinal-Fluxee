@@ -307,6 +307,7 @@ def cadastrar_servico():
     tipos_veiculo = TipoVeiculo.query.all()
 
     if request.method == 'POST':
+        print(request.form)
         # 1️⃣ Pega os dados do formulário
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
@@ -333,6 +334,7 @@ def cadastrar_servico():
             erros.append("O preço da diária é obrigatório.")
 
         if erros:
+            print(erros)
             return render_template(
                 'cadastrar_servico.html',
                 erros=erros,

@@ -53,10 +53,16 @@
                                 </div>
 
                                 <div class="campo qt-onibus">
+                                    {% set name = 'quantidade_passageiros' %}
+                                    {% set id = 'quantidade_passageiros' %}
+                                    {% set disabled = true %}
                                     {% include 'componentes/boxs/box_qt_onibus.html' %}
                                 </div>
 
                                 <div class="campo preco-diaria">
+                                    {% set name = 'preco_diaria' %}
+                                    {% set id = 'preco_diaria' %}
+                                    {% set disabled = true %}
                                     {% include 'componentes/boxs/box_preco_diaria.html' %}
                                 </div>
                             </div>
