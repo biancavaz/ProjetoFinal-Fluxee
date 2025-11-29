@@ -326,12 +326,16 @@ def cadastrar_servico():
             erros.append("A categoria é obrigatória.")
         if not descricao:
             erros.append("A descrição é obrigatória.")
-        if not tipo_veiculo:
-            erros.append("O tipo de veículo é obrigatório.")
-        if not quantidade_passageiros:
-            erros.append("A quantidade de passageiros é obrigatória.")
-        if not preco_diaria:
-            erros.append("O preço da diária é obrigatório.")
+
+        if categoria == "transporte":
+            if not tipo_veiculo:
+                erros.append("O tipo de veículo é obrigatório.")
+            if not quantidade_passageiros:
+                erros.append("A quantidade de passageiros é obrigatória.")
+            if not preco_diaria:
+                erros.append("O preço da diária é obrigatório.")
+        # else: 
+        # Adicionar validações para outras categorias aqui, se houver
 
         if erros:
             print(erros)
