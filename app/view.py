@@ -9,7 +9,7 @@ from app.models import Fornecedor, Produto, Service,  ServiceTransporte, TipoPro
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from sqlalchemy import func
+from sqlalchemy import func, inspect
 
 
 # Configurar pasta de upload
@@ -142,8 +142,8 @@ def movimentacoes():
 @app.route('/solicitacoes/')
 @login_required
 def solicitacoes():
-
-    return render_template('solicitacoes.html')
+    solicitacoes = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).all()
+    return render_template('solicitacoes.html', solicitacoes=solicitacoes)
 
 
 @app.route('/dashboard/')
@@ -307,7 +307,6 @@ def adicionar_solicitacao():
     # Converter para listas de tuplas (id, nome) para usar nos dropdowns
     produtos = [(p.id, p.nome) for p in Produto.query.all()]
     disciplinas = [(d.id, d.nome) for d in Disciplina.query.all()]  # <-- lista de disciplinas para o dropdown
-
     return render_template(
         'cadastrar_solicitacao.html',
         produtos=produtos,

@@ -76,7 +76,14 @@ class Produto(db.Model):
     def __repr__(self):
         return f'<Produto {self.nome}>'
     
+class Disciplina(db.Model):
+    __tablename__ = 'disciplina'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(200), nullable=False, unique=True)
 
+    def __repr__(self):
+        return f'<Disciplina {self.nome}>'
+    
 class Solicitacao(db.Model):
     __tablename__ = 'solicitacao'
     id = db.Column(db.Integer, primary_key=True)
@@ -87,21 +94,17 @@ class Solicitacao(db.Model):
     disciplina = db.relationship('Disciplina', backref=db.backref('solicitacoes', lazy=True))
     
     produto_id = db.Column(db.Integer, db.ForeignKey("produto.id"))
+    produto = db.relationship('Produto', backref='solicitacoes', lazy=True)
     quantidade = db.Column(db.Integer)
     data_limite = db.Column(db.Date)
     finalidade = db.Column(db.Text)
+    status = db.Column(db.String(50), nullable=False, default="Aguardando")
 
     def __repr__(self):
         return f'<Solicitacao {self.nome}>'
     
 
-class Disciplina(db.Model):
-    __tablename__ = 'disciplina'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(200), nullable=False, unique=True)
 
-    def __repr__(self):
-        return f'<Disciplina {self.nome}>'
 
 
 

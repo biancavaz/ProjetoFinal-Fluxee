@@ -1,0 +1,17 @@
+<div class="solicitacao-card">
+    <div class="header">
+        <span class="id-solicitacao">Solicitação {{ solicitacao.id }}</span>
+        <span class="status {{ solicitacao.status | lower }}">{{ solicitacao.status }}</span>
+    </div>
+    <div class="content">
+        <p class="nome-solicitacao">{{ solicitacao.nome }}</p>
+        <div class="descricao-solicitacao">
+            <p class="label">descrição</p>
+            <p>{{ solicitacao.finalidade }}</p>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="btn-cancelar">Cancelar</button>
+        <button class="btn-aceitar">Aceitar</button>
+    </div>
+</div>
