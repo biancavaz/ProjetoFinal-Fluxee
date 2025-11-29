@@ -62,7 +62,7 @@
         <div class="modal-conteudo">
 
             <span class="fechar">&times;</span>
-            
+
             <h3 id="modal-titulo">Solicitar Serviço</h3>
 
             <form id="form-solicitar" method="POST" action="{{ url_for('gestao_servico') }}">
@@ -88,7 +88,11 @@
                     {% include 'componentes/boxs/box_area_atuacao.html' %}
                     {% include 'componentes/boxs/dropdown_turno.html' %}
                 </div>
-                <button type="submit">Enviar Solicitação</button>
+
+                {% with texto="Enviar Solicitação" %}
+                    {% include 'componentes/botoes/botao_solicitar.html' %}
+                {% endwith %}
+
             </form>
         </div>
     </div>
