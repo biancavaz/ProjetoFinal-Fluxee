@@ -105,9 +105,10 @@ def gestao():
 
 
 @app.route('/gestao_servico/')
-@login_required
 def gestao_servico():
-    return render_template('gestao_servico.html')
+    servicos = Service.query.all()  # pega todos os serviços do banco
+    return render_template('gestao_servico.html', servicos=servicos)
+
 
 
 @app.route('/produto/editar/<int:id>')

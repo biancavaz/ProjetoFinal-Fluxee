@@ -675,3 +675,69 @@ a.card {
 }
 
 
+
+
+
+
+
+.modal {
+    display: none; /* escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* sombra */
+}
+
+.modal-conteudo {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%; /* ou outro tamanho */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-conteudo {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    position: relative; /* ESSENCIAL para o X */
+}
+
+/* X para fechar modal */
+.fechar {
+    position: absolute; /* necessário */
+    top: 10px;          /* distância do topo do modal */
+    right: 35px;        /* distância da direita do modal */
+    font-size: 42px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    z-index: 10;        /* garante que fique acima de tudo */
+}
+
+.fechar:hover {
+    color: rgb(124, 124, 124);
+}
+
+
+.categoria {
+    display: none; /* todas começam escondidas */
+}
