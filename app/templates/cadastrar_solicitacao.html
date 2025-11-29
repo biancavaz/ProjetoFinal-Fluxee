@@ -43,19 +43,23 @@
                         <div class="linha-2">
                             <div class="campo tipo-produto">
                                 {% set label = 'Tipo de Produto' %}
-                                {% set name = 'tipo' %}
-                                {% set id = 'tipo' %}
+                                {% set name = 'produto_id' %}
+                                {% set id = 'produto_id' %}
                                 {% set options = produtos    %}
                                 {% include 'componentes/boxs/dropdown_tipo.html' %}
                             </div>
 
                              
                             <div class="campoData-entrada">
+                                {% set name = 'data_entrada_str' %}
+                                {% set id = 'data_entrada_str' %}
                                 {% include 'componentes/boxs/box_data_entrada.html' %}
                             </div>
 
                             <div class="quantidade-unid">
                                 <div class="campo quantidade">
+                                    {% set name = 'quantidade' %}
+                                    {% set id = 'quantidade' %}
                                     {% include 'componentes/boxs/box_quantidade.html' %}
                                 </div>
 
@@ -64,6 +68,8 @@
 
                         <div class="linha-3">
                             <div class="campo finalidade">
+                                {% set name = 'finalidade' %}
+                                {% set id = 'finalidade' %}
                                 {% include 'componentes/boxs/box_finalidade.html' %}
                             </div>
                         </div>

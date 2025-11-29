@@ -89,7 +89,7 @@ class Solicitacao(db.Model):
     produto_id = db.Column(db.Integer, db.ForeignKey("produto.id"))
     quantidade = db.Column(db.Integer)
     data_limite = db.Column(db.Date)
-    finalidade = db.Column(db.Date)
+    finalidade = db.Column(db.Text)
 
     def __repr__(self):
         return f'<Solicitacao {self.nome}>'

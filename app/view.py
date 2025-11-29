@@ -254,6 +254,24 @@ def adicionar_solicitacao():
         data_entrada_str = request.form.get('data_entrada_str')
         finalidade = request.form.get('finalidade')
 
+        # Validar e converter produto_id
+        produto_id_int = None
+        if produto_id:
+            try:
+                produto_id_int = int(produto_id)
+            except ValueError:
+                flash("ID do produto inválido.", "danger")
+                return redirect(url_for('adicionar_solicitacao'))
+
+        # Validar e converter disciplin-id
+        disciplin_id_int = None
+        if disciplina:
+            try:
+                disciplin_id_int = int(disciplina)
+            except ValueError:
+                flash("ID da disciplina inválido.", "danger")
+                return redirect(url_for('adicionar_solicitacao'))
+
         # Validar quantidade
         try:
             quantidade = int(quantidade)
@@ -273,8 +291,8 @@ def adicionar_solicitacao():
 
         solicitacao = Solicitacao(
             nome=nome,
-            disciplina=disciplina if disciplina else None,  # <-- adiciona disciplina
-            produto_id=produto_id if produto_id else None,
+            disciplina_id=disciplin_id_int,  # <-- Passa o ID inteiro
+            produto_id=produto_id_int,  # <-- Passa o ID inteiro
             data_limite=data_entrada if data_entrada else None,
             quantidade=quantidade if quantidade else None,
             finalidade=finalidade if finalidade else None,
