@@ -726,7 +726,7 @@ a.card {
     position: absolute; /* necessário */
     top: 10px;          /* distância do topo do modal */
     right: 35px;        /* distância da direita do modal */
-    font-size: 42px;
+    font-size: px;
     font-weight: bold;
     cursor: pointer;
     color: black;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gestao_servicos.css') }}">
 </head>
 <body>
 
@@ -34,7 +34,7 @@
                 <div class="gestao-cabecalho">
                     <span class="coluna-produto">SERVIÇO</span>
                     <span class="coluna-categoria">CATEGORIA</span>
-                    <span class="coluna-acao">AÇÃO</span>
+                    <span class="coluna-descricao">DESCRIÇÃO</span>
                 </div>
 
                 <!-- Linhas dinâmicas -->
@@ -42,6 +42,7 @@
                     <div class="gestao-linha linha-dinamica">
                         <span class="linha-produto">{{ s.nome }}</span>
                         <span class="linha-categoria">{{ s.categoria }}</span>
+                        <span class="linha-descricao">{{ s.descricao }}</span>
                         <span class="linha-acao">
                             <button class="btn-solicitar" 
                                     data-categoria="{{ s.categoria }}" 
