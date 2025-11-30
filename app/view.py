@@ -111,11 +111,77 @@ def gestao_servico():
 
 
 
-@app.route('/produto/editar/<int:id>')
+@app.route('/produto/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_produto(id):
     produto = Produto.query.get_or_404(id)
-    return render_template('editar_produto.html', produto=produto)
+    tipos_produto = TipoProduto.query.all()
+    fornecedores = Fornecedor.query.all()
+    unidades_medida = UnidadeMedida.query.all()
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        tipo_id = request.form.get('tipo')
+        fornecedor_id = request.form.get('fornecedor')
+        unidade_id = request.form.get('unidade_medida')
+        quantidade = request.form.get('quantidade')
+        data_entrada_str = request.form.get('data_entrada')
+
+        # Validar quantidade
+        try:
+            quantidade = int(quantidade)
+        except (ValueError, TypeError):
+            flash("Quantidade inválida.", "danger")
+            return redirect(url_for('editar_produto', id=id))
+
+        # Tratar data
+        if data_entrada_str:
+            try:
+                data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            except ValueError:
+                data_entrada = date.today()
+        else:
+            data_entrada = date.today()
+
+        # Upload de imagem (opcional)
+        arquivo = request.files.get('imagem')
+        nome_arquivo = produto.imagem  # manter imagem atual por padrão
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'produtos')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+        if arquivo and arquivo.filename != '':
+            nome_arquivo = secure_filename(arquivo.filename)
+            caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_arquivo)
+            arquivo.save(caminho_imagem)
+
+        # Atualizar produto
+        produto.nome = nome
+        produto.tipo_id = tipo_id if tipo_id else None
+        produto.fornecedor_id = fornecedor_id if fornecedor_id else None
+        produto.unidade_medida_id = unidade_id if unidade_id else None
+        produto.quantidade = quantidade
+        produto.data_entrada = data_entrada
+        produto.imagem = nome_arquivo
+
+        try:
+            db.session.commit()
+            flash("Produto atualizado com sucesso!", "success")
+            return redirect(url_for('gestao'))
+        except Exception as e:
+            db.session.rollback()
+            flash("Erro ao atualizar produto.", "danger")
+            return redirect(url_for('editar_produto', id=id))
+
+    # Converter para listas de tuplas (id, nome) para usar nos dropdowns
+    tipos_produto_dropdown = [(t.id, t.nome) for t in tipos_produto]
+    fornecedores_dropdown = [(f.id, f.nome) for f in fornecedores]
+    unidades_medida_dropdown = [(u.id, u.nome) for u in unidades_medida]
+
+    return render_template('editar_produto.html',
+                         produto=produto,
+                         tipos_produto=tipos_produto_dropdown,
+                         fornecedores=fornecedores_dropdown,
+                         unidades_medida=unidades_medida_dropdown)
 
 
 @app.route('/produto/deletar/<int:id>')
