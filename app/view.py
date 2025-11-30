@@ -229,7 +229,26 @@ def dashboard():
     tot_servico = 0
     tot_solicitacao = 0
 
-    return render_template('dashboard.html', tipo_counts=tipo_counts, tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao})
+    # Obter todos os usuários (professores e outros, para a lista)
+    all_users = User.query.all()
+
+    # Obter solicitações por professor
+    # Usar 'User.nome' para agrupar e contar solicitações de cada professor
+    solicitations_by_prof = db.session.query(
+        Solicitacao.nome.label('professor_name'), # Usar Solicitacao.nome para o nome do professor/solicitante
+        func.count(Solicitacao.id).label('solicitation_count')
+    ).group_by(Solicitacao.nome).all()
+
+    # Formatar dados para o Chart.js
+    prof_labels = [s.professor_name for s in solicitations_by_prof]
+    prof_data = [s.solicitation_count for s in solicitations_by_prof]
+
+    return render_template('dashboard.html', 
+                           tipo_counts=tipo_counts, 
+                           tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao},
+                           all_users=all_users,  # Passar todos os usuários para o template
+                           prof_labels=prof_labels,  # Passar labels para o gráfico de barras
+                           prof_data=prof_data)
 
 # -------------------------
 # CADASTRO DE PRODUTO
@@ -477,11 +496,63 @@ def usuarios():
 
 
 # Editar usuário
-@app.route('/usuarios/editar/<int:id>')
+@app.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_usuario(id):
     usuario = User.query.get_or_404(id)
-    return render_template('editar_usuario.html', usuario=usuario)
+    generos = ["Masculino", "Feminino", "Outro", "Prefiro não informar"]
+    tipos_usuario = ["Administrador", "Almoxarife", "Professor/Representante de sala", "terceiro"]
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data_nascimento_str = request.form.get('data_nascimento')
+        genero = request.form.get('genero')
+        email = request.form.get('email')
+        cpf = request.form.get('cpf')
+        telefone = request.form.get('telefone')
+        tipo_usuario = request.form.get('tipo_usuario')
+
+        # Converter data
+        try:
+            data_nascimento = datetime.strptime(data_nascimento_str, '%Y-%m-%d').date()
+        except:
+            data_nascimento = None
+
+        # Upload de imagem (opcional)
+        imagem_file = request.files.get('imagem_perfil')
+        nome_imagem = usuario.imagem_perfil  # manter imagem atual por padrão
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'usuarios')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+        if imagem_file and imagem_file.filename != '':
+            nome_seguro = secure_filename(imagem_file.filename)
+            caminho_completo = os.path.join(UPLOAD_FOLDER, nome_seguro)
+            imagem_file.save(caminho_completo)
+            nome_imagem = nome_seguro
+
+        # Atualizar usuário
+        usuario.nome = nome
+        usuario.data_nascimento = data_nascimento
+        usuario.genero = genero
+        usuario.email = email
+        usuario.cpf = cpf
+        usuario.telefone = telefone
+        usuario.tipo_usuario = tipo_usuario
+        usuario.imagem_perfil = nome_imagem
+
+        try:
+            db.session.commit()
+            flash("Usuário atualizado com sucesso!", "success")
+            return redirect(url_for('usuarios'))
+        except Exception as e:
+            db.session.rollback()
+            flash("Erro ao atualizar usuário.", "danger")
+            return redirect(url_for('editar_usuario', id=id))
+
+    return render_template('editar_usuario.html',
+                         usuario=usuario,
+                         generos=generos,
+                         tipos_usuario=tipos_usuario)
 
 
 # Deletar usuário

@@ -93,6 +93,10 @@ class Solicitacao(db.Model):
     disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=True)
     disciplina = db.relationship('Disciplina', backref=db.backref('solicitacoes', lazy=True))
     
+    # Chave estrangeira para o usuário que fez a solicitação
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('solicitacoes', lazy=True))
+
     produto_id = db.Column(db.Integer, db.ForeignKey("produto.id"))
     produto = db.relationship('Produto', backref='solicitacoes', lazy=True)
     quantidade = db.Column(db.Integer)
