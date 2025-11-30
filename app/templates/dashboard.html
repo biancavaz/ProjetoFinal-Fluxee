@@ -177,7 +177,9 @@
             
             <div class="users-section">
                 <h3>Usuários do sistema</h3>
+                <div style="max-height: 300px; overflow-y: auto;">
                 {% for user in all_users %}
+                
                 <div class="user-item">
                     <div class="user-avatar">
                         {% if user.imagem_perfil %}
@@ -192,6 +194,7 @@
                     </div>
                 </div>
                 {% endfor %}
+                </div>
             </div>
             <div class="chart-container-bar">
                 <h3>Solicitações por prof</h3>
