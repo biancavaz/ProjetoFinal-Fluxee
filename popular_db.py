@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import TipoProduto, Fornecedor, TipoVeiculo, UnidadeMedida
+from app.models import Disciplina, TipoProduto, Fornecedor, TipoVeiculo, UnidadeMedida
 
 # Criar o contexto da aplicação
 with app.app_context():
@@ -8,6 +8,7 @@ with app.app_context():
     if not TipoProduto.query.first():
         db.session.add_all([
             TipoProduto(nome="material escolar"),
+            TipoProduto(nome="Limpeza")
         ])
 
     if not Fornecedor.query.first():
@@ -19,20 +20,23 @@ with app.app_context():
 
     if not UnidadeMedida.query.first():
         db.session.add_all([
-            UnidadeMedida(nome="KG"),
-            UnidadeMedida(nome="UN"),
-            UnidadeMedida(nome="G"),
-            UnidadeMedida(nome="CM"),
-            UnidadeMedida(nome="L"),
-            UnidadeMedida(nome="ML")
+            UnidadeMedida(nome="UNIDADE"),
+            UnidadeMedida(nome="PACOTE")
         ])
         
     if not TipoVeiculo.query.first():
         db.session.add_all([
-            TipoVeiculo(nome="Carro"),
             TipoVeiculo(nome="Van"),
             TipoVeiculo(nome="Ônibus"),
             TipoVeiculo(nome="Micro-ônibus")
+        ])
+    if not Disciplina.query.first():
+        db.session.add_all([
+            Disciplina(nome="Matemática"),
+            Disciplina(nome="Linguages"),
+            Disciplina(nome="Ciências Humanas"),
+            Disciplina(nome="Ciências da Natureza"),
+            Disciplina(nome="Técnico"),
         ])
 
 
