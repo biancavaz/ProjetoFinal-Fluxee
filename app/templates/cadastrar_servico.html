@@ -52,21 +52,23 @@
                                     {% include 'componentes/boxs/dropdown_tipo_veiculo.html' %}
                                 </div>
 
-                                <div class="campo qt-onibus">
-                                    {% set name = 'quantidade_passageiros' %}
-                                    {% set id = 'quantidade_passageiros' %}
-                                    {% set disabled = true %}
-                                    {% include 'componentes/boxs/box_qt_onibus.html' %}
-                                </div>
-
-                                <div class="campo preco-diaria">
-                                    {% set name = 'preco_diaria' %}
-                                    {% set id = 'preco_diaria' %}
-                                    {% set disabled = true %}
-                                    {% include 'componentes/boxs/box_preco_diaria.html' %}
+                                <div class="campo grupo-menores">
+                                    <div class="qt-onibus">
+                                        {% set name = 'quantidade_passageiros' %}
+                                        {% set id = 'quantidade_passageiros' %}
+                                        {% set disabled = true %}
+                                        {% include 'componentes/boxs/box_qt_onibus.html' %}
+                                    </div>
+                                    <div class="preco-diaria">
+                                        {% set name = 'preco_diaria' %}
+                                        {% set id = 'preco_diaria' %}
+                                        {% set disabled = true %}
+                                        {% include 'componentes/boxs/box_preco_diaria.html' %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Linha 2: Descrição -->
                         <div class="linha-2">
