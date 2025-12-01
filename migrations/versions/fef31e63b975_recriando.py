@@ -1,8 +1,8 @@
-"""recreating db
+"""recriando
 
-Revision ID: 1191594dac0c
+Revision ID: fef31e63b975
 Revises: 
-Create Date: 2025-11-29 17:59:46.162094
+Create Date: 2025-12-01 20:19:35.634573
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1191594dac0c'
+revision = 'fef31e63b975'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -93,6 +93,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nome', sa.String(length=200), nullable=False),
     sa.Column('disciplina_id', sa.Integer(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('produto_id', sa.Integer(), nullable=True),
     sa.Column('quantidade', sa.Integer(), nullable=True),
     sa.Column('data_limite', sa.Date(), nullable=True),
@@ -100,6 +101,7 @@ def upgrade():
     sa.Column('status', sa.String(length=50), nullable=False),
     sa.ForeignKeyConstraint(['disciplina_id'], ['disciplina.id'], ),
     sa.ForeignKeyConstraint(['produto_id'], ['produto.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

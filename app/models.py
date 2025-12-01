@@ -108,7 +108,45 @@ class Solicitacao(db.Model):
         return f'<Solicitacao {self.nome}>'
     
 
+class SolicitacaoLimpeza(db.Model):
+    __tablename__ = 'solicitacao_limpeza'
+    id = db.Column(db.Integer, primary_key=True)
+    solicitante = db.Column(db.String(200))
+    servico_id = db.Column(db.Integer, db.ForeignKey('servico.id'), nullable=True)
+    tempo = db.Column(db.String) 
+    amibente = db.Column(db.String)
+    amibente = db.Column(db.String)
+    def __repr__(self):
+        return f'<Solicitacao {self.solicitante}>'
+    
 
+class SolicitacaoTransporte(db.Model):
+    __tablename__ = 'solicitacao_transporte'
+    id = db.Column(db.Integer, primary_key=True)
+    solicitante = db.Column(db.String(200))
+    servico_id = db.Column(db.Integer, db.ForeignKey('servico.id'), nullable=True)
+    data_saida = db.Column(db.Date) 
+    data_retorno = db.Column(db.Date)
+    quantidade_de_onibus = db.Column(db.Integer)
+    horario_de_saida = db.Column(db.String)
+    horario_de_chegada = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Solicitacao {self.solicitante}>'
+    
+
+class SolicitacaoSeguranca(db.Model):
+    __tablename__ = 'solicitacao_seguranca'
+    id = db.Column(db.Integer, primary_key=True)
+    solicitante = db.Column(db.String(200))
+    servico_id = db.Column(db.Integer, db.ForeignKey('servico.id'), nullable=True)
+    data_inicio = db.Column(db.Date) 
+    area_atuacao = db.Column(db.Date)
+    turno = db.Column(db.String)
+    
+    def __repr__(self):
+        return f'<Solicitacao {self.solicitante}>'
+    
 
 
 
