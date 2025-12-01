@@ -1,0 +1,103 @@
+.solicitacoes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between cards */
+    padding: 20px;
+    justify-content: center;
+}
+
+.solicitacao-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Fixed width for cards */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.solicitacao-card .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.solicitacao-card .id-solicitacao {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.solicitacao-card .status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.solicitacao-card .status.aguardando {
+    background-color: #ffc107; /* Yellow for awaiting */
+}
+
+/* Add more status styles if needed, e.g., .status.aceito { background-color: #28a745; } */
+
+.solicitacao-card .content {
+    margin-bottom: 15px;
+}
+
+.solicitacao-card .nome-solicitacao {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.solicitacao-card .descricao-solicitacao .label {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.solicitacao-card .descricao-solicitacao p {
+    font-size: 1em;
+    color: #444;
+    line-height: 1.4;
+}
+
+.solicitacao-card .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: auto; /* Pushes buttons to the bottom */
+}
+
+.solicitacao-card .btn-cancelar,
+.solicitacao-card .btn-aceitar {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.solicitacao-card .btn-cancelar {
+    background-color: #6c757d; /* Grey */
+    color: #fff;
+}
+
+.solicitacao-card .btn-cancelar:hover {
+    background-color: #5a6268;
+}
+
+.solicitacao-card .btn-aceitar {
+    background-color: #fd7e14; /* Orange from image */
+    color: #fff;
+}
+
+.solicitacao-card .btn-aceitar:hover {
+    background-color: #e66c0d;
+}

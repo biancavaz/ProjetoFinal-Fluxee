@@ -9,7 +9,7 @@ from app.models import Fornecedor, Produto, Service,  ServiceTransporte, TipoPro
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from sqlalchemy import func
+from sqlalchemy import func, inspect
 
 
 # Configurar pasta de upload
@@ -111,11 +111,77 @@ def gestao_servico():
 
 
 
-@app.route('/produto/editar/<int:id>')
+@app.route('/produto/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_produto(id):
     produto = Produto.query.get_or_404(id)
-    return render_template('editar_produto.html', produto=produto)
+    tipos_produto = TipoProduto.query.all()
+    fornecedores = Fornecedor.query.all()
+    unidades_medida = UnidadeMedida.query.all()
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        tipo_id = request.form.get('tipo')
+        fornecedor_id = request.form.get('fornecedor')
+        unidade_id = request.form.get('unidade_medida')
+        quantidade = request.form.get('quantidade')
+        data_entrada_str = request.form.get('data_entrada')
+
+        # Validar quantidade
+        try:
+            quantidade = int(quantidade)
+        except (ValueError, TypeError):
+            flash("Quantidade inválida.", "danger")
+            return redirect(url_for('editar_produto', id=id))
+
+        # Tratar data
+        if data_entrada_str:
+            try:
+                data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            except ValueError:
+                data_entrada = date.today()
+        else:
+            data_entrada = date.today()
+
+        # Upload de imagem (opcional)
+        arquivo = request.files.get('imagem')
+        nome_arquivo = produto.imagem  # manter imagem atual por padrão
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'produtos')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+        if arquivo and arquivo.filename != '':
+            nome_arquivo = secure_filename(arquivo.filename)
+            caminho_imagem = os.path.join(UPLOAD_FOLDER, nome_arquivo)
+            arquivo.save(caminho_imagem)
+
+        # Atualizar produto
+        produto.nome = nome
+        produto.tipo_id = tipo_id if tipo_id else None
+        produto.fornecedor_id = fornecedor_id if fornecedor_id else None
+        produto.unidade_medida_id = unidade_id if unidade_id else None
+        produto.quantidade = quantidade
+        produto.data_entrada = data_entrada
+        produto.imagem = nome_arquivo
+
+        try:
+            db.session.commit()
+            flash("Produto atualizado com sucesso!", "success")
+            return redirect(url_for('gestao'))
+        except Exception as e:
+            db.session.rollback()
+            flash("Erro ao atualizar produto.", "danger")
+            return redirect(url_for('editar_produto', id=id))
+
+    # Converter para listas de tuplas (id, nome) para usar nos dropdowns
+    tipos_produto_dropdown = [(t.id, t.nome) for t in tipos_produto]
+    fornecedores_dropdown = [(f.id, f.nome) for f in fornecedores]
+    unidades_medida_dropdown = [(u.id, u.nome) for u in unidades_medida]
+
+    return render_template('editar_produto.html',
+                         produto=produto,
+                         tipos_produto=tipos_produto_dropdown,
+                         fornecedores=fornecedores_dropdown,
+                         unidades_medida=unidades_medida_dropdown)
 
 
 @app.route('/produto/deletar/<int:id>')
@@ -142,8 +208,8 @@ def movimentacoes():
 @app.route('/solicitacoes/')
 @login_required
 def solicitacoes():
-
-    return render_template('solicitacoes.html')
+    solicitacoes = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).all()
+    return render_template('solicitacoes.html', solicitacoes=solicitacoes)
 
 
 @app.route('/dashboard/')
@@ -163,7 +229,26 @@ def dashboard():
     tot_servico = 0
     tot_solicitacao = 0
 
-    return render_template('dashboard.html', tipo_counts=tipo_counts, tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao})
+    # Obter todos os usuários (professores e outros, para a lista)
+    all_users = User.query.all()
+
+    # Obter solicitações por professor
+    # Usar 'User.nome' para agrupar e contar solicitações de cada professor
+    solicitations_by_prof = db.session.query(
+        Solicitacao.nome.label('professor_name'), # Usar Solicitacao.nome para o nome do professor/solicitante
+        func.count(Solicitacao.id).label('solicitation_count')
+    ).group_by(Solicitacao.nome).all()
+
+    # Formatar dados para o Chart.js
+    prof_labels = [s.professor_name for s in solicitations_by_prof]
+    prof_data = [s.solicitation_count for s in solicitations_by_prof]
+
+    return render_template('dashboard.html', 
+                           tipo_counts=tipo_counts, 
+                           tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao},
+                           all_users=all_users,  # Passar todos os usuários para o template
+                           prof_labels=prof_labels,  # Passar labels para o gráfico de barras
+                           prof_data=prof_data)
 
 # -------------------------
 # CADASTRO DE PRODUTO
@@ -254,6 +339,24 @@ def adicionar_solicitacao():
         data_entrada_str = request.form.get('data_entrada_str')
         finalidade = request.form.get('finalidade')
 
+        # Validar e converter produto_id
+        produto_id_int = None
+        if produto_id:
+            try:
+                produto_id_int = int(produto_id)
+            except ValueError:
+                flash("ID do produto inválido.", "danger")
+                return redirect(url_for('adicionar_solicitacao'))
+
+        # Validar e converter disciplin-id
+        disciplin_id_int = None
+        if disciplina:
+            try:
+                disciplin_id_int = int(disciplina)
+            except ValueError:
+                flash("ID da disciplina inválido.", "danger")
+                return redirect(url_for('adicionar_solicitacao'))
+
         # Validar quantidade
         try:
             quantidade = int(quantidade)
@@ -273,8 +376,8 @@ def adicionar_solicitacao():
 
         solicitacao = Solicitacao(
             nome=nome,
-            disciplina=disciplina if disciplina else None,  # <-- adiciona disciplina
-            produto_id=produto_id if produto_id else None,
+            disciplina_id=disciplin_id_int,  # <-- Passa o ID inteiro
+            produto_id=produto_id_int,  # <-- Passa o ID inteiro
             data_limite=data_entrada if data_entrada else None,
             quantidade=quantidade if quantidade else None,
             finalidade=finalidade if finalidade else None,
@@ -289,7 +392,6 @@ def adicionar_solicitacao():
     # Converter para listas de tuplas (id, nome) para usar nos dropdowns
     produtos = [(p.id, p.nome) for p in Produto.query.all()]
     disciplinas = [(d.id, d.nome) for d in Disciplina.query.all()]  # <-- lista de disciplinas para o dropdown
-
     return render_template(
         'cadastrar_solicitacao.html',
         produtos=produtos,
@@ -307,6 +409,7 @@ def cadastrar_servico():
     tipos_veiculo = TipoVeiculo.query.all()
 
     if request.method == 'POST':
+        print(request.form)
         # 1️⃣ Pega os dados do formulário
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
@@ -325,14 +428,19 @@ def cadastrar_servico():
             erros.append("A categoria é obrigatória.")
         if not descricao:
             erros.append("A descrição é obrigatória.")
-        if not tipo_veiculo:
-            erros.append("O tipo de veículo é obrigatório.")
-        if not quantidade_passageiros:
-            erros.append("A quantidade de passageiros é obrigatória.")
-        if not preco_diaria:
-            erros.append("O preço da diária é obrigatório.")
+
+        if categoria == "transporte":
+            if not tipo_veiculo:
+                erros.append("O tipo de veículo é obrigatório.")
+            if not quantidade_passageiros:
+                erros.append("A quantidade de passageiros é obrigatória.")
+            if not preco_diaria:
+                erros.append("O preço da diária é obrigatório.")
+        # else: 
+        # Adicionar validações para outras categorias aqui, se houver
 
         if erros:
+            print(erros)
             return render_template(
                 'cadastrar_servico.html',
                 erros=erros,
@@ -388,11 +496,63 @@ def usuarios():
 
 
 # Editar usuário
-@app.route('/usuarios/editar/<int:id>')
+@app.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_usuario(id):
     usuario = User.query.get_or_404(id)
-    return render_template('editar_usuario.html', usuario=usuario)
+    generos = ["Masculino", "Feminino", "Outro", "Prefiro não informar"]
+    tipos_usuario = ["Administrador", "Almoxarife", "Professor/Representante de sala", "terceiro"]
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data_nascimento_str = request.form.get('data_nascimento')
+        genero = request.form.get('genero')
+        email = request.form.get('email')
+        cpf = request.form.get('cpf')
+        telefone = request.form.get('telefone')
+        tipo_usuario = request.form.get('tipo_usuario')
+
+        # Converter data
+        try:
+            data_nascimento = datetime.strptime(data_nascimento_str, '%Y-%m-%d').date()
+        except:
+            data_nascimento = None
+
+        # Upload de imagem (opcional)
+        imagem_file = request.files.get('imagem_perfil')
+        nome_imagem = usuario.imagem_perfil  # manter imagem atual por padrão
+        UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads', 'usuarios')
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+        if imagem_file and imagem_file.filename != '':
+            nome_seguro = secure_filename(imagem_file.filename)
+            caminho_completo = os.path.join(UPLOAD_FOLDER, nome_seguro)
+            imagem_file.save(caminho_completo)
+            nome_imagem = nome_seguro
+
+        # Atualizar usuário
+        usuario.nome = nome
+        usuario.data_nascimento = data_nascimento
+        usuario.genero = genero
+        usuario.email = email
+        usuario.cpf = cpf
+        usuario.telefone = telefone
+        usuario.tipo_usuario = tipo_usuario
+        usuario.imagem_perfil = nome_imagem
+
+        try:
+            db.session.commit()
+            flash("Usuário atualizado com sucesso!", "success")
+            return redirect(url_for('usuarios'))
+        except Exception as e:
+            db.session.rollback()
+            flash("Erro ao atualizar usuário.", "danger")
+            return redirect(url_for('editar_usuario', id=id))
+
+    return render_template('editar_usuario.html',
+                         usuario=usuario,
+                         generos=generos,
+                         tipos_usuario=tipos_usuario)
 
 
 # Deletar usuário

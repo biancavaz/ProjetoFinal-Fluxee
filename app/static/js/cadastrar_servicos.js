@@ -26,10 +26,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Esconde todos os campos específicos
             camposTransporte.style.display = "none";
+            // Desabilita os inputs quando não é transporte
+            camposTransporte.querySelector('input[name="tipo_veiculo"]').disabled = true;
+            camposTransporte.querySelector('input[name="quantidade_passageiros"]').disabled = true;
+            camposTransporte.querySelector('input[name="preco_diaria"]').disabled = true;
 
             // Mostra Transporte se selecionado
             if(value === "transporte") {
                 camposTransporte.style.display = "flex";
+                // Habilita os inputs quando é transporte
+                camposTransporte.querySelector('input[name="tipo_veiculo"]').disabled = false;
+                camposTransporte.querySelector('input[name="quantidade_passageiros"]').disabled = false;
+                camposTransporte.querySelector('input[name="preco_diaria"]').disabled = false;
             }
         });
     });

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Homepage</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/solicitacoes.css') }}">
 </head>
 <body>
 
+    {% include 'componentes/alertas/alerta_sucesso.html' %}
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
 {% with texto="SOLICITAÇÕES" %}
@@ -15,6 +17,11 @@
 
     <div class="gestao-botao">
         {% include 'componentes/botoes/botao_gestao_add_solicitacao.html' %}
+    </div>
+    <div class="solicitacoes-container">
+        {% for solicitacao in solicitacoes %}
+            {% include 'componentes/cards/card_solicitacao.html' %}
+        {% endfor %}
     </div>
 </body>
 </html>
