@@ -1,11 +1,11 @@
 from datetime import date, datetime
 from email.utils import parsedate
 import os
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, redirect, url_for, flash, request, jsonify
+from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
 from app.forms import UserForm, LoginForm
-from app.models import Fornecedor, Produto, Service,  ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina
+from app.models import Fornecedor, SolicitacaoLimpeza, Produto, Service, SolicitacaoSeguranca, SolicitacaoTransporte, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina, ServiceSeguranca, ServiceLimpeza
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
@@ -104,8 +104,73 @@ def gestao():
 
 
 
-@app.route('/gestao_servico/')
+@app.route('/gestao_servico/', methods=['GET', 'POST'])
 def gestao_servico():
+    if request.method == 'POST':
+        service_id = request.form.get('service_id')
+        categoria = request.form.get('categoria')
+        solicitante = current_user.nome
+
+        try:
+            if categoria == 'transporte':
+                data_saida_str = request.form.get('data_saida')
+                data_retorno_str = request.form.get('data_retorno')
+                quantidade_de_onibus = request.form.get('quantidade_de_onibus')
+                horario_de_saida = request.form.get('horario_de_saida')
+                horario_de_chegada = request.form.get('horario_de_chegada')
+
+                data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date() if data_saida_str else None
+                data_retorno = datetime.strptime(data_retorno_str, '%Y-%m-%d').date() if data_retorno_str else None
+
+                solicitacao = SolicitacaoTransporte(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    data_saida=data_saida,
+                    data_retorno=data_retorno,
+                    quantidade_de_onibus=quantidade_de_onibus,
+                    horario_de_saida=horario_de_saida,
+                    horario_de_chegada=horario_de_chegada
+                )
+
+            elif categoria == 'limpeza':
+                tempo = request.form.get('tempo')
+                ambiente = request.form.get('ambiente')
+                frequencia = request.form.get('frequencia')
+
+                solicitacao = SolicitacaoLimpeza(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    tempo=tempo,
+                    ambiente=ambiente,
+                    frequencia=frequencia
+                )
+
+            elif categoria == 'seguranca':
+                print(request.form)
+                dat_inicio_str = request.form.get('data_inicio')  # Corrected
+                area_atuacao_str = request.form.get('area_atuacao')
+                turno = request.form.get('turno')
+
+                dat_inicio = datetime.strptime(dat_inicio_str, '%Y-%m-%d').date() if dat_inicio_str else None  # Corrected
+
+                solicitacao = SolicitacaoSeguranca(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    data_inicio=dat_inicio_str,  # Corrected
+                    area_atuacao=area_atuacao_str,
+                    turno=turno
+                )
+            else:
+                return jsonify({'error': "Categoria de serviço inválida.", 'category': categoria}), 400
+
+            db.session.add(solicitacao)
+            db.session.commit()
+            return jsonify({'message': "Solicitação enviada com sucesso!"}), 200
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': f"Erro ao enviar solicitação: {str(e)}"}), 400
+    
     servicos = Service.query.all()  # pega todos os serviços do banco
     return render_template('gestao_servico.html', servicos=servicos)
 
@@ -420,6 +485,18 @@ def cadastrar_servico():
         quantidade_passageiros = request.form.get('quantidade_passageiros')
         preco_diaria = request.form.get('preco_diaria')
 
+        # Campos segurança
+        tipo_seguranca = request.form.get('tipo_seguranca')
+        quantidade_vigilantes = request.form.get('quantidade_vigilantes')
+        horas_atuacao = request.form.get('horas_atuacao')
+        rondas_por_turno = request.form.get('rondas_por_turno')
+
+        # Campos limpeza
+        tipo_limpeza = request.form.get('tipo_limpeza')
+        tamanho_area = request.form.get('tamanho_area')
+        frequencia = request.form.get('frequencia')
+        produtos_incluidos = request.form.get('produtos_incluidos')
+
         # 2️⃣ Validação simples
         erros = []
         if not nome:
@@ -436,8 +513,25 @@ def cadastrar_servico():
                 erros.append("A quantidade de passageiros é obrigatória.")
             if not preco_diaria:
                 erros.append("O preço da diária é obrigatório.")
-        # else: 
-        # Adicionar validações para outras categorias aqui, se houver
+
+        elif categoria == "seguranca":
+            if not tipo_seguranca:
+                erros.append("O tipo de segurança é obrigatório.")
+            if not quantidade_vigilantes:
+                erros.append("A quantidade de vigilantes é obrigatória.")
+            if not horas_atuacao:
+                erros.append("As horas de atuação são obrigatórias.")
+            if not rondas_por_turno:
+                erros.append("As rondas por turno são obrigatórias.")
+
+        elif categoria == "limpeza":
+            if not tipo_limpeza:
+                erros.append("O tipo de limpeza é obrigatório.")
+            if not tamanho_area:
+                erros.append("O tamanho da área é obrigatório.")
+            if not frequencia:
+                erros.append("A frequência é obrigatória.")
+            # produtos_incluidos é opcional ou boolean, sem validação de obrigatoriedade direta aqui
 
         if erros:
             print(erros)
@@ -457,17 +551,41 @@ def cadastrar_servico():
         db.session.add(service)
         db.session.flush()  # pega o ID do service
 
-        # 4️⃣ Cria ServiceTransporte
-        transporte = ServiceTransporte(
-            service_id=service.id,
-            tipo_veiculo=tipo_veiculo,
-            quantidade_passageiros=quantidade_passageiros,
-            preco_diaria=preco_diaria
-        )
-        db.session.add(transporte)
+        # 4️⃣ Cria serviço específico com base na categoria
+        if categoria == "transporte":
+            transporte = ServiceTransporte(
+                service_id=service.id,
+                tipo_veiculo=tipo_veiculo,
+                quantidade_passageiros=quantidade_passageiros,
+                preco_diaria=preco_diaria
+            )
+            db.session.add(transporte)
+            flash("Serviço de transporte cadastrado com sucesso!", "success")
+
+        elif categoria == "seguranca":
+            seguranca = ServiceSeguranca(
+                service_id=service.id,
+                tipo_seguranca=tipo_seguranca,
+                quantidade_vigilantes=quantidade_vigilantes,
+                horas_atuacao=horas_atuacao,
+                rondas_por_turno=rondas_por_turno
+            )
+            db.session.add(seguranca)
+            flash("Serviço de segurança cadastrado com sucesso!", "success")
+
+        elif categoria == "limpeza":
+            limpeza = ServiceLimpeza(
+                service_id=service.id,
+                tipo_limpeza=tipo_limpeza,
+                tamanho_area=tamanho_area,
+                frequencia=frequencia,
+                produtos_incluidos=bool(produtos_incluidos)  # Converte para booleano
+            )
+            db.session.add(limpeza)
+            flash("Serviço de limpeza cadastrado com sucesso!", "success")
+
         db.session.commit()
 
-        flash("Serviço de transporte cadastrado com sucesso!", "success")
         return redirect(url_for('cadastrar_servico'))
 
     # GET

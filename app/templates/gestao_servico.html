@@ -47,7 +47,8 @@
                         <span class="linha-acao">
                             <button class="btn-solicitar" 
                                     data-categoria="{{ s.categoria }}" 
-                                    data-nome="{{ s.nome }}">
+                                    data-nome="{{ s.nome }}"
+                                    data-service-id="{{ s.id }}">
                                 Solicitar
                             </button>
                         </span>
@@ -79,8 +80,10 @@
 
                 <!-- Campos Limpeza -->
                 <div class="campos-limpeza campos-especificos categoria limpeza">
+                    {% set tempos = ['Manhã', 'Tarde', 'Noite', 'Integral'] %}
                     {% include 'componentes/boxs/dropdown_tempo.html' %}
                     {% include 'componentes/boxs/box_ambiente.html' %}
+                    {% set frequencias = ['Diária', 'Semanal', 'Quinzenal', 'Mensal'] %}
                     {% include 'componentes/boxs/dropdown_frequencia.html' %}
                 </div>
 
@@ -88,6 +91,7 @@
                 <div class="campos-seguranca campos-especificos categoria seguranca">
                     {% include 'componentes/boxs/box_data_inicio.html' %}
                     {% include 'componentes/boxs/box_area_atuacao.html' %}
+                    {% set options_turno = [('Manhã','Manhã'),('Tarde','Tarde'),('Noite','Noite'),('24 Horas','24 Horas')] %}
                     {% include 'componentes/boxs/dropdown_turno.html' %}
                 </div>
 

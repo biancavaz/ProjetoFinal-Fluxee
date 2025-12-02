@@ -7,9 +7,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const hiddenInput = dropdownCategoria.querySelector("input[type='hidden']");
 
     const camposTransporte = document.getElementById("campos-transporte-pequeno");
+    const camposSeguranca = document.getElementById("campos-seguranca");
+    const camposLimpeza = document.getElementById("campos-limpeza");
 
-    // Inicialmente esconde os campos
+    // Inicialmente esconde todos os campos específicos
     camposTransporte.style.display = "none";
+    camposSeguranca.style.display = "none";
+    camposLimpeza.style.display = "none";
+
+    // Função para desabilitar/habilitar inputs de um container
+    function toggleInputs(container, enable) {
+        const inputs = container.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.disabled = !enable;
+        });
+    }
 
     // Abre/fecha dropdown
     dropdownBtn.addEventListener("click", function(e) {
@@ -24,20 +36,26 @@ document.addEventListener("DOMContentLoaded", function() {
             hiddenInput.value = value;
             dropdownContent.style.display = "none";
 
-            // Esconde todos os campos específicos
+            // Esconde todos os campos específicos e desabilita seus inputs
             camposTransporte.style.display = "none";
-            // Desabilita os inputs quando não é transporte
-            camposTransporte.querySelector('input[name="tipo_veiculo"]').disabled = true;
-            camposTransporte.querySelector('input[name="quantidade_passageiros"]').disabled = true;
-            camposTransporte.querySelector('input[name="preco_diaria"]').disabled = true;
+            toggleInputs(camposTransporte, false);
 
-            // Mostra Transporte se selecionado
-            if(value === "transporte") {
+            camposSeguranca.style.display = "none";
+            toggleInputs(camposSeguranca, false);
+
+            camposLimpeza.style.display = "none";
+            toggleInputs(camposLimpeza, false);
+
+            // Mostra e habilita os campos da categoria selecionada
+            if (value === "transporte") {
                 camposTransporte.style.display = "flex";
-                // Habilita os inputs quando é transporte
-                camposTransporte.querySelector('input[name="tipo_veiculo"]').disabled = false;
-                camposTransporte.querySelector('input[name="quantidade_passageiros"]').disabled = false;
-                camposTransporte.querySelector('input[name="preco_diaria"]').disabled = false;
+                toggleInputs(camposTransporte, true);
+            } else if (value === "seguranca") {
+                camposSeguranca.style.display = "flex";
+                toggleInputs(camposSeguranca, true);
+            } else if (value === "limpeza") {
+                camposLimpeza.style.display = "flex";
+                toggleInputs(camposLimpeza, true);
             }
         });
     });
