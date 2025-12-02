@@ -6,7 +6,6 @@
 
     <nav class="nav">
       <ul>
-        <li><a href="#">Estoque</a></li>
         <li><a href="{{ url_for('movimentacoes') }}">Movimentações</a></li>
         <li><a href="{{ url_for('solicitacoes') }}">Solicitações</a></li>
 
@@ -22,8 +21,8 @@
           </ul>
         </li>
 
-
-        <li><a href="#">Conta</a></li>
+        
+        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
       </ul>
     </nav>
   </div>

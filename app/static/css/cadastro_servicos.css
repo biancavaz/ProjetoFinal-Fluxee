@@ -20,13 +20,14 @@ body {
 .box-branca {
     background-color: #ffffff;
     width: 80%;
-    max-width: 1500px;
-    min-height: 738px;
+    max-width: 1200px;
+    min-height: 568px;
     border-radius: 8px;
     padding: 31px 20px 20px 47px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.12);
     position: relative;
 }
+
 
 /* ======= TÍTULO DA BOX ======= */
 .titulo-box {
@@ -39,10 +40,12 @@ body {
 /* ======= CONTEÚDO SOBRE A BOX ======= */
 .conteudo-sobre-box {
     display: flex;
+    justify-content: center;
     gap: 110px;
     align-items: flex-start;
     flex-wrap: nowrap;
-    margin-top: 30px;
+    margin-top: 80px;
+    margin-left: -70px;
 }
 
 /* ======= LADO ESQUERDO: IMAGEM ======= */
@@ -83,32 +86,50 @@ body {
 }
 
 /* ======= LINHAS DE CAMPOS ======= */
-.linha-1, .linha-2, .linha-3 {
+.linha-1, .linha-3 {
     display: flex;
     gap: 45px;
 }
 
-/* Campos específicos ocultos inicialmente */
-.campos-especificos {
-    display: none;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 15px;
-}
-
-/* Cada campo ocupa espaço uniforme */
-.campos-especificos .campo {
-    flex: 1;
-    min-width: 150px;
-}
 
 /* ======= LINHA DE BOTÕES ======= */
 .linha-botao {
     display: flex;
     justify-content: flex-end;
     gap: 25px;
-    margin-top: 40px;
+    margin-right: -120px;
+    margin-top: 60px;
+    margin-bottom: 20px;
 }
+
+
+/* Linha que contém Tipo de Veículo e os dois menores */
+.linha-transporte .linha {
+    display: flex;
+    margin-top: 10px;
+    gap: 80px; /* espaço entre Tipo de Veículo e grupo-menores */
+    align-items: flex-start; /* alinha todos ao topo */
+}
+
+/* Tipo de Veículo maior */
+.tipo-veiculo {
+    flex: 2; /* ocupa mais espaço */
+}
+
+/* Grupo de campos menores */
+.grupo-menores {
+    display: flex;
+    gap: 35px; /* espaço entre os dois campos */
+    flex: 1;   /* ocupa o restante da linha ao lado do Tipo de Veículo */
+}
+
+/* Cada campo dentro do grupo ocupa metade */
+.grupo-menores .campo {
+    flex: 1;
+}
+
+
+
 
 /* ======= RESPONSIVIDADE ======= */
 @media (max-width: 1200px) {
@@ -152,28 +173,6 @@ body {
 }
 
 
-
-.campos-especificos {
-    display: none; /* inicialmente oculto, o JS vai mostrar */
-    flex-direction: column; /* empilha os inputs */
-    gap: 15px; /* espaçamento entre os campos */
-    margin-top: 15px;
-}
-
-.linha-transporte,
-.linha-limpeza,
-.linha-seguranca {
-    display: flex;
-    flex-wrap: wrap; /* caso tenha mais de um campo na mesma linha */
-    gap: 20px; /* espaço entre campos */
-}
-
-.linha-transporte .campo,
-.linha-limpeza .campo,
-.linha-seguranca .campo {
-    flex: 1; /* cada campo ocupa espaço igual */
-    min-width: 150px; /* evita campos muito pequenos */
-}
 
 
 

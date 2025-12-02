@@ -3,6 +3,7 @@
 .dropdownTipo {
   position: relative;
   width: 383px;
+  margin-bottom: 35px;
 }
 
 .dropdownTipo-btn {
