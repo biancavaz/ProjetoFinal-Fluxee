@@ -506,31 +506,7 @@ def cadastrar_servico():
         if not descricao:
             erros.append("A descrição é obrigatória.")
 
-        if categoria == "transporte":
-            if not tipo_veiculo:
-                erros.append("O tipo de veículo é obrigatório.")
-            if not quantidade_passageiros:
-                erros.append("A quantidade de passageiros é obrigatória.")
-            if not preco_diaria:
-                erros.append("O preço da diária é obrigatório.")
-
-        elif categoria == "seguranca":
-            if not tipo_seguranca:
-                erros.append("O tipo de segurança é obrigatório.")
-            if not quantidade_vigilantes:
-                erros.append("A quantidade de vigilantes é obrigatória.")
-            if not horas_atuacao:
-                erros.append("As horas de atuação são obrigatórias.")
-            if not rondas_por_turno:
-                erros.append("As rondas por turno são obrigatórias.")
-
-        elif categoria == "limpeza":
-            if not tipo_limpeza:
-                erros.append("O tipo de limpeza é obrigatório.")
-            if not tamanho_area:
-                erros.append("O tamanho da área é obrigatório.")
-            if not frequencia:
-                erros.append("A frequência é obrigatória.")
+        
             # produtos_incluidos é opcional ou boolean, sem validação de obrigatoriedade direta aqui
 
         if erros:

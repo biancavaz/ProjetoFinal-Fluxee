@@ -68,53 +68,9 @@
                             </div>
                         </div>
 
-                        <!-- Segurança -->
-                        <div id="campos-seguranca" class="linha-seguranca campos-especificos" style="display: none;">
-                            <div class="linha s-linha-2">
-                                <div class="campo tipo-seguranca">
-                                    <label for="tipo_seguranca">Tipo de Segurança</label>
-                                    <input type="text" name="tipo_seguranca" id="tipo_seguranca" value="{{ form.tipo_seguranca if form }}">
-                                </div>
-                                <div class="campo qt-vigilantes">
-                                    <label for="quantidade_vigilantes">Quantidade de Vigilantes</label>
-                                    <input type="number" name="quantidade_vigilantes" id="quantidade_vigilantes" value="{{ form.quantidade_vigilantes if form }}">
-                                </div>
-                            </div>
-                            <div class="linha s-linha-3">
-                                <div class="campo horas-atuacao">
-                                    <label for="horas_atuacao">Horas de Atuação</label>
-                                    <input type="number" name="horas_atuacao" id="horas_atuacao" value="{{ form.horas_atuacao if form }}">
-                                </div>
-                                <div class="campo rondas-turno">
-                                    <label for="rondas_por_turno">Rondas por Turno</label>
-                                    <input type="number" name="rondas_por_turno" id="rondas_por_turno" value="{{ form.rondas_por_turno if form }}">
-                                </div>
-                            </div>
-                        </div>
+                     
 
-                        <!-- Limpeza -->
-                        <div id="campos-limpeza" class="linha-limpeza campos-especificos" style="display: none;">
-                            <div class="linha l-linha-2">
-                                <div class="campo tipo-limpeza">
-                                    <label for="tipo_limpeza">Tipo de Limpeza</label>
-                                    <input type="text" name="tipo_limpeza" id="tipo_limpeza" value="{{ form.tipo_limpeza if form }}">
-                                </div>
-                                <div class="campo tamanho-area">
-                                    <label for="tamanho_area">Tamanho da Área (m²)</label>
-                                    <input type="number" step="0.01" name="tamanho_area" id="tamanho_area" value="{{ form.tamanho_area if form }}">
-                                </div>
-                            </div>
-                            <div class="linha l-linha-3">
-                                <div class="campo frequencia">
-                                    <label for="frequencia">Frequência</label>
-                                    <input type="text" name="frequencia" id="frequencia" value="{{ form.frequencia if form }}">
-                                </div>
-                                <div class="campo produtos-incluidos">
-                                    <label for="produtos_incluidos">Produtos Incluídos</label>
-                                    <input type="checkbox" name="produtos_incluidos" id="produtos_incluidos" value="True" {% if form and form.produtos_incluidos %}checked{% endif %}>
-                                </div>
-                            </div>
-                        </div>
+                    
 
                         <!-- Linha 2: Descrição -->
                         <div class="linha-2">

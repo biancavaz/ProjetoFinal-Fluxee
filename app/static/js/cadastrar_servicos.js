@@ -7,13 +7,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const hiddenInput = dropdownCategoria.querySelector("input[type='hidden']");
 
     const camposTransporte = document.getElementById("campos-transporte-pequeno");
-    const camposSeguranca = document.getElementById("campos-seguranca");
-    const camposLimpeza = document.getElementById("campos-limpeza");
 
     // Inicialmente esconde todos os campos específicos
     camposTransporte.style.display = "none";
-    camposSeguranca.style.display = "none";
-    camposLimpeza.style.display = "none";
 
     // Função para desabilitar/habilitar inputs de um container
     function toggleInputs(container, enable) {
@@ -40,22 +36,11 @@ document.addEventListener("DOMContentLoaded", function() {
             camposTransporte.style.display = "none";
             toggleInputs(camposTransporte, false);
 
-            camposSeguranca.style.display = "none";
-            toggleInputs(camposSeguranca, false);
-
-            camposLimpeza.style.display = "none";
-            toggleInputs(camposLimpeza, false);
 
             // Mostra e habilita os campos da categoria selecionada
             if (value === "transporte") {
                 camposTransporte.style.display = "flex";
                 toggleInputs(camposTransporte, true);
-            } else if (value === "seguranca") {
-                camposSeguranca.style.display = "flex";
-                toggleInputs(camposSeguranca, true);
-            } else if (value === "limpeza") {
-                camposLimpeza.style.display = "flex";
-                toggleInputs(camposLimpeza, true);
             }
         });
     });
