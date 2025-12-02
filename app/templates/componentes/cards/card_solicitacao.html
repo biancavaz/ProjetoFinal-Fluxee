@@ -25,11 +25,13 @@
         {% endif %}
     </div>
     <div class="actions">
+        {% if solicitacao.status != "Concluido" and solicitacao.status != "Cancelado" %}
         <form action="{{ url_for('update_solicitacao_status', solicitacao_id=solicitacao.id, solicitacao_categoria=solicitacao.categoria, new_status='Cancelado') }}" method="post" style="display:inline;">
             <button type="submit" class="btn-cancelar">Cancelar</button>
         </form>
         <form action="{{ url_for('update_solicitacao_status', solicitacao_id=solicitacao.id, solicitacao_categoria=solicitacao.categoria, new_status='Concluido') }}" method="post" style="display:inline;">
             <button type="submit" class="btn-aceitar">Aceitar</button>
         </form>
+        {% endif %}
     </div>
 </div>
