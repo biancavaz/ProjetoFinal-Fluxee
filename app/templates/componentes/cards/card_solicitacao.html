@@ -26,12 +26,20 @@
     </div>
     <div class="actions">
         {% if solicitacao.status != "Concluido" and solicitacao.status != "Cancelado" %}
-        <form action="{{ url_for('update_solicitacao_status', solicitacao_id=solicitacao.id, solicitacao_categoria=solicitacao.categoria, new_status='Cancelado') }}" method="post" style="display:inline;">
-            <button type="submit" class="btn-cancelar">Cancelar</button>
-        </form>
-        <form action="{{ url_for('update_solicitacao_status', solicitacao_id=solicitacao.id, solicitacao_categoria=solicitacao.categoria, new_status='Concluido') }}" method="post" style="display:inline;">
-            <button type="submit" class="btn-aceitar">Aceitar</button>
-        </form>
+        <button type="button" class="btn-cancelar open-confirmation-modal" 
+                data-solicitacao-id="{{ solicitacao.id }}" 
+                data-solicitacao-categoria="{{ solicitacao.categoria }}" 
+                data-new-status="Cancelado"
+                data-confirmation-message="Tem certeza que deseja cancelar esta solicitação (ID: {{ solicitacao.id }})?">
+            Cancelar
+        </button>
+        <button type="button" class="btn-aceitar open-confirmation-modal" 
+                data-solicitacao-id="{{ solicitacao.id }}" 
+                data-solicitacao-categoria="{{ solicitacao.categoria }}" 
+                data-new-status="Concluido"
+                data-confirmation-message="Tem certeza que deseja aceitar esta solicitação (ID: {{ solicitacao.id }})?">
+            Aceitar
+        </button>
         {% endif %}
     </div>
 </div>
