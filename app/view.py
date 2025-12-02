@@ -348,7 +348,7 @@ def solicitacoes():
             quantidade_de_onibus=s.quantidade_de_onibus,
             horario_de_saida=s.horario_de_saida,
             horario_de_chegada=s.horario_de_chegada,
-            status="Aguardando" # Assuming a default status
+            status=s.status
         ) for s in solicitacoes_transporte_models
     ]
 
@@ -362,7 +362,7 @@ def solicitacoes():
             data_inicio=s.data_inicio,
             area_atuacao=s.area_atuacao,
             turno=s.turno,
-            status="Aguardando" # Assuming a default status
+            status=s.status
         ) for s in solicitacoes_seguranca_models
     ]
 
@@ -376,7 +376,7 @@ def solicitacoes():
             tempo=s.tempo,
             ambiente=s.ambiente,
             frequencia=s.frequencia,
-            status="Aguardando" # Assuming a default status
+            status=s.status
         ) for s in solicitacoes_limpeza_models
     ]
     solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
@@ -827,4 +827,31 @@ def adicionar_usuario():
         generos=generos,
         tipos_usuario=tipos_usuario
     )
+
+
+@app.route('/update_solicitacao_status/<int:solicitacao_id>/<string:solicitacao_categoria>/<string:new_status>', methods=['POST'])
+@login_required
+def update_solicitacao_status(solicitacao_id, solicitacao_categoria, new_status):
+    try:
+        if solicitacao_categoria == "Produto":
+            solicitacao = Solicitacao.query.get_or_404(solicitacao_id)
+        elif solicitacao_categoria == "Transporte":
+            solicitacao = SolicitacaoTransporte.query.get_or_404(solicitacao_id)
+        elif solicitacao_categoria == "Segurança":
+            solicitacao = SolicitacaoSeguranca.query.get_or_404(solicitacao_id)
+        elif solicitacao_categoria == "Limpeza":
+            solicitacao = SolicitacaoLimpeza.query.get_or_404(solicitacao_id)
+        else:
+            flash("Categoria de solicitação inválida.", "danger")
+            return redirect(url_for('solicitacoes'))
+
+        solicitacao.status = new_status
+        db.session.commit()
+        flash(f"Status da solicitação {solicitacao_id} atualizado para {new_status}!", "success")
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Erro ao atualizar status da solicitação: {str(e)}", "danger")
+
+    return redirect(url_for('solicitacoes'))
 

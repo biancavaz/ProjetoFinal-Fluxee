@@ -132,6 +132,7 @@ class SolicitacaoLimpeza(db.Model):
     tempo = db.Column(db.String) 
     ambiente = db.Column(db.String)
     frequencia = db.Column(db.String)
+    status = db.Column(db.String(50), nullable=False, default="Aguardando")
     def __repr__(self):
         return f'<Solicitacao {self.solicitante}>'
     
@@ -146,6 +147,7 @@ class SolicitacaoTransporte(db.Model):
     quantidade_de_onibus = db.Column(db.Integer)
     horario_de_saida = db.Column(db.String)
     horario_de_chegada = db.Column(db.String)
+    status = db.Column(db.String(50), nullable=False, default="Aguardando")
 
     def __repr__(self):
         return f'<Solicitacao {self.solicitante}>'
@@ -159,6 +161,7 @@ class SolicitacaoSeguranca(db.Model):
     data_inicio = db.Column(db.String) 
     area_atuacao = db.Column(db.String)
     turno = db.Column(db.String)
+    status = db.Column(db.String(50), nullable=False, default="Aguardando")
     
     def __repr__(self):
         return f'<Solicitacao {self.solicitante}>'

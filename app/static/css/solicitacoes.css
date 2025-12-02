@@ -43,6 +43,12 @@
 .solicitacao-card .status.aguardando {
     background-color: #ffc107; /* Yellow for awaiting */
 }
+.solicitacao-card .status.cancelado {
+    background-color: #ff4b48; /* Yellow for awaiting */
+}
+.solicitacao-card .status.concluido {
+    background-color: #8cd19d; /* Yellow for awaiting */
+}
 
 /* Add more status styles if needed, e.g., .status.aceito { background-color: #28a745; } */
 
