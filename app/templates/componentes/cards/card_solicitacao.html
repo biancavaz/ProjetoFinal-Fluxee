@@ -1,14 +1,28 @@
 <div class="solicitacao-card">
     <div class="header">
-        <span class="id-solicitacao">Solicitação {{ solicitacao.id }}</span>
+        <span class="id-solicitacao">Solicitação {{ solicitacao.id }} - {{ solicitacao.categoria }}</span>
         <span class="status {{ solicitacao.status | lower }}">{{ solicitacao.status }}</span>
     </div>
     <div class="content">
-        <p class="nome-solicitacao">{{ solicitacao.nome }}</p>
-        <div class="descricao-solicitacao">
-            <p class="label">descrição</p>
-            <p>{{ solicitacao.finalidade }}</p>
-        </div>
+        <p><strong>Solicitante:</strong> {{ solicitacao.solicitante }}</p>
+        {% if solicitacao.categoria == "Transporte" %}
+            <p><strong>Data de Saída:</strong> {{ solicitacao.data_saida }}</p>
+            <p><strong>Data de Retorno:</strong> {{ solicitacao.data_retorno }}</p>
+            <p><strong>Ônibus:</strong> {{ solicitacao.quantidade_de_onibus }}</p>
+            <p><strong>Horário Saída:</strong> {{ solicitacao.horario_de_saida }}</p>
+            <p><strong>Horário Chegada:</strong> {{ solicitacao.horario_de_chegada }}</p>
+        {% elif solicitacao.categoria == "Limpeza" %}
+            <p><strong>Tempo:</strong> {{ solicitacao.tempo }}</p>
+            <p><strong>Ambiente:</strong> {{ solicitacao.ambiente }}</p>
+            <p><strong>Frequência:</strong> {{ solicitacao.frequencia }}</p>
+        {% elif solicitacao.categoria == "Segurança" %}
+            <p><strong>Data de Início:</strong> {{ solicitacao.data_inicio }}</p>
+            <p><strong>Área de Atuação:</strong> {{ solicitacao.area_atuacao }}</p>
+            <p><strong>Turno:</strong> {{ solicitacao.turno }}</p>
+        {% elif solicitacao.categoria == "Produto" %}
+            <p><strong>Nome:</strong> {{ solicitacao.nome }}</p>
+            <p><strong>Finalidade:</strong> {{ solicitacao.finalidade }}</p>
+        {% endif %}
     </div>
     <div class="actions">
         <button class="btn-cancelar">Cancelar</button>

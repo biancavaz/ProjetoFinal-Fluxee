@@ -10,6 +10,7 @@ from app.models import Fornecedor, SolicitacaoLimpeza, Produto, Service, Solicit
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 from sqlalchemy import func, inspect
+from dataclasses import dataclass
 
 
 # Configurar pasta de upload
@@ -17,6 +18,53 @@ UPLOAD_FOLDER = 'static/uploads/produtos'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+@dataclass
+class SolicitacaoProdutoDTO:
+    id: int
+    nome: str
+    disciplina_nome: str
+    produto_nome: str
+    quantidade: int
+    data_limite: date
+    finalidade: str
+    status: str
+    categoria: str = "Produto"
+
+@dataclass
+class SolicitacaoTransporteDTO:
+    id: int
+    solicitante: str
+    servico_id: int
+    data_saida: date
+    data_retorno: date
+    quantidade_de_onibus: int
+    horario_de_saida: str
+    horario_de_chegada: str
+    status: str
+    categoria: str = "Transporte"
+
+@dataclass
+class SolicitacaoSegurancaDTO:
+    id: int
+    solicitante: str
+    servico_id: int
+    data_inicio: date
+    area_atuacao: str
+    turno: str
+    status: str
+    categoria: str = "Segurança"
+
+@dataclass
+class SolicitacaoLimpezaDTO:
+    id: int
+    solicitante: str
+    servico_id: int
+    tempo: str
+    ambiente: str
+    frequencia: str
+    status: str
+    categoria: str = "Limpeza"
 
 # -------------------------
 # LOGIN
@@ -273,8 +321,69 @@ def movimentacoes():
 @app.route('/solicitacoes/')
 @login_required
 def solicitacoes():
-    solicitacoes = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).all()
-    return render_template('solicitacoes.html', solicitacoes=solicitacoes)
+    # Query for Solicitacao (Produto)
+    solicitacoes_produto_models = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).all()
+    solicitacoes_produto_dto = [
+        SolicitacaoProdutoDTO(
+            id=s.id,
+            nome=s.nome,
+            disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
+            produto_nome=s.produto.nome if s.produto else "N/A",
+            quantidade=s.quantidade,
+            data_limite=s.data_limite,
+            finalidade=s.finalidade,
+            status=s.status
+        ) for s in solicitacoes_produto_models
+    ]
+
+    # Query for SolicitacaoTransporte
+    solicitacoes_transporte_models = SolicitacaoTransporte.query.all()
+    solicitacoes_transporte_dto = [
+        SolicitacaoTransporteDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            data_saida=s.data_saida,
+            data_retorno=s.data_retorno,
+            quantidade_de_onibus=s.quantidade_de_onibus,
+            horario_de_saida=s.horario_de_saida,
+            horario_de_chegada=s.horario_de_chegada,
+            status="Aguardando" # Assuming a default status
+        ) for s in solicitacoes_transporte_models
+    ]
+
+    # Query for SolicitacaoSeguranca
+    solicitacoes_seguranca_models = SolicitacaoSeguranca.query.all()
+    solicitacoes_seguranca_dto = [
+        SolicitacaoSegurancaDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            data_inicio=s.data_inicio,
+            area_atuacao=s.area_atuacao,
+            turno=s.turno,
+            status="Aguardando" # Assuming a default status
+        ) for s in solicitacoes_seguranca_models
+    ]
+
+    # Query for SolicitacaoLimpeza
+    solicitacoes_limpeza_models = SolicitacaoLimpeza.query.all()
+    solicitacoes_limpeza_dto = [
+        SolicitacaoLimpezaDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            tempo=s.tempo,
+            ambiente=s.ambiente,
+            frequencia=s.frequencia,
+            status="Aguardando" # Assuming a default status
+        ) for s in solicitacoes_limpeza_models
+    ]
+    solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
+    return render_template(
+        'solicitacoes.html',
+        solicitacoes=solicitacoes,
+    )
 
 
 @app.route('/dashboard/')
