@@ -5,7 +5,7 @@ from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
 from app.forms import UserForm, LoginForm
-from app.models import Fornecedor, Produto, Service,  ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina, ServiceSeguranca, ServiceLimpeza
+from app.models import Fornecedor, SolicitacaoLimpeza, Produto, Service, SolicitacaoSeguranca, SolicitacaoTransporte, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina, ServiceSeguranca, ServiceLimpeza
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
@@ -104,8 +104,73 @@ def gestao():
 
 
 
-@app.route('/gestao_servico/')
+@app.route('/gestao_servico/', methods=['GET', 'POST'])
 def gestao_servico():
+    if request.method == 'POST':
+        service_id = request.form.get('service_id')
+        categoria = request.form.get('categoria')
+        solicitante = current_user.nome
+
+        try:
+            if categoria == 'transporte':
+                data_saida_str = request.form.get('data_saida')
+                data_retorno_str = request.form.get('data_retorno')
+                quantidade_de_onibus = request.form.get('quantidade_de_onibus')
+                horario_de_saida = request.form.get('horario_de_saida')
+                horario_de_chegada = request.form.get('horario_de_chegada')
+
+                data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date() if data_saida_str else None
+                data_retorno = datetime.strptime(data_retorno_str, '%Y-%m-%d').date() if data_retorno_str else None
+
+                solicitacao = SolicitacaoTransporte(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    data_saida=data_saida,
+                    data_retorno=data_retorno,
+                    quantidade_de_onibus=quantidade_de_onibus,
+                    horario_de_saida=horario_de_saida,
+                    horario_de_chegada=horario_de_chegada
+                )
+
+            elif categoria == 'limpeza':
+                tempo = request.form.get('tempo')
+                ambiente = request.form.get('ambiente')
+                frequencia = request.form.get('frequencia')
+
+                solicitacao = SolicitacaoLimpeza(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    tempo=tempo,
+                    ambiente=ambiente,
+                    frequencia=frequencia
+                )
+
+            elif categoria == 'seguranca':
+                print(request.form)
+                dat_inicio_str = request.form.get('data_inicio')  # Corrected
+                area_atuacao_str = request.form.get('area_atuacao')
+                turno = request.form.get('turno')
+
+                dat_inicio = datetime.strptime(dat_inicio_str, '%Y-%m-%d').date() if dat_inicio_str else None  # Corrected
+
+                solicitacao = SolicitacaoSeguranca(
+                    solicitante=solicitante,
+                    servico_id=service_id,
+                    data_inicio=dat_inicio_str,  # Corrected
+                    area_atuacao=area_atuacao_str,
+                    turno=turno
+                )
+            else:
+                return jsonify({'error': "Categoria de serviço inválida.", 'category': categoria}), 400
+
+            db.session.add(solicitacao)
+            db.session.commit()
+            return jsonify({'message': "Solicitação enviada com sucesso!"}), 200
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': f"Erro ao enviar solicitação: {str(e)}"}), 400
+    
     servicos = Service.query.all()  # pega todos os serviços do banco
     return render_template('gestao_servico.html', servicos=servicos)
 
@@ -677,73 +742,4 @@ def adicionar_usuario():
         generos=generos,
         tipos_usuario=tipos_usuario
     )
-
-
-@app.route('/solicitar_servico', methods=['POST'])
-@login_required
-def solicitar_servico():
-    if request.method == 'POST':
-        service_id = request.form.get('service_id')
-        categoria = request.form.get('categoria')
-        solicitante = current_user.nome
-
-        try:
-            if categoria == 'transporte':
-                data_saida_str = request.form.get('data_saida')
-                data_retorno_str = request.form.get('data_retorno')
-                quantidade_de_onibus = request.form.get('quantidade_de_onibus')
-                horario_de_saida = request.form.get('horario_de_saida')
-                horario_de_chegada = request.form.get('horario_de_chegada')
-
-                data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date() if data_saida_str else None
-                data_retorno = datetime.strptime(data_retorno_str, '%Y-%m-%d').date() if data_retorno_str else None
-
-                solicitacao = SolicitacaoTransporte(
-                    solicitante=solicitante,
-                    servico_id=service_id,
-                    data_saida=data_saida,
-                    data_retorno=data_retorno,
-                    quantidade_de_onibus=quantidade_de_onibus,
-                    horario_de_saida=horario_de_saida,
-                    horario_de_chegada=horario_de_chegada
-                )
-
-            elif categoria == 'limpeza':
-                tempo = request.form.get('tempo')
-                ambiente = request.form.get('ambiente')
-                frequencia = request.form.get('frequencia')
-
-                solicitacao = SolicitacaoLimpeza(
-                    solicitante=solicitante,
-                    servico_id=service_id,
-                    tempo=tempo,
-                    ambiente=ambiente,
-                    frequencia=frequencia
-                )
-
-            elif categoria == 'seguranca':
-                dat_inicio_str = request.form.get('dat-inicio')  # Corrected
-                area_atuacao = request.form.get('area_atuacao')
-                turno = request.form.get('turno')
-
-                dat_inicio = datetime.strptime(dat_inicio_str, '%Y-%m-%d').date() if dat_inicio_str else None  # Corrected
-
-                solicitacao = SolicitacaoSeguranca(
-                    solicitante=solicitante,
-                    servico_id=service_id,
-                    dat_inicio=dat_inicio,  # Corrected
-                    area_atuacao=area_atuacao,
-                    turno=turno
-                )
-            else:
-                return jsonify({'error': "Categoria de serviço inválida.", 'category': categoria}), 400
-
-            db.session.add(solicitacao)
-            db.session.commit()
-            return jsonify({'message': "Solicitação enviada com sucesso!"}), 200
-
-        except Exception as e:
-            db.session.rollback()
-            return jsonify({'error': f"Erro ao enviar solicitação: {str(e)}"}), 400
-    return jsonify({'error': "Método não permitido."}), 405
 

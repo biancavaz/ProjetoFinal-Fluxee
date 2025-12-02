@@ -141,8 +141,8 @@ class SolicitacaoTransporte(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     solicitante = db.Column(db.String(200))
     servico_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=True)
-    data_saida = db.Column(db.Date) 
-    data_retorno = db.Column(db.Date)
+    data_saida = db.Column(db.String) 
+    data_retorno = db.Column(db.String)
     quantidade_de_onibus = db.Column(db.Integer)
     horario_de_saida = db.Column(db.String)
     horario_de_chegada = db.Column(db.String)
@@ -156,8 +156,8 @@ class SolicitacaoSeguranca(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     solicitante = db.Column(db.String(200))
     servico_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=True)
-    data_inicio = db.Column(db.Date) 
-    area_atuacao = db.Column(db.Date)
+    data_inicio = db.Column(db.String) 
+    area_atuacao = db.Column(db.String)
     turno = db.Column(db.String)
     
     def __repr__(self):
