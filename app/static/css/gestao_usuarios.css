@@ -19,7 +19,7 @@
 
 /* Box branca */
 .gestao-box {
-    width: 1850px;
+    width: 1450px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -75,25 +75,24 @@
 .coluna-usuario { width: 18%; text-align: left; }
 .coluna-tipo { width: 16%; text-align: center; }
 .coluna-email { width: 23%; text-align: center; }
-.coluna-cpf { width: 15%; text-align: center; }
-.coluna-telefone { width: 20%; text-align: center; }
+.coluna-telefone { width: 25%; text-align: center; }
 .coluna-acoes { width: 10%; text-align: right; }
 
 /* Linhas de dados */
 .linha-usuario { width: 18%; }
 .linha-tipo { width: 16%; text-align: center; }
 .linha-email { width: 23%; text-align: center; }
-.linha-cpf { width: 15%; text-align: center; }
-.linha-telefone { width: 20%; text-align: center; }
-.linha-acoes { width: 8%; text-align: right; }
+.linha-telefone { width: 25%; text-align: center; }
+.linha-acoes { width: 20%; text-align: right; }
 
 .linha-acoes {
+    width: 15%;
+    text-align: right;
     display: flex;
-    justify-content: flex-end; /* mantém os botões à direita */
+    justify-content: flex-end;
     align-items: center;
-    gap: 25px; /* espaçamento entre os botões */
+    gap: 25px;
 }
-
 
 .gestao-linha.linha-dinamica {
     padding: 30px 15px;
@@ -214,6 +213,39 @@
 }
 
 /* Responsividade */
+
+/* Telas muito largas */
+@media (max-width: 2100px) {
+    .gestao-box {
+        width: 1600px;  /* ajuste que quiser */
+    }
+}
+
+@media (max-width: 1800px) {
+    .gestao-box {
+        width: 1350px;  /* ajuste progressivo */
+    }
+}
+
+@media (max-width: 1600px) {
+    .gestao-box {
+        width: 1200px;  /* ajuste progressivo */
+    }
+}
+
+
+@media (max-width: 1450px) {
+    .gestao-box {
+        width: 1100px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .gestao-box {
+        margin-top: 50px;
+    }
+}
+
 @media (max-width: 1150px) {
     .gestao-container {
         flex-direction: column;
@@ -243,6 +275,7 @@
         margin-bottom: 45px;
     }
 }
+
 
 .produto-img, .produto-img-placeholder {
     width: 50px;
@@ -309,3 +342,4 @@
     color: #fff;
     font-size: 18px;
 }
+

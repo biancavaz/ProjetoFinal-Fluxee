@@ -28,3 +28,20 @@
     background-color: rgba(233, 129, 60, 0.226);  /* fundo um pouco mais intenso */
 
 }
+
+
+@media (max-width: 2100px) {
+    .botao-adicionar-servico{
+        right: 80px; 
+    }
+}
+
+@media (max-width: 1400px) {
+    .botao-adicionar-servico{
+        position: fixed; 
+        top: 320px;     
+        right: 200px;    
+        z-index: 2000;   
+        transform: none; 
+    }
+}

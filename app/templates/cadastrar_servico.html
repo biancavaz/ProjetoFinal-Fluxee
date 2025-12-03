@@ -28,7 +28,7 @@
                                 {% set label = 'Nome do Serviço' %}
                                 {% set name = 'nome' %}
                                 {% set id = 'nome' %}
-                                {% include 'componentes/boxs/box_nome.html' %}
+                                {% include 'componentes/boxs/box_nome_servico.html' %}
                             </div>
 
                             <div class="campo categoria-servico">
@@ -52,12 +52,7 @@
                                     {% include 'componentes/boxs/dropdown_tipo_veiculo.html' %}
                                 </div>
 
-                                <div class="campo qt-onibus">
-                                    {% set name = 'quantidade_passageiros' %}
-                                    {% set id = 'quantidade_passageiros' %}
-                                    {% set disabled = true %}
-                                    {% include 'componentes/boxs/box_qt_onibus.html' %}
-                                </div>
+                               
 
                                 <div class="campo preco-diaria">
                                     {% set name = 'preco_diaria' %}

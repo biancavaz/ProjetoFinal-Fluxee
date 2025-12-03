@@ -35,7 +35,6 @@
                     <span class="coluna-usuario">NOME</span>
                     <span class="coluna-tipo">TIPO</span>
                     <span class="coluna-email">EMAIL</span>
-                    <span class="coluna-cpf">CPF</span>
                     <span class="coluna-telefone">TELEFONE</span>
                 </div>
 
@@ -54,7 +53,6 @@
                         </span>
                         <span class="linha-tipo">{{ u.tipo_usuario }}</span>
                         <span class="linha-email">{{ u.email }}</span>
-                        <span class="linha-cpf">{{ u.cpf }}</span>
                         <span class="linha-telefone">{{ u.telefone }}</span>
                         <span class="linha-acoes">
                             <a href="{{ url_for('editar_usuario', id=u.id) }}" class="btn-edit">
