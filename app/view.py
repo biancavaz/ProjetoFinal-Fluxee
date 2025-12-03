@@ -322,7 +322,7 @@ def movimentacoes():
 @login_required
 def solicitacoes():
     # Query for Solicitacao (Produto)
-    solicitacoes_produto_models = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).all()
+    solicitacoes_produto_models = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).filter_by(status="Aguardando").all()
     solicitacoes_produto_dto = [
         SolicitacaoProdutoDTO(
             id=s.id,
@@ -337,7 +337,7 @@ def solicitacoes():
     ]
 
     # Query for SolicitacaoTransporte
-    solicitacoes_transporte_models = SolicitacaoTransporte.query.all()
+    solicitacoes_transporte_models = SolicitacaoTransporte.query.filter_by(status="Aguardando").all()
     solicitacoes_transporte_dto = [
         SolicitacaoTransporteDTO(
             id=s.id,
@@ -353,7 +353,7 @@ def solicitacoes():
     ]
 
     # Query for SolicitacaoSeguranca
-    solicitacoes_seguranca_models = SolicitacaoSeguranca.query.all()
+    solicitacoes_seguranca_models = SolicitacaoSeguranca.query.filter_by(status="Aguardando").all()
     solicitacoes_seguranca_dto = [
         SolicitacaoSegurancaDTO(
             id=s.id,
@@ -367,7 +367,7 @@ def solicitacoes():
     ]
 
     # Query for SolicitacaoLimpeza
-    solicitacoes_limpeza_models = SolicitacaoLimpeza.query.all()
+    solicitacoes_limpeza_models = SolicitacaoLimpeza.query.filter_by(status="Aguardando").all()
     solicitacoes_limpeza_dto = [
         SolicitacaoLimpezaDTO(
             id=s.id,
@@ -382,6 +382,74 @@ def solicitacoes():
     solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
     return render_template(
         'solicitacoes.html',
+        solicitacoes=solicitacoes,
+    )
+
+
+@app.route('/solicitacoes/arquivadas/')
+@login_required
+def solicitacoes_arquivadas():
+    # Query for Solicitacao (Produto)
+    solicitacoes_produto_models = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).filter(Solicitacao.status.in_(["Concluido", "Cancelado"])).all()
+    solicitacoes_produto_dto = [
+        SolicitacaoProdutoDTO(
+            id=s.id,
+            nome=s.nome,
+            disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
+            produto_nome=s.produto.nome if s.produto else "N/A",
+            quantidade=s.quantidade,
+            data_limite=s.data_limite,
+            finalidade=s.finalidade,
+            status=s.status
+        ) for s in solicitacoes_produto_models
+    ]
+
+    # Query for SolicitacaoTransporte
+    solicitacoes_transporte_models = SolicitacaoTransporte.query.filter(SolicitacaoTransporte.status.in_(["Concluido", "Cancelado"])).all()
+    solicitacoes_transporte_dto = [
+        SolicitacaoTransporteDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            data_saida=s.data_saida,
+            data_retorno=s.data_retorno,
+            quantidade_de_onibus=s.quantidade_de_onibus,
+            horario_de_saida=s.horario_de_saida,
+            horario_de_chegada=s.horario_de_chegada,
+            status=s.status
+        ) for s in solicitacoes_transporte_models
+    ]
+
+    # Query for SolicitacaoSeguranca
+    solicitacoes_seguranca_models = SolicitacaoSeguranca.query.filter(SolicitacaoSeguranca.status.in_(["Concluido", "Cancelado"])).all()
+    solicitacoes_seguranca_dto = [
+        SolicitacaoSegurancaDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            data_inicio=s.data_inicio,
+            area_atuacao=s.area_atuacao,
+            turno=s.turno,
+            status=s.status
+        ) for s in solicitacoes_seguranca_models
+    ]
+
+    # Query for SolicitacaoLimpeza
+    solicitacoes_limpeza_models = SolicitacaoLimpeza.query.filter(SolicitacaoLimpeza.status.in_(["Concluido", "Cancelado"])).all()
+    solicitacoes_limpeza_dto = [
+        SolicitacaoLimpezaDTO(
+            id=s.id,
+            solicitante=s.solicitante,
+            servico_id=s.servico_id,
+            tempo=s.tempo,
+            ambiente=s.ambiente,
+            frequencia=s.frequencia,
+            status=s.status
+        ) for s in solicitacoes_limpeza_models
+    ]
+    solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
+    return render_template(
+        'solicitacoes_arquivadas.html',
         solicitacoes=solicitacoes,
     )
 
