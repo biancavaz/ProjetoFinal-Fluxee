@@ -2,34 +2,41 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Solicitações</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/solicitacoes.css') }}">
 </head>
 <body>
 
     {% include 'componentes/alertas/alerta_sucesso.html' %}
+
     <!-- Inclui o header -->
     {% include 'componentes/header/header.html' %}
-{% with texto="SOLICITAÇÕES" %}
+
+    {% with texto="SOLICITAÇÕES" %}
         {% include 'componentes/titulos/titulo.html' %}
     {% endwith %}
 
+    <!-- Botão de adicionar solicitação -->
     <div class="gestao-botao">
         {% include 'componentes/botoes/botao_gestao_add_solicitacao.html' %}
     </div>
 
+    <!-- Link para solicitações arquivadas: apenas para admin -->
+    {% if current_user.tipo_usuario == 'admin' %}
     <div style="margin-left: 80vw;" class="link-arquivados">
         <a href="{{ url_for('solicitacoes_arquivadas') }}">
-            <img src="{{ url_for('static', filename='images/arquivar.png') }}" 
-                alt="Arquivados">
+            <img src="{{ url_for('static', filename='images/arquivar.png') }}" alt="Arquivados">
         </a>
     </div>
+    {% endif %}
 
-
+    <!-- Lista de solicitações -->
     <div class="solicitacoes-container">
         {% for solicitacao in solicitacoes %}
             {% include 'componentes/cards/card_solicitacao.html' %}
+        {% else %}
+            <p>Nenhuma solicitação encontrada.</p>
         {% endfor %}
     </div>
 

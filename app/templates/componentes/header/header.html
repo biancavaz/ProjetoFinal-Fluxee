@@ -6,9 +6,11 @@
 
     <nav class="nav">
       <ul>
+        <!-- Sempre aparece -->
         <li><a href="{{ url_for('solicitacoes') }}">Solicitações</a></li>
 
-        <!-- Dropdown clicável -->
+        <!-- Só ADMIN vê -->
+        {% if session.get('tipo_usuario') == "admin" %}
         <li class="dropdown_gestao">
           <a href="#" class="dropbtn">
             Gestão <span class="arrow"></span>
@@ -20,15 +22,12 @@
           </ul>
         </li>
 
-        
         <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        {% endif %}
       </ul>
     </nav>
   </div>
 </header>
 
-
-<!-- Link para o CSS do header -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 <script src="{{ url_for('static', filename='js/dropdown_header.js') }}"></script>
-

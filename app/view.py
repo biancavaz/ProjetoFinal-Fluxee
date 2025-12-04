@@ -1,12 +1,12 @@
 from datetime import date, datetime
 from email.utils import parsedate
 import os
-from flask import render_template, redirect, url_for, flash, request, jsonify
+from flask import render_template, redirect, session, url_for, flash, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
+from app.auth_roles import admin_required
 from app.forms import UserForm, LoginForm
 from app.models import Fornecedor, SolicitacaoLimpeza, Produto, Service, SolicitacaoSeguranca, SolicitacaoTransporte, ServiceTransporte, TipoProduto, TipoVeiculo, UnidadeMedida, User, Solicitacao, Disciplina, ServiceSeguranca, ServiceLimpeza
-
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 from sqlalchemy import func, inspect
@@ -76,6 +76,10 @@ def homepage():
         try:
             user = form.login()
             login_user(user, remember=True)
+
+            # 🚀 Salva o tipo do usuário na sessão
+            session['tipo_usuario'] = user.tipo_usuario
+
             flash("Login realizado com sucesso!", "success")
             return redirect(url_for('home'))
         except Exception as e:
@@ -135,6 +139,7 @@ def home():
 
 @app.route('/gestao/')
 @login_required
+@admin_required
 def gestao():
     page = request.args.get('page', 1, type=int)
     per_page = 15
@@ -312,68 +317,96 @@ def deletar_produto(id):
 @app.route('/solicitacoes/')
 @login_required
 def solicitacoes():
-    # Query for Solicitacao (Produto)
-    solicitacoes_produto_models = Solicitacao.query.options(db.joinedload(Solicitacao.disciplina), db.joinedload(Solicitacao.produto)).filter_by(status="Aguardando").all()
-    solicitacoes_produto_dto = [
-        SolicitacaoProdutoDTO(
-            id=s.id,
-            nome=s.nome,
-            disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
-            produto_nome=s.produto.nome if s.produto else "N/A",
-            quantidade=s.quantidade,
-            data_limite=s.data_limite,
-            finalidade=s.finalidade,
-            status=s.status
-        ) for s in solicitacoes_produto_models
-    ]
+    if current_user.tipo_usuario == "admin":
+        # Admin vê tudo: produto, transporte, segurança e limpeza
+        # Produto
+        solicitacoes_produto_models = Solicitacao.query.options(
+            db.joinedload(Solicitacao.disciplina),
+            db.joinedload(Solicitacao.produto)
+        ).filter_by(status="Aguardando").all()
+        solicitacoes_produto_dto = [
+            SolicitacaoProdutoDTO(
+                id=s.id,
+                nome=s.nome,
+                disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
+                produto_nome=s.produto.nome if s.produto else "N/A",
+                quantidade=s.quantidade,
+                data_limite=s.data_limite,
+                finalidade=s.finalidade,
+                status=s.status
+            ) for s in solicitacoes_produto_models
+        ]
 
-    # Query for SolicitacaoTransporte
-    solicitacoes_transporte_models = SolicitacaoTransporte.query.filter_by(status="Aguardando").all()
-    solicitacoes_transporte_dto = [
-        SolicitacaoTransporteDTO(
-            id=s.id,
-            solicitante=s.solicitante,
-            servico_id=s.servico_id,
-            data_saida=s.data_saida,
-            data_retorno=s.data_retorno,
-            quantidade_de_onibus=s.quantidade_de_onibus,
-            horario_de_saida=s.horario_de_saida,
-            horario_de_chegada=s.horario_de_chegada,
-            status=s.status
-        ) for s in solicitacoes_transporte_models
-    ]
+        # Transporte
+        solicitacoes_transporte_models = SolicitacaoTransporte.query.filter_by(status="Aguardando").all()
+        solicitacoes_transporte_dto = [
+            SolicitacaoTransporteDTO(
+                id=s.id,
+                solicitante=s.solicitante,
+                servico_id=s.servico_id,
+                data_saida=s.data_saida,
+                data_retorno=s.data_retorno,
+                quantidade_de_onibus=s.quantidade_de_onibus,
+                horario_de_saida=s.horario_de_saida,
+                horario_de_chegada=s.horario_de_chegada,
+                status=s.status
+            ) for s in solicitacoes_transporte_models
+        ]
 
-    # Query for SolicitacaoSeguranca
-    solicitacoes_seguranca_models = SolicitacaoSeguranca.query.filter_by(status="Aguardando").all()
-    solicitacoes_seguranca_dto = [
-        SolicitacaoSegurancaDTO(
-            id=s.id,
-            solicitante=s.solicitante,
-            servico_id=s.servico_id,
-            data_inicio=s.data_inicio,
-            area_atuacao=s.area_atuacao,
-            turno=s.turno,
-            status=s.status
-        ) for s in solicitacoes_seguranca_models
-    ]
+        # Segurança
+        solicitacoes_seguranca_models = SolicitacaoSeguranca.query.filter_by(status="Aguardando").all()
+        solicitacoes_seguranca_dto = [
+            SolicitacaoSegurancaDTO(
+                id=s.id,
+                solicitante=s.solicitante,
+                servico_id=s.servico_id,
+                data_inicio=s.data_inicio,
+                area_atuacao=s.area_atuacao,
+                turno=s.turno,
+                status=s.status
+            ) for s in solicitacoes_seguranca_models
+        ]
 
-    # Query for SolicitacaoLimpeza
-    solicitacoes_limpeza_models = SolicitacaoLimpeza.query.filter_by(status="Aguardando").all()
-    solicitacoes_limpeza_dto = [
-        SolicitacaoLimpezaDTO(
-            id=s.id,
-            solicitante=s.solicitante,
-            servico_id=s.servico_id,
-            tempo=s.tempo,
-            ambiente=s.ambiente,
-            frequencia=s.frequencia,
-            status=s.status
-        ) for s in solicitacoes_limpeza_models
-    ]
-    solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
+        # Limpeza
+        solicitacoes_limpeza_models = SolicitacaoLimpeza.query.filter_by(status="Aguardando").all()
+        solicitacoes_limpeza_dto = [
+            SolicitacaoLimpezaDTO(
+                id=s.id,
+                solicitante=s.solicitante,
+                servico_id=s.servico_id,
+                tempo=s.tempo,
+                ambiente=s.ambiente,
+                frequencia=s.frequencia,
+                status=s.status
+            ) for s in solicitacoes_limpeza_models
+        ]
+
+        # Junta todas as solicitações
+        solicitacoes = solicitacoes_produto_dto + solicitacoes_transporte_dto + solicitacoes_seguranca_dto + solicitacoes_limpeza_dto
+
+    else:
+        # Usuário comum vê apenas suas próprias solicitações de produto
+        solicitacoes_produto_models = Solicitacao.query.options(
+            db.joinedload(Solicitacao.disciplina),
+            db.joinedload(Solicitacao.produto)
+        ).filter_by(status="Aguardando", user_id=current_user.id).all()
+
+        solicitacoes = [
+            SolicitacaoProdutoDTO(
+                id=s.id,
+                nome=s.nome,
+                disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
+                produto_nome=s.produto.nome if s.produto else "N/A",
+                quantidade=s.quantidade,
+                data_limite=s.data_limite,
+                finalidade=s.finalidade,
+                status=s.status
+            ) for s in solicitacoes_produto_models
+        ]
+
     return render_template(
         'solicitacoes.html',
-        solicitacoes=solicitacoes,
+        solicitacoes=solicitacoes
     )
 
 
@@ -614,6 +647,7 @@ def adicionar_solicitacao():
             data_limite=data_entrada if data_entrada else None,
             quantidade=quantidade if quantidade else None,
             finalidade=finalidade if finalidade else None,
+            user_id=current_user.id
         )
 
         db.session.add(solicitacao)
@@ -913,4 +947,5 @@ def update_solicitacao_status(solicitacao_id, solicitacao_categoria, new_status)
         flash(f"Erro ao atualizar status da solicitação: {str(e)}", "danger")
 
     return redirect(url_for('solicitacoes'))
+
 
