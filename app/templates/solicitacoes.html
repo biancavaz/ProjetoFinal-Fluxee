@@ -20,8 +20,12 @@
     </div>
 
     <div style="margin-left: 80vw;" class="link-arquivados">
-        <a href="{{ url_for('solicitacoes_arquivadas') }}">Ver Solicitações Arquivadas</a>
+        <a href="{{ url_for('solicitacoes_arquivadas') }}">
+            <img src="{{ url_for('static', filename='images/arquivar.png') }}" 
+                alt="Arquivados">
+        </a>
     </div>
+
 
     <div class="solicitacoes-container">
         {% for solicitacao in solicitacoes %}

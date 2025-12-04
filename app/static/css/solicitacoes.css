@@ -145,3 +145,43 @@
     font-weight: 400;
     font-size: 16px;
 }
+
+.link-arquivados {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(229, 124, 58, 0.2);
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: fixed;
+    right: 150px;
+    top: 430px;
+    z-index: 1000;
+}
+
+/* Hover elegante */
+.link-arquivados:hover {
+    transform: scale(1.05);                       /* aumenta levemente */
+    background-color: rgba(233, 129, 60, 0.226);  /* fundo um pouco mais intenso */
+}
+
+
+@media (max-width: 2100px) {
+    .link-arquivados{
+        right: 80px; 
+    }
+}
+
+@media (max-width: 1400px) {
+    .link-arquivados {
+        position: fixed; 
+        top: 320px;     
+        right: 200px;    
+        z-index: 2000;   
+        transform: none; 
+    }
+}
