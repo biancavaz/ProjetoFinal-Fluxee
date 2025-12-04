@@ -70,12 +70,9 @@
 
             <form id="form-solicitar" method="POST" action="{{ url_for('gestao_servico') }}">
                 <!-- Campos Transporte -->
-                <div class="campos-transporte campos-especificos categoria transporte">
+                <div class="campos-transporte campos-especificos categoria transporte" >
                     {% include 'componentes/boxs/box_data_saida.html' %}
                     {% include 'componentes/boxs/box_data_retorno.html' %}
-                    {% include 'componentes/boxs/box_qt_onibus.html' %}
-                    {% include 'componentes/boxs/box_horario_saida.html' %}
-                    {% include 'componentes/boxs/box_horario_chegada.html' %}
                 </div>
 
                 <!-- Campos Limpeza -->
@@ -96,7 +93,7 @@
                 </div>
 
                 {% with texto="Enviar Solicitação" %}
-                    {% include 'componentes/botoes/botao_solicitar.html' %}
+                    {% include 'componentes/botoes/botao_enviar.html' %}
                 {% endwith %}
 
             </form>

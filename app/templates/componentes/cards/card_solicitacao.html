@@ -8,9 +8,6 @@
         {% if solicitacao.categoria == "Transporte" %}
             <p><strong>Data de Saída:</strong> {{ solicitacao.data_saida }}</p>
             <p><strong>Data de Retorno:</strong> {{ solicitacao.data_retorno }}</p>
-            <p><strong>Ônibus:</strong> {{ solicitacao.quantidade_de_onibus }}</p>
-            <p><strong>Horário Saída:</strong> {{ solicitacao.horario_de_saida }}</p>
-            <p><strong>Horário Chegada:</strong> {{ solicitacao.horario_de_chegada }}</p>
         {% elif solicitacao.categoria == "Limpeza" %}
             <p><strong>Tempo:</strong> {{ solicitacao.tempo }}</p>
             <p><strong>Ambiente:</strong> {{ solicitacao.ambiente }}</p>

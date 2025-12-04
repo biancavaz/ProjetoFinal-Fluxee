@@ -172,14 +172,15 @@
 
 @media (max-width: 2100px) {
     .link-arquivados{
-        right: 80px; 
+        right: 80px;
+        top: 430px; 
     }
 }
 
 @media (max-width: 1400px) {
     .link-arquivados {
         position: fixed; 
-        top: 320px;     
+    top: 430px;   
         right: 200px;    
         z-index: 2000;   
         transform: none; 

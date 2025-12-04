@@ -71,8 +71,8 @@ html, body {
 
 /* Botão Solicitar (exemplo de componente) */
 .btn-solicitar {
-    width: 145px;
-    height: 48px;
+    width: 140px;
+    height: 43px;
     background-color: #E57C3A;
     color: #fff;
     border: none;
@@ -249,6 +249,4 @@ html, body {
         margin-bottom: 45px;
     }
 }
-
-
 
