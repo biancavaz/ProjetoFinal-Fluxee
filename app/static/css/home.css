@@ -103,8 +103,8 @@ a.card {
     left: 50%;             
     transform: translate(-50%, -50%); 
     width: 80%;           /* diminui a largura da box */
-    max-width: 1500px;     
-    min-height: 738px;     
+    max-width: 1400px;     
+    min-height: 638px;     
     background-color: #ffffff;
     border-radius: 8px;
     z-index: 1;

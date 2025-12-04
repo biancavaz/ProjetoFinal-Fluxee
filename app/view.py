@@ -304,16 +304,7 @@ def deletar_produto(id):
     db.session.delete(produto)
     db.session.commit()
     return redirect(url_for('gestao'))
-
-
-# -------------------------
-# MOVIMENTAÇÕES
-# -------------------------
-@app.route('/movimentacoes/')
-@login_required
-def movimentacoes():
-    return render_template('movimentacoes.html')
-
+    
 
 # -------------------------
 # SOLICITAÇÕES
