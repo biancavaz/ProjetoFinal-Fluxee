@@ -4,38 +4,163 @@
     <meta charset="UTF-8">
     <title>Homepage</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <style>
+        /* Estilo para usuário comum */
+        .user-home-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .user-home-left {
+            max-width: 40%;
+        }
+
+        .user-home-left h1 {
+            font-size: 3.6rem;
+            color: #E57C3A; /* laranja */
+            margin-bottom: 20px;
+            /* margin-left: 15vh; */
+            margin-top: 17vh;
+        }
+
+        .user-home-left p {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 30px;
+            /* margin-left: 15vh; */
+             word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .user-home-left .card-button {
+            display: inline-block;
+            padding: 15px 25px;
+            background-color: #E57C3A;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            /* margin-left: 15vh; */
+            margin-top: 12vh;
+        }
+
+        .user-home-left .card-button:hover {
+            background-color: #D46B2E;
+        }
+
+        .user-home-right img {
+            margin-right: 200px;
+            max-width: 330px;
+            width: 100%;
+            margin-top: 12vh;
+            height: auto;
+        }
+
+        .user-home-left {
+            max-width: 35%; /* reduz um pouco a largura do texto */
+        }
+
+        .user-home-right {
+            max-width: 50%;
+            margin-top: 15vh; /* aumenta o espaço da imagem */
+        }
+
+
+        /* Estilo dos cards do admin */
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 900px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            padding: 20px 30px;
+            margin: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 200px;
+            color: #333;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .card img.logo {
+            width: 60px;
+            height: 60px;
+        }
+
+        .card p {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Inclui o header -->
     {% include 'componentes/alertas/alerta_sucesso.html' %}
     {% include 'componentes/header/header.html' %}
 
     <main>
-        <!-- <p>Você está logado no sistema. 🎉</p> -->
+
+        {% if current_user.tipo_usuario != 'admin' %}
+        <!-- Layout para usuário comum -->
+        <div class="user-home-container">
+
+            <div class="user-home-left">
+                <h1>Bem-vindo, {{ current_user.nome }}!</h1>
+                <p>Aqui você pode acompanhar todas as suas solicitações de produtos de forma rápida e prática.</p>
+                <a href="{{ url_for('solicitacoes') }}" class="card-button">MINHAS SOLICITAÇÕES</a>
+            </div>
+
+            <div class="user-home-right">
+                <img src="{{ url_for('static', filename='images/produto_servico.png') }}" alt="Produto e Serviços">
+            </div>
+
+        </div>
+
+        {% else %}
+        <!-- Cards do admin -->
         <div class="cards-wrapper">
             <div class="cards-container">
-
                 <a href="{{ url_for('gestao') }}" class="card">
-                    <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Fluxee Logo" class="logo">
+                    <img src="{{ url_for('static', filename='images/gestao.png') }}" alt="Gestão" class="logo">
                     <p>GESTÃO</p>
                 </a>
 
-
                 <a href="{{ url_for('solicitacoes') }}" class="card">
-                    <img src="{{ url_for('static', filename='images/solicitacao.png') }}" alt="Fluxee Logo" class="logo">
+                    <img src="{{ url_for('static', filename='images/solicitacao.png') }}" alt="Solicitações" class="logo">
                     <p>SOLICITAÇÕES</p>
                 </a>
 
                 <a href="{{ url_for('dashboard') }}" class="card">
-                    <img src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Fluxee Logo" class="logo">
+                    <img src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Dashboard" class="logo">
                     <p>DASHBOARD</p>
                 </a>
-
             </div>
         </div>
-
-
+        {% endif %}
 
     </main>
 </body>
