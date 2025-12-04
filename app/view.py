@@ -389,7 +389,7 @@ def solicitacoes():
         solicitacoes_produto_models = Solicitacao.query.options(
             db.joinedload(Solicitacao.disciplina),
             db.joinedload(Solicitacao.produto)
-        ).filter_by(status="Aguardando", user_id=current_user.id).all()
+        ).filter_by(user_id=current_user.id).all()  # <-- removido status="Aguardando"
 
         solicitacoes = [
             SolicitacaoProdutoDTO(
@@ -400,9 +400,10 @@ def solicitacoes():
                 quantidade=s.quantidade,
                 data_limite=s.data_limite,
                 finalidade=s.finalidade,
-                status=s.status
+                status=s.status  # aqui o status pode ser Aguardando ou Concluido
             ) for s in solicitacoes_produto_models
         ]
+
 
     return render_template(
         'solicitacoes.html',

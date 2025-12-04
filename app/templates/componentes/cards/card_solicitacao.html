@@ -22,21 +22,23 @@
         {% endif %}
     </div>
     <div class="actions">
-        {% if solicitacao.status != "Concluido" and solicitacao.status != "Cancelado" %}
-        <button type="button" class="btn-cancelar open-confirmation-modal" 
-                data-solicitacao-id="{{ solicitacao.id }}" 
-                data-solicitacao-categoria="{{ solicitacao.categoria }}" 
-                data-new-status="Cancelado"
-                data-confirmation-message="Tem certeza que deseja cancelar esta solicitação (ID: {{ solicitacao.id }})?">
-            Cancelar
-        </button>
-        <button type="button" class="btn-aceitar open-confirmation-modal" 
-                data-solicitacao-id="{{ solicitacao.id }}" 
-                data-solicitacao-categoria="{{ solicitacao.categoria }}" 
-                data-new-status="Concluido"
-                data-confirmation-message="Tem certeza que deseja aceitar esta solicitação (ID: {{ solicitacao.id }})?">
-            Aceitar
-        </button>
+        {% if current_user.tipo_usuario == 'admin' %}
+            {% if solicitacao.status != "Concluido" and solicitacao.status != "Cancelado" %}
+            <button type="button" class="btn-cancelar open-confirmation-modal" 
+                    data-solicitacao-id="{{ solicitacao.id }}" 
+                    data-solicitacao-categoria="{{ solicitacao.categoria }}" 
+                    data-new-status="Cancelado"
+                    data-confirmation-message="Tem certeza que deseja cancelar esta solicitação (ID: {{ solicitacao.id }})?">
+                Cancelar
+            </button>
+            <button type="button" class="btn-aceitar open-confirmation-modal" 
+                    data-solicitacao-id="{{ solicitacao.id }}" 
+                    data-solicitacao-categoria="{{ solicitacao.categoria }}" 
+                    data-new-status="Concluido"
+                    data-confirmation-message="Tem certeza que deseja aceitar esta solicitação (ID: {{ solicitacao.id }})?">
+                Aceitar
+            </button>
+            {% endif %}
         {% endif %}
     </div>
 </div>
