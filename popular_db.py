@@ -38,6 +38,7 @@ with app.app_context():
             Disciplina(nome="Ciências da Natureza"),
             Disciplina(nome="Técnico"),
         ])
+    
 
 
     db.session.commit()

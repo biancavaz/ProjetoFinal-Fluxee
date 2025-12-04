@@ -109,3 +109,39 @@
 .solicitacao-card .btn-aceitar:hover {
     background-color: #e66c0d;
 }
+
+.modal-conteudo {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    position: relative;
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    max-width: 50%;
+    max-height: 80%;
+    border: 2px solid #fff;
+}
+
+.modal-botoes {
+    margin-top: 40px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.btn-confirmar {
+    background: #E57C3A;
+    color: #fff;
+}
+
+.modal-botoes button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 16px;
+}

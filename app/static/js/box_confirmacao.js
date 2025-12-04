@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const nomeProduto = this.dataset.nome;
             linkParaDeletar = this.dataset.link;
-            mensagem.textContent = "Tem certeza que deseja excluir o produto '" + nomeProduto + "'?";
+            mensagem.textContent = "Tem certeza que deseja excluir '" + nomeProduto + "'?";
             modal.style.display = 'flex';
         });
     });

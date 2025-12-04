@@ -106,7 +106,9 @@ class Solicitacao(db.Model):
 
     def __repr__(self):
         return f'<Solicitacao {self.nome}>'
-    
+
+
+ 
 class Service(db.Model):
     __tablename__ = 'services'
 
