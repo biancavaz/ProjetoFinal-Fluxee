@@ -12,7 +12,7 @@ html, body {
 .cards-wrapper {
   display: flex;
   justify-content: center;  
-  padding-top: 380px;       
+  padding-top: 200px;       
 }
 
 /* Container que organiza os cards lado a lado */
