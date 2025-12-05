@@ -296,7 +296,6 @@
                     </div>
                 </div>
                 <div class="card">
-                    
                     <div class="label">Total de Produtos</div>
                     <div style="display: flex; width: 100%; justify-content: space-between;">
                         <div class="number" id="produto"></div>
@@ -322,6 +321,13 @@
                     <div style="display: flex; width: 100%; justify-content: space-between;">
                         <div class="number" id="user"></div>
                         <img src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="label">Estoque total</div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="estoque"></div>
+                        <img src="{{ url_for('static', filename='icons/caixa-de-entrega.png') }}" alt="excluir">
                     </div>
                 </div>
             </div>
@@ -383,14 +389,18 @@
             fornecedor: {{ tots.fornecedor | tojson }},
             user: {{ tots.user | tojson }},
             produto: {{ tots.produto | tojson }},
-            solicitacao: {{ tots.solicitacao | tojson }}
+            solicitacao: {{ tots.solicitacao | tojson }},
+            estoque: {{ tots.estoque | tojson }},
         };
+
 
         document.getElementById('servico').innerText = tots_.servico;
         document.getElementById('produto').innerText = tots_.produto;
         document.getElementById('solicitacao').innerText = tots_.solicitacao;
         document.getElementById('fornecedor').innerText = tots_.fornecedor;
         document.getElementById('user').innerText = tots_.user;
+        document.getElementById('estoque').innerText = tots_.estoque;
+
 
         // Chart.js for Categoria serviços
         const ctx = document.getElementById('serviceChart').getContext('2d');

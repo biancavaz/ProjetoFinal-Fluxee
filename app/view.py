@@ -482,40 +482,57 @@ def solicitacoes_arquivadas():
 @app.route('/dashboard/')
 @login_required
 def dashboard():
+    # Contagem total de produtos cadastrados
+    tot_produto = Produto.query.count()
+
+    # Contagem de fornecedores e usuários
+    tot_fornecedor = Fornecedor.query.count()
+    tot_user = User.query.count()
+
+    # Contagem total de serviços
+    tot_servico = Service.query.count()  # <-- aqui pegamos o total de serviços
+
+    # Contagem total de solicitações
+    tot_solicitacao = Solicitacao.query.count()  # se quiser contar todas as solicitações
+
+    # Soma total do estoque (quantidade de todos os produtos)
+    tot_estoque = db.session.query(func.sum(Produto.quantidade)).scalar() or 0
+
+    # Contagem por tipo de produto (para gráfico)
     result = db.session.query(
-        TipoProduto.nome,             # Pega o nome da categoria
+        TipoProduto.nome,
         func.count(Produto.id)
     ).join(Produto.tipo).group_by(TipoProduto.nome).all()
 
-    # Converte para lista de dicionários
     tipo_counts = [{"tipo": tipo, "count": count} for tipo, count in result]
 
-    tot_produto = len(Produto.query.all())
-    tot_fornecedor = len(Fornecedor.query.all())
-    tot_user = len(User.query.all())
-    tot_servico = 0
-    tot_solicitacao = 0
-
-    # Obter todos os usuários (professores e outros, para a lista)
+    # Todos os usuários (para lista)
     all_users = User.query.all()
 
-    # Obter solicitações por professor
-    # Usar 'User.nome' para agrupar e contar solicitações de cada professor
+    # Solicitações por professor (para gráfico)
     solicitations_by_prof = db.session.query(
-        Solicitacao.nome.label('professor_name'), # Usar Solicitacao.nome para o nome do professor/solicitante
+        Solicitacao.nome.label('professor_name'),
         func.count(Solicitacao.id).label('solicitation_count')
     ).group_by(Solicitacao.nome).all()
 
-    # Formatar dados para o Chart.js
     prof_labels = [s.professor_name for s in solicitations_by_prof]
     prof_data = [s.solicitation_count for s in solicitations_by_prof]
 
-    return render_template('dashboard.html', 
-                           tipo_counts=tipo_counts, 
-                           tots={"produto":tot_produto, "fornecedor":tot_fornecedor, "user":tot_user, "servico":tot_servico, "solicitacao":tot_solicitacao},
-                           all_users=all_users,  # Passar todos os usuários para o template
-                           prof_labels=prof_labels,  # Passar labels para o gráfico de barras
-                           prof_data=prof_data)
+    return render_template(
+        'dashboard.html',
+        tipo_counts=tipo_counts,
+        tots={
+            "produto": tot_produto,        # total de produtos cadastrados
+            "fornecedor": tot_fornecedor,
+            "user": tot_user,
+            "servico": tot_servico,        # total de serviços
+            "solicitacao": tot_solicitacao,# total de solicitações
+            "estoque": tot_estoque         # total de estoque (soma das quantidades)
+        },
+        all_users=all_users,
+        prof_labels=prof_labels,
+        prof_data=prof_data
+    )
 
 # -------------------------
 # CADASTRO DE PRODUTO
