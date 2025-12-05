@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+cdocument.addEventListener("DOMContentLoaded", function() {
     const toasts = document.querySelectorAll(".toast");
 
     toasts.forEach(toast => {

@@ -37,7 +37,15 @@
       align-items: start;
       gap: 5px;
     }
+    .card img{
+        width: 23px;
+        height: 23px;
+        background-color: rgb(238, 238, 238);
+        padding: 8px;
+        border-radius: 100px;
+    }
     .number {
+        width: 100%;
       font-size: 22px;
       font-weight: bold;
     }
@@ -46,19 +54,22 @@
       color: #888;
     }
     .chart-container {
+
       width: 400px;
       max-width: 100%;
       display: flex;
       flex-direction: column;        
+      align-items: center;
       gap: 20px;
 
     }
     .chart-card{
         margin-block: 10px;
-      width: 320px;
-        height: fit-content;
+        width: 320px;
+        height: 270px;
               background: white;
         padding: 30px;
+        padding-bottom: 70px;
         display: flex;
         border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -67,9 +78,9 @@
         background: white;
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        padding: 20px;
+        padding: 30px;
         width: 350px; /* Adjust width as needed */
-        height: fit-content;
+        height: 380px;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -154,7 +165,7 @@
     }
     .chart-container-bar {
         padding: 30px;
-        max-height: 450px;
+        max-height: 380px;
         width: 820px; /* Adjust width as needed */
         height: fit-content;
     }
@@ -171,7 +182,7 @@
     }
     .chart-container-bar {
         padding: 30px;
-        max-height: 420px;
+        max-height: 320px;
         width: 740px; /* Adjust width as needed */
         height: fit-content;
     }
@@ -188,7 +199,7 @@
     }
     .chart-container-bar {
         padding: 30px;
-        max-height: 420px;
+        max-height: 320px;
         width: 640px; /* Adjust width as needed */
         height: fit-content;
     }
@@ -213,7 +224,7 @@
     }
     .chart-container-bar {
         padding: 30px;
-        max-height: 400px;
+        max-height: 300px;
         width: 600px; 
         height: fit-content;
     }
@@ -250,6 +261,17 @@
     .lado-esquedo{
          margin-left:0;
     }
+    .serviceChart {
+        height: 200px !important;
+        width: 300px !important;
+        margin-inline: auto;
+
+    }
+    #tipoChart{
+        height: 200px !important;
+        width: 300px !important;
+        margin-inline: auto;
+    }
 }
 
   </style>
@@ -268,23 +290,39 @@
             <div class="cards">
                 <div class="card">
                     <div class="label">Total de serviços</div>
-                    <div class="number" id="servico"></div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="servico"></div>
+                        <img src="{{ url_for('static', filename='icons/estoque-pronto.png') }}" alt="excluir">
+                    </div>
                 </div>
                 <div class="card">
+                    
                     <div class="label">Total de Produtos</div>
-                    <div class="number" id="produto"></div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="produto"></div>
+                        <img src="{{ url_for('static', filename='icons/caixa-de-entrega.png') }}" alt="excluir">
+                    </div>
                 </div>
                 <div class="card">
                     <div class="label">Solicitações</div>
-                    <div class="number" id="solicitacao"></div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="solicitacao"></div>
+                        <img src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
+                    </div>
                 </div>
                 <div class="card">
                     <div class="label">Total de Fornecedores</div>
-                    <div class="number" id="fornecedor"></div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="fornecedor"></div>
+                        <img src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
+                    </div>
                 </div>
                 <div class="card">
                     <div class="label">Quantidade de usuários</div>
-                    <div class="number" id="user"></div>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <div class="number" id="user"></div>
+                        <img src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
+                    </div>
                 </div>
             </div>
             <div style="display: flex; flex-direction: row; gap: 20px;">
@@ -297,9 +335,9 @@
                 <div class="user-item">
                     <div class="user-avatar">
                         {% if user.imagem_perfil %}
-                        <img src="{{ url_for('static', filename='uploads/usuarios/' + user.imagem_perfil) }}" alt="{{ user.nome }}">
+                        <img style="width: 25px; height: 25px;" src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
                         {% else %}
-                        <img src="{{ url_for('static', filename='images/default_avatar.png') }}" alt="Default Avatar">
+                        <img style="width: 25px; height: 25px;" src="{{ url_for('static', filename='icons/correio.png') }}" alt="excluir">
                         {% endif %}
                     </div>
                     <div class="user-info">
@@ -320,17 +358,17 @@
 
         <!-- Right Column (Users List + Doughnut Charts) -->
          <div class="container-lado-direito" style="width: 25vw; position: relative;">
-            <div class="lado-direito" style="position: absolute; left: 50% ; transform: translateX(-50%); top: -5vh; display: flex; flex-direction: column; gap: 20px;">
+            <div class="lado-direito" style="position: absolute; gap: 20px; left: 50% ; transform: translateX(-50%); top: -5vh; display: flex; flex-direction: column;">
                 
                 <div class="chart-card">
                     <div class="chart-container">
                         <div class="number">Categoria serviços</div>
-                        <canvas id="serviceChart"></canvas>
+                        <canvas class="serviceChart" id="serviceChart"></canvas>
                     </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-container">
-                        <div class="number" style="font-weight:bold; margin-bottom:20px;">Produtos por tipo</div>
+                        <div class="number">Produtos por tipo</div>
                         <canvas id="tipoChart"></canvas>
                     </div>
                 </div>
@@ -362,7 +400,23 @@
                 labels: ['servico', 'produto', 'solicitacao', 'fornecedor', "user"],
                 datasets: [{
                     data: [tots_.servico, tots_.produto, tots_.solicitacao, tots_.fornecedor, tots_.user],
-                    backgroundColor: ['#FF4C4C', '#FFD93D', '#4CB3FF', '#6AD28D'],
+                    backgroundColor: [
+                        '#FF4C4C', 
+                        '#FFD93D', 
+                        '#4CB3FF', 
+                        '#6AD28D', 
+                        '#FF7A4C', 
+                        '#FF4C99', 
+                        '#B44CFF', 
+                        '#4CFFDB', 
+                        '#8CFF4C', 
+                        '#FFB84C', 
+                        '#4C6BFF', 
+                        '#FF4CE1', 
+                        '#3DFFD9', 
+                        '#6A8DFF', 
+                        ]
+,
                     borderWidth: 0
                 }]
             },
@@ -381,7 +435,22 @@
         console.log(tipo_counts_)
         const labels = tipo_counts_.map(item => item.tipo);
         const data = tipo_counts_.map(item => item.count);
-        const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#6AD28D', '#FFA500'];
+        const backgroundColors = [
+                        '#FF4C4C', 
+                        '#FFD93D', 
+                        '#4CB3FF', 
+                        '#6AD28D', 
+                        '#FF7A4C', 
+                        '#FF4C99', 
+                        '#B44CFF', 
+                        '#4CFFDB', 
+                        '#8CFF4C', 
+                        '#FFB84C', 
+                        '#4C6BFF', 
+                        '#FF4CE1', 
+                        '#3DFFD9', 
+                        '#6A8DFF', 
+                        ];
         const ctx2 = document.getElementById('tipoChart').getContext('2d');
         const tipoChart = new Chart(ctx2, {
             type: 'doughnut',
