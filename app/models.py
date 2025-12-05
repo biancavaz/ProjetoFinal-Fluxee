@@ -88,8 +88,7 @@ class Solicitacao(db.Model):
     __tablename__ = 'solicitacao'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(200), nullable=False)
-    solicitante = db.Column(db.String(200), nullable=True)
-
+    
     # Chave estrangeira para disciplina
     disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=True)
     disciplina = db.relationship('Disciplina', backref=db.backref('solicitacoes', lazy=True))
