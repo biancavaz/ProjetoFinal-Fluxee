@@ -23,6 +23,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 class SolicitacaoProdutoDTO:
     id: int
     nome: str
+    solicitante: str
     disciplina_nome: str
     produto_nome: str
     quantidade: int
@@ -395,6 +396,7 @@ def solicitacoes():
             SolicitacaoProdutoDTO(
                 id=s.id,
                 nome=s.nome,
+                solicitante=s.solicitante,
                 disciplina_nome=s.disciplina.nome if s.disciplina else "N/A",
                 produto_nome=s.produto.nome if s.produto else "N/A",
                 quantidade=s.quantidade,
@@ -643,6 +645,7 @@ def adicionar_solicitacao():
 
         solicitacao = Solicitacao(
             nome=nome,
+            solicitante=current_user.nome,
             disciplina_id=disciplin_id_int,  # <-- Passa o ID inteiro
             produto_id=produto_id_int,  # <-- Passa o ID inteiro
             data_limite=data_entrada if data_entrada else None,

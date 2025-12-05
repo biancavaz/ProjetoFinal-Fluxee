@@ -18,6 +18,7 @@
             <p><strong>Turno:</strong> {{ solicitacao.turno }}</p>
         {% elif solicitacao.categoria == "Produto" %}
             <p><strong>Nome:</strong> {{ solicitacao.nome }}</p>
+            <p><strong>Produto:</strong> {{ solicitacao.produto_nome }}</p>
             <p><strong>Finalidade:</strong> {{ solicitacao.finalidade }}</p>
         {% endif %}
     </div>
